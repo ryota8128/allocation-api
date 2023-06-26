@@ -1,6 +1,7 @@
 package com.example.moneyAllocation.service;
 
 import com.example.moneyAllocation.domain.Account;
+import com.example.moneyAllocation.domain.AccountSelector;
 import com.example.moneyAllocation.repository.AccountRepository;
 import java.util.List;
 import org.springframework.stereotype.Service;
@@ -14,7 +15,7 @@ public class AccountServiceImpl implements AccountService{
     }
 
     @Override
-    public List<Account> findList() {
-        return accountRepository.find();
+    public List<Account> findList(AccountSelector selector) {
+        return accountRepository.find(selector);
     }
 }

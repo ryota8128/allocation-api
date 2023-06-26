@@ -22,7 +22,9 @@
         FROM
         ACCOUNT
         <where>
-            OWNER_ID = 1
+            <if test="ownerId != null">
+                AND OWNER_ID = #{ownerId}
+            </if>
         </where>
         ORDER BY ID
     </select>
