@@ -1,7 +1,10 @@
 spring:
   datasource:
     url: jdbc:mysql://mysql:3306/${MYSQL_DATABASE}?useSSL=false&allowPublicKeyRetrieval=true
-    username: root
+    username: ${MYSQL_ROOT_USER}}
     password: ${MYSQL_ROOT_PASSWORD}
-mybatis:
-  config-location: classpath:mybatis/mybatis-config.xml
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
+
+#mybatis:
+#  config-location: classpath:com.example.moneyAllocation/*.xml
