@@ -1,5 +1,6 @@
 package com.example.moneyAllocation.controller;
 
+import com.example.moneyAllocation.repository.ResourceNotFoundException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -16,5 +17,13 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
             SQLIntegrityConstraintViolationException exception, WebRequest request) {
         return super.handleExceptionInternal(exception, "データベースの制約に違反しました", HttpHeaders.EMPTY, HttpStatus.BAD_REQUEST, request);
     }
+
+    @ExceptionHandler
+    public ResponseEntity<Object> handleResourceNotFoundException(
+            ResourceNotFoundException exception, WebRequest request) {
+        return super.handleExceptionInternal(exception, "該当するリソースが見つかりません", HttpHeaders.EMPTY, HttpStatus.NOT_FOUND, request);
+    }
+
+
 
 }

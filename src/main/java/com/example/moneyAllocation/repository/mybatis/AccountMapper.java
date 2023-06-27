@@ -10,4 +10,5 @@ public interface AccountMapper {
     List<Account> find(AccountSelector selector);
 
     int add(Account account);
+    int set(Account account);
 }

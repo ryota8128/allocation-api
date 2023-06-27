@@ -23,9 +23,17 @@ public class AccountRepositoryImpl implements AccountRepository{
 
     @Override
     public void add(Account account) {
-        int affect = this.sqlSession.getMapper(AccountMapper.class).add(account);
-        if (affect != 1) {
+        int affected = this.sqlSession.getMapper(AccountMapper.class).add(account);
+        if (affected != 1) {
             throw new RuntimeException("データの追加に失敗しました．");
+        }
+    }
+
+    @Override
+    public void set(Account account) {
+        int affected = this.sqlSession.getMapper(AccountMapper.class).set(account);
+        if (affected != 1) {
+            throw new ResourceNotFoundException("Account not found");
         }
     }
 }

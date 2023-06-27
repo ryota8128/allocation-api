@@ -52,4 +52,14 @@
         )
     </insert>
 
+    <update id="set" parameterType="com.example.moneyAllocation.domain.Account">
+        UPDATE ACCOUNT
+        SET
+        NAME = #{name},
+        NUM_FREE_TRANSFER = #{numFreeTransfer},
+        TRANSFER_FEE = #{transferFee},
+        OWNER_ID = #{ownerId}
+        WHERE
+        ID = #{id};
+    </update>
 </mapper>

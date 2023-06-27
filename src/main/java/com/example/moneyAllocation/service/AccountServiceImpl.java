@@ -13,6 +13,10 @@ public class AccountServiceImpl implements AccountService{
     public AccountServiceImpl(AccountRepository accountRepository) {
         this.accountRepository = accountRepository;
     }
+    @Override
+    public List<Account> findList(AccountSelector selector) {
+        return accountRepository.find(selector);
+    }
 
     @Override
     public void add(Account account) {
@@ -20,7 +24,7 @@ public class AccountServiceImpl implements AccountService{
     }
 
     @Override
-    public List<Account> findList(AccountSelector selector) {
-        return accountRepository.find(selector);
+    public void set(Account account) {
+        accountRepository.set(account);
     }
 }
