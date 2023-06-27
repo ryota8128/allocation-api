@@ -29,4 +29,27 @@
         ORDER BY ID
     </select>
 
+    <insert id="add" parameterType="com.example.moneyAllocation.domain.Account" useGeneratedKeys="true"
+        keyProperty="id">
+        INSERT INTO ACCOUNT
+        (
+        NAME,
+        NUM_FREE_TRANSFER,
+        TRANSFER_FEE,
+        OWNER_ID
+        )
+        VALUES
+        (
+        #{name},
+        #{numFreeTransfer},
+        <if test="transferFee != null">
+            #{transferFee},
+        </if>
+        <if test="transferFee == null">
+            default,
+        </if>
+        #{ownerId}
+        )
+    </insert>
+
 </mapper>

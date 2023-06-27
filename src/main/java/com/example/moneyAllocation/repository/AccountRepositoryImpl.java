@@ -20,4 +20,12 @@ public class AccountRepositoryImpl implements AccountRepository{
         System.out.println("ownerId: "+ selector.getOwnerId());
         return this.sqlSession.getMapper(AccountMapper.class).find(selector);
     }
+
+    @Override
+    public void add(Account account) {
+        int affect = this.sqlSession.getMapper(AccountMapper.class).add(account);
+        if (affect != 1) {
+            throw new RuntimeException("データの追加に失敗しました．");
+        }
+    }
 }
