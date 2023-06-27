@@ -6,6 +6,7 @@ import com.example.moneyAllocation.service.AccountService;
 import java.util.List;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,6 +32,11 @@ public class AccountController {
     @PostMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
     public void add(@RequestBody Account account) {
         this.service.add(account);
+    }
+
+    @PatchMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
+    public void set(@RequestBody Account account) {
+        this.service.set(account);
     }
 }
 

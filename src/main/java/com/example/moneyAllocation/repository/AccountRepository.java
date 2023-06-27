@@ -8,4 +8,6 @@ public interface AccountRepository {
     List<Account> find(AccountSelector selector);
 
     void add(Account account);
+
+    void set(Account account);
 }
