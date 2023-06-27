@@ -1,7 +1,13 @@
 spring:
   datasource:
-    url: jdbc:mysql://mysql:3306/${MYSQL_DATABASE}?useSSL=false&allowPublicKeyRetrieval=true
-    username: root
+    url: jdbc:mysql://${HOST}:3306/${MYSQL_DATABASE}?useSSL=false&allowPublicKeyRetrieval=true
+    username: ${MYSQL_ROOT_USER}
     password: ${MYSQL_ROOT_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
+
+
 mybatis:
-  config-location: classpath:mybatis/mybatis-config.xml
+  configuration:
+    map-underscore-to-camel-case: true
