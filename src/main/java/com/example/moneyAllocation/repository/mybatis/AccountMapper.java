@@ -8,4 +8,6 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface AccountMapper {
     List<Account> find(AccountSelector selector);
+
+    int add(Account account);
 }

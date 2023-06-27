@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface AccountRepository {
     List<Account> find(AccountSelector selector);
+
+    void add(Account account);
 }
