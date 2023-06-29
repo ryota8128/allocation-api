@@ -62,4 +62,9 @@
         WHERE
         ID = #{id};
     </update>
+
+    <delete id="delete" parameterType="Long">
+        DELETE FROM ACCOUNT
+        WHERE ID = #{id};
+    </delete>
 </mapper>

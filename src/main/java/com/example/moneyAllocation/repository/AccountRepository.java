@@ -10,4 +10,6 @@ public interface AccountRepository {
     void add(Account account);
 
     void set(Account account);
+
+    void delete(Long id);
 }
