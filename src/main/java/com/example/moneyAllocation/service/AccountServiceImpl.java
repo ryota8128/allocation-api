@@ -27,4 +27,9 @@ public class AccountServiceImpl implements AccountService{
     public void set(Account account) {
         accountRepository.set(account);
     }
+
+    @Override
+    public void delete(Long id) {
+        accountRepository.delete(id);
+    }
 }
