@@ -17,12 +17,12 @@ public class AccountRepositoryImpl implements AccountRepository{
 
     @Override
     public List<Account> find(AccountSelector selector) {
-        System.out.println("ownerId: "+ selector.getOwnerId());
         return this.sqlSession.getMapper(AccountMapper.class).find(selector);
     }
 
     @Override
     public void add(Account account) {
+<<<<<<< Updated upstream
         int affected = this.sqlSession.getMapper(AccountMapper.class).add(account);
         if (affected != 1) {
             throw new RuntimeException("データの追加に失敗しました．");
@@ -36,4 +36,19 @@ public class AccountRepositoryImpl implements AccountRepository{
             throw new ResourceNotFoundException("Account not found");
         }
     }
+
+    @Override
+    public void delete(Long id) {
+        int affected = this.sqlSession.getMapper(AccountMapper.class).delete(id);
+        if (affected != 1) {
+            throw new ResourceNotFoundException("Account not found");
+        }
+    }
+=======
+        int affect = this.sqlSession.getMapper(AccountMapper.class).add(account);
+        if (affect != 1) {
+            throw new RuntimeException("データの追加に失敗しました．");
+        }
+    }
+>>>>>>> Stashed changes
 }

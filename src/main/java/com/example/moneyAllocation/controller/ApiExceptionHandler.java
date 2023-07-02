@@ -1,5 +1,6 @@
 package com.example.moneyAllocation.controller;
 
+<<<<<<< Updated upstream
 import com.example.moneyAllocation.repository.ResourceNotFoundException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import org.springframework.http.HttpHeaders;
@@ -27,3 +28,6 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
 
 }
+=======
+public class ApiExceptionHandler {}
+>>>>>>> Stashed changes
