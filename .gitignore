@@ -5,7 +5,7 @@ target/
 !**/src/test/**/target/
 .DS_STORE
 .env
-*.sql
+**/sql/*.sql
 
 ### STS ###
 .apt_generated
@@ -35,6 +35,6 @@ build/
 ### VS Code ###
 .vscode/
 
-*.sql
+~$*.xlsx
 
 
