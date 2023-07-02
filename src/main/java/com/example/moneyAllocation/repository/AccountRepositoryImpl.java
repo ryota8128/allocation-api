@@ -22,7 +22,6 @@ public class AccountRepositoryImpl implements AccountRepository{
 
     @Override
     public void add(Account account) {
-<<<<<<< Updated upstream
         int affected = this.sqlSession.getMapper(AccountMapper.class).add(account);
         if (affected != 1) {
             throw new RuntimeException("データの追加に失敗しました．");
@@ -44,11 +43,4 @@ public class AccountRepositoryImpl implements AccountRepository{
             throw new ResourceNotFoundException("Account not found");
         }
     }
-=======
-        int affect = this.sqlSession.getMapper(AccountMapper.class).add(account);
-        if (affect != 1) {
-            throw new RuntimeException("データの追加に失敗しました．");
-        }
-    }
->>>>>>> Stashed changes
 }

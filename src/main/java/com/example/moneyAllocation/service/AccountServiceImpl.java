@@ -24,11 +24,6 @@ public class AccountServiceImpl implements AccountService{
     }
 
     @Override
-    public void add(Account account) {
-        accountRepository.add(account);
-    }
-
-    @Override
     public void set(Account account) {
         accountRepository.set(account);
     }
