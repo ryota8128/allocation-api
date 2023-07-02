@@ -11,6 +11,9 @@ public interface AccountMapper {
     List<Account> find(AccountSelector selector);
 
     int add(Account account);
+<<<<<<< Updated upstream
     int set(Account account);
     int delete(@Param("id") Long id);
+=======
+>>>>>>> Stashed changes
 }

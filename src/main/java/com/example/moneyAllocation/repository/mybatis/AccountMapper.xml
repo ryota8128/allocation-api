@@ -52,6 +52,7 @@
         )
     </insert>
 
+<<<<<<< Updated upstream
     <update id="set" parameterType="com.example.moneyAllocation.domain.Account">
         UPDATE ACCOUNT
         SET
@@ -67,4 +68,6 @@
         DELETE FROM ACCOUNT
         WHERE ID = #{id};
     </delete>
+=======
+>>>>>>> Stashed changes
 </mapper>
