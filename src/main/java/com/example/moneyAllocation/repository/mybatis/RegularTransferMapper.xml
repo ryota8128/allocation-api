@@ -25,7 +25,7 @@
         AMOUNT,
         RATIO,
         USER_ID
-        FROM RegularTransfer
+        FROM REGULAR_TRANSFER
         <where>
             <if test="userId != null">
                 AND USER_ID = #{userId}
