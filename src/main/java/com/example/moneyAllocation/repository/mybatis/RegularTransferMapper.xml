@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.moneyAllocation.repository.mybatis.RegularTransferMapper">
+    <resultMap id="RegularTransfer" type="com.example.moneyAllocation.domain.RegularTransfer">
+        <id property="id" column="ID" />
+        <result property="fromAccount" column="FROM_ACCOUNT" />
+        <result property="toAccount" column="TO_ACCOUNT" />
+        <result property="description" column="DESCRIPTION" />
+        <result property="percentage" column="PERCENTAGE" />
+        <result property="amount" column="AMOUNT" />
+        <result property="ratio" column="RATIO" />
+        <result property="userId" column="USER_ID" />
+    </resultMap>
+
+    <select id="find" resultMap="RegularTransfer">
+        SELECT
+        ID,
+        FROM_ACCOUNT,
+        TO_ACCOUNT,
+        DESCRIPTION,
+        PERCENTAGE,
+        AMOUNT,
+        RATIO,
+        USER_ID
+        FROM RegularTransfer
+        <where>
+            <if test="userId != null">
+                AND USER_ID = #{userId}
+            </if>
+        </where>
+    </select>
+
+</mapper>
