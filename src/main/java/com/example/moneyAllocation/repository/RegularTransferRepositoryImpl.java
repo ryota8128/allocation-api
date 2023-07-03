@@ -2,6 +2,7 @@ package com.example.moneyAllocation.repository;
 
 import com.example.moneyAllocation.domain.RegularTransfer;
 import com.example.moneyAllocation.domain.RegularTransferSelector;
+import com.example.moneyAllocation.repository.mybatis.AccountMapper;
 import com.example.moneyAllocation.repository.mybatis.RegularTransferMapper;
 import java.util.List;
 import org.apache.ibatis.session.SqlSession;
@@ -22,6 +23,10 @@ public class RegularTransferRepositoryImpl implements RegularTransferRepository{
 
     @Override
     public void add(RegularTransfer regularTransfer) {
+        int affected = this.sqlSession.getMapper(RegularTransferMapper.class).add(regularTransfer);
+        if (affected != 1) {
+            throw new RuntimeException("データの追加に失敗しました．");
+        }
 
     }
 

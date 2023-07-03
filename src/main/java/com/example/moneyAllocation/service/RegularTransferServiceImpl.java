@@ -21,7 +21,7 @@ public class RegularTransferServiceImpl implements RegularTransferService{
 
     @Override
     public void add(RegularTransfer regularTransfer) {
-
+        repository.add(regularTransfer);
     }
 
     @Override

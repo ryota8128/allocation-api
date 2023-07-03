@@ -33,4 +33,28 @@
         </where>
     </select>
 
+    <insert id="add" parameterType="com.example.moneyAllocation.domain.RegularTransfer" useGeneratedKeys="true"
+            keyProperty="id">
+        INSERT INTO REGULAR_TRANSFER
+        (
+        from_account,
+        to_account,
+        description,
+        percentage,
+        amount,
+        ratio,
+        user_id
+        )
+        VALUES
+        (
+        #{fromAccount},
+        #{toAccount},
+        #{description},
+        #{percentage},
+        #{amount},
+        #{ratio},
+        #{userId}
+        )
+    </insert>
+
 </mapper>
