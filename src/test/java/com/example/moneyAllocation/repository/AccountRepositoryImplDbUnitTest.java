@@ -37,22 +37,23 @@ public class AccountRepositoryImplDbUnitTest {
         public void testFindAll() {
             AccountSelector selector = new AccountSelector();
             List<Account> accountList = repository.find(selector);
-            assertEquals(accountList.size(), 5);
-            assertEquals(accountList.get(0).getId(), 1L);
-            assertEquals(accountList.get(0).getName(), "三井");
-            assertEquals(accountList.get(0).getNumFreeTransfer(), 9999);
-            assertEquals(accountList.get(0).getTransferFee(), 150);
-            assertEquals(accountList.get(0).getOwnerId(), 1L);
-            assertEquals(accountList.get(3).getId(), 4L);
-            assertEquals(accountList.get(3).getName(), "PayPay");
-            assertEquals(accountList.get(3).getNumFreeTransfer(), 3);
-            assertEquals(accountList.get(3).getTransferFee(), 140);
-            assertEquals(accountList.get(3).getOwnerId(), 2L);
-            assertEquals(accountList.get(4).getId(), 5L);
-            assertEquals(accountList.get(4).getName(), "ソニー");
-            assertEquals(accountList.get(4).getNumFreeTransfer(), 2);
-            assertEquals(accountList.get(4).getTransferFee(), 120);
-            assertEquals(accountList.get(4).getOwnerId(), 2L);
+            assertEquals(5, accountList.size());
+            assertEquals(1L, accountList.get(0).getId());
+            assertEquals("三井", accountList.get(0).getName());
+            assertEquals(9999, accountList.get(0).getNumFreeTransfer());
+            assertEquals(150, accountList.get(0).getTransferFee());
+            assertEquals(1L, accountList.get(0).getOwnerId());
+            assertEquals(4L, accountList.get(3).getId());
+            assertEquals("PayPay", accountList.get(3).getName());
+            assertEquals(3, accountList.get(3).getNumFreeTransfer());
+            assertEquals(140, accountList.get(3).getTransferFee());
+            assertEquals(2L, accountList.get(3).getOwnerId());
+            assertEquals(5L, accountList.get(4).getId());
+            assertEquals("ソニー", accountList.get(4).getName());
+            assertEquals(2, accountList.get(4).getNumFreeTransfer());
+            assertEquals(120, accountList.get(4).getTransferFee());
+            assertEquals(2L, accountList.get(4).getOwnerId());
+
         }
 
         @Test
@@ -60,17 +61,18 @@ public class AccountRepositoryImplDbUnitTest {
             AccountSelector selector = new AccountSelector();
             selector.setOwnerId(2L);
             List<Account> accountList = repository.find(selector);
-            assertEquals(accountList.size(), 2);
-            assertEquals(accountList.get(0).getId(), 4L);
-            assertEquals(accountList.get(0).getName(), "PayPay");
-            assertEquals(accountList.get(0).getNumFreeTransfer(), 3);
-            assertEquals(accountList.get(0).getTransferFee(), 140);
-            assertEquals(accountList.get(0).getOwnerId(), 2L);
-            assertEquals(accountList.get(1).getId(), 5L);
-            assertEquals(accountList.get(1).getName(), "ソニー");
-            assertEquals(accountList.get(1).getNumFreeTransfer(), 2);
-            assertEquals(accountList.get(1).getTransferFee(), 120);
-            assertEquals(accountList.get(1).getOwnerId(), 2L);
+            assertEquals(2, accountList.size());
+            assertEquals(4L, accountList.get(0).getId());
+            assertEquals("PayPay", accountList.get(0).getName());
+            assertEquals(3, accountList.get(0).getNumFreeTransfer());
+            assertEquals(140, accountList.get(0).getTransferFee());
+            assertEquals(2L, accountList.get(0).getOwnerId());
+            assertEquals(5L, accountList.get(1).getId());
+            assertEquals("ソニー", accountList.get(1).getName());
+            assertEquals(2, accountList.get(1).getNumFreeTransfer());
+            assertEquals(120, accountList.get(1).getTransferFee());
+            assertEquals(2L, accountList.get(1).getOwnerId());
+
         }
     }
 
