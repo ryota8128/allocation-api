@@ -16,3 +16,30 @@ CREATE TABLE IF NOT EXISTS ACCOUNT (
     OWNER_ID BIGINT NOT NULL,
     FOREIGN KEY (OWNER_ID) REFERENCES USER (ID)
 );
+
+CREATE TABLE regular_transfer (
+  id BIGINT PRIMARY KEY,
+  from_account BIGINT NOT NULL,
+  to_account BIGINT NOT NULL,
+  description TEXT NOT NULL,
+  percentage BOOLEAN NOT NULL DEFAULT FALSE,
+  amount INT UNSIGNED,
+  ratio FLOAT,
+  user_id BIGINT,
+  FOREIGN KEY (from_account) REFERENCES account(id),
+  FOREIGN KEY (to_account) REFERENCES account(id),
+  FOREIGN KEY (user_id) REFERENCES user(id)
+);
+
+
+CREATE TABLE temporary_transfer (
+  id BIGINT PRIMARY KEY,
+  from_account BIGINT NOT NULL,
+  to_account BIGINT NOT NULL,
+  description TEXT NOT NULL,
+  amount INT UNSIGNED NOT NULL,
+  user_id BIGINT,
+  FOREIGN KEY (from_account) REFERENCES account(id),
+  FOREIGN KEY (to_account) REFERENCES account(id),
+  FOREIGN KEY (user_id) REFERENCES user(id)
+);
