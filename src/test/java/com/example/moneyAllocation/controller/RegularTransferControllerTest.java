@@ -3,8 +3,8 @@ package com.example.moneyAllocation.controller;
 import static org.junit.jupiter.api.Assertions.*;
 import com.example.moneyAllocation.domain.RegularTransfer;
 import com.example.moneyAllocation.domain.RegularTransferSelector;
+import com.example.moneyAllocation.repository.util.JsonMaker;
 import com.example.moneyAllocation.service.RegularTransferService;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.AfterEach;
@@ -111,17 +111,4 @@ class RegularTransferControllerTest {
         Mockito.verify(service, Mockito.times(1)).delete(Mockito.argThat(matcher));
     }
 
-
-
-    static class JsonMaker {
-        private static ObjectMapper objectMapper;
-
-        static {
-            objectMapper = new ObjectMapper();
-        }
-
-        public static String toJsonString(Object o) throws Exception {
-            return objectMapper.writeValueAsString(o);
-        }
-    }
 }

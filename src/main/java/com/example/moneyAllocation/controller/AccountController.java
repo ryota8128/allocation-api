@@ -27,7 +27,7 @@ public class AccountController {
     }
 
     @GetMapping(value = "/list", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Account> index(@RequestParam(required = false) Long ownerId) {
+    public List<Account> find(@RequestParam(required = false) Long ownerId) {
         AccountSelector selector = new AccountSelector();
         selector.setOwnerId(ownerId);
         return service.findList(selector);
