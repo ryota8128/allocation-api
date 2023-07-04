@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.moneyAllocation.repository.mybatis.TemporaryTransferMapper">
+    <resultMap id="TemporaryTransfer" type="com.example.moneyAllocation.domain.TemporaryTransfer">
+        <id property="id" column="ID" />
+        <result property="fromAccount" column="FROM_ACCOUNT" />
+        <result property="toAccount" column="TO_ACCOUNT" />
+        <result property="description" column="DESCRIPTION" />
+        <result property="amount" column="AMOUNT" />
+        <result property="userId" column="USER_ID" />
+    </resultMap>
+
+    <select id="find" resultMap="TemporaryTransfer">
+        SELECT
+        ID,
+        FROM_ACCOUNT,
+        TO_ACCOUNT,
+        DESCRIPTION,
+        AMOUNT,
+        USER_ID
+        FROM TEMPORARY_TRANSFER
+        <where>
+            <if test="userId != null">
+                AND USER_ID = #{userId}
+            </if>
+        </where>
+    </select>
+
+    <insert id="add" parameterType="com.example.moneyAllocation.domain.TemporaryTransfer" useGeneratedKeys="true"
+            keyProperty="id">
+        INSERT INTO TEMPORARY_TRANSFER
+        (
+        from_account,
+        to_account,
+        description,
+        amount,
+        user_id
+        )
+        VALUES
+        (
+        #{fromAccount},
+        #{toAccount},
+        #{description},
+        #{amount},
+        #{userId}
+        )
+    </insert>
+
+    <update id="set" parameterType="com.example.moneyAllocation.domain.TemporaryTransfer">
+        UPDATE TEMPORARY_TRANSFER
+        SET
+        FROM_ACCOUNT = #{fromAccount},
+        TO_ACCOUNT = #{toAccount},
+        DESCRIPTION = #{description},
+        AMOUNT = #{amount}
+        WHERE
+        ID = #{id};
+    </update>
+
+    <delete id="delete" parameterType="Long">
+        DELETE FROM TEMPORARY_TRANSFER
+        WHERE ID = #{id};
+    </delete>
+</mapper>
