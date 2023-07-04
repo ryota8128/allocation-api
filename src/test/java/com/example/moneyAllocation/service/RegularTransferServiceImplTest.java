@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
@@ -17,12 +18,12 @@ class RegularTransferServiceImplTest {
     @Mock
     RegularTransferRepository repository;
 
-    private RegularTransferService service;
+    @InjectMocks
+    private RegularTransferServiceImpl service;
 
     @BeforeEach
     public void before() {
         MockitoAnnotations.openMocks(this);
-        service = new RegularTransferServiceImpl(repository);
     }
 
 
