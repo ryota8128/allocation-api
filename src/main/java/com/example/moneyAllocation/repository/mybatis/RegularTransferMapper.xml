@@ -57,4 +57,21 @@
         )
     </insert>
 
+    <update id="set" parameterType="com.example.moneyAllocation.domain.RegularTransfer">
+        UPDATE REGULAR_TRANSFER
+        SET
+        FROM_ACCOUNT = #{fromAccount},
+        TO_ACCOUNT = #{toAccount},
+        DESCRIPTION = #{description},
+        PERCENTAGE = #{percentage},
+        AMOUNT = #{amount},
+        RATIO = #{ratio},
+        WHERE
+        ID = #{id};
+    </update>
+
+    <delete id="delete" parameterType="Long">
+        DELETE FROM REGULAR_TRANSFER
+        WHERE ID = #{id};
+    </delete>
 </mapper>

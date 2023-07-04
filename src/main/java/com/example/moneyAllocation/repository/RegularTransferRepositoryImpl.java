@@ -2,7 +2,6 @@ package com.example.moneyAllocation.repository;
 
 import com.example.moneyAllocation.domain.RegularTransfer;
 import com.example.moneyAllocation.domain.RegularTransferSelector;
-import com.example.moneyAllocation.repository.mybatis.AccountMapper;
 import com.example.moneyAllocation.repository.mybatis.RegularTransferMapper;
 import java.util.List;
 import org.apache.ibatis.session.SqlSession;
@@ -32,11 +31,17 @@ public class RegularTransferRepositoryImpl implements RegularTransferRepository{
 
     @Override
     public void set(RegularTransfer regularTransfer) {
-
+        int affected = this.sqlSession.getMapper(RegularTransferMapper.class).set(regularTransfer);
+        if (affected != 1) {
+            throw new ResourceNotFoundException("RegularTransfer not found");
+        }
     }
 
     @Override
     public void delete(Long id) {
-
+        int affected = this.sqlSession.getMapper(RegularTransferMapper.class).delete(id);
+        if (affected != 1) {
+            throw new ResourceNotFoundException("RegularTransfer not found");
+        }
     }
 }

@@ -26,11 +26,11 @@ public class RegularTransferServiceImpl implements RegularTransferService{
 
     @Override
     public void set(RegularTransfer regularTransfer) {
-
+        repository.set(regularTransfer);
     }
 
     @Override
     public void delete(Long id) {
-
+        repository.delete(id);
     }
 }
