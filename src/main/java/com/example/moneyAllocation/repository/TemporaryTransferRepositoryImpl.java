@@ -5,7 +5,9 @@ import com.example.moneyAllocation.domain.TemporaryTransferSelector;
 import com.example.moneyAllocation.repository.mybatis.TemporaryTransferMapper;
 import java.util.List;
 import org.apache.ibatis.session.SqlSession;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public class TemporaryTransferRepositoryImpl implements TemporaryTransferRepository{
 
     private final SqlSession sqlSession;
