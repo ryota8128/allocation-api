@@ -65,7 +65,7 @@
         DESCRIPTION = #{description},
         PERCENTAGE = #{percentage},
         AMOUNT = #{amount},
-        RATIO = #{ratio},
+        RATIO = #{ratio}
         WHERE
         ID = #{id};
     </update>

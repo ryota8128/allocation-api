@@ -44,7 +44,7 @@ public class RegularTransferController {
     }
 
     @DeleteMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
-    public void delete(@RequestParam Long deleteId) {
+    public void delete(@RequestParam("id") Long deleteId) {
         service.delete(deleteId);
     }
 
