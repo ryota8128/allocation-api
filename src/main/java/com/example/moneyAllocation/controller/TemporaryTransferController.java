@@ -45,6 +45,4 @@ public class TemporaryTransferController {
     public void delete(@PathVariable Long id) {
         service.delete(id);
     }
-
-
 }
