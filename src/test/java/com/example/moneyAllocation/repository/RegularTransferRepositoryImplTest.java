@@ -64,4 +64,36 @@ class RegularTransferRepositoryImplTest {
 
         assertThrows(RuntimeException.class, () -> repository.add(regularTransfer));
     }
+    @Test
+    void set() {
+        RegularTransfer regularTransfer = new RegularTransfer();
+        Mockito.doReturn(1).when(mapper).set(regularTransfer);
+        repository.set(regularTransfer);
+        Mockito.verify(mapper, Mockito.times(1)).set(regularTransfer);
+    }
+
+    @Test
+    void setFail() {
+        RegularTransfer regularTransfer = new RegularTransfer();
+        Mockito.doReturn(0).when(mapper).set(regularTransfer);
+
+        assertThrows(RuntimeException.class, () -> repository.set(regularTransfer));
+    }
+
+    @Test
+    void delete() {
+        RegularTransfer regularTransfer = new RegularTransfer();
+        Long id = 1L;
+        Mockito.doReturn(1).when(mapper).delete(id);
+        repository.delete(id);
+        Mockito.verify(mapper, Mockito.times(1)).delete(id);
+    }
+
+    @Test
+    void deleteFail() {
+        Long id = 1L;
+        Mockito.doReturn(0).when(mapper).delete(id);
+
+        assertThrows(RuntimeException.class, () -> repository.delete(id));
+    }
 }

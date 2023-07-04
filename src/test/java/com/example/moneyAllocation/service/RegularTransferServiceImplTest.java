@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import com.example.moneyAllocation.domain.RegularTransfer;
 import com.example.moneyAllocation.domain.RegularTransferSelector;
 import com.example.moneyAllocation.repository.RegularTransferRepository;
-import com.example.moneyAllocation.repository.RegularTransferRepositoryImpl;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
@@ -46,4 +45,21 @@ class RegularTransferServiceImplTest {
         service.add(regularTransfer);
         Mockito.verify(repository, Mockito.times(1)).add(regularTransfer);
     }
+
+    @Test
+    void set() {
+        RegularTransfer regularTransfer = new RegularTransfer();
+        Mockito.doNothing().when(repository).set(regularTransfer);
+        service.set(regularTransfer);
+        Mockito.verify(repository, Mockito.times(1)).set(regularTransfer);
+    }
+
+    @Test
+    void delete() {
+        Long id = 1L;
+        Mockito.doNothing().when(repository).delete(id);
+        service.delete(id);
+        Mockito.verify(repository, Mockito.times(1)).delete(id);
+    }
+
 }

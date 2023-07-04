@@ -82,6 +82,36 @@ class RegularTransferControllerTest {
         Mockito.verify(service, Mockito.times(1)).add(Mockito.argThat(matcher));
     }
 
+    @Test
+    void update() throws  Exception {
+        RegularTransfer regularTransfer = new RegularTransfer();
+        regularTransfer.setFromAccount(3L);
+        regularTransfer.setDescription("desc");
+
+        ArgumentMatcher<RegularTransfer> matcher = arg -> {
+            assertEquals(3L, arg.getFromAccount());
+            assertEquals("desc", arg.getDescription());
+            return true;
+        };
+
+        Mockito.doNothing().when(service).set(Mockito.argThat(matcher));
+        mockMvc.perform(MockMvcRequestBuilders.patch("/api/regular")
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .content(JsonMaker.toJsonString(regularTransfer)));
+        Mockito.verify(service, Mockito.times(1)).set(Mockito.argThat(matcher));
+    }
+
+    @Test
+    void delete() throws Exception {
+        Long id = 2L;
+        ArgumentMatcher<Long> matcher = arg -> arg == 2L;
+        Mockito.doNothing().when(service).delete(Mockito.argThat(matcher));
+        mockMvc.perform(MockMvcRequestBuilders.delete("/api/regular")
+                .queryParam("id", "2"));
+        Mockito.verify(service, Mockito.times(1)).delete(Mockito.argThat(matcher));
+    }
+
+
 
     static class JsonMaker {
         private static ObjectMapper objectMapper;

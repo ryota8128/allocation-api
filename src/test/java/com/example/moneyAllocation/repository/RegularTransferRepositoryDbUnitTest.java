@@ -6,7 +6,10 @@ import com.example.moneyAllocation.MoneyAllocationApplication;
 import com.example.moneyAllocation.domain.RegularTransfer;
 import com.example.moneyAllocation.domain.RegularTransferSelector;
 import com.example.moneyAllocation.repository.util.DbTestExecutionListener;
+import com.example.moneyAllocation.repository.util.RegularTransferCreator;
+import com.example.moneyAllocation.util.DbUnitUtil;
 import java.io.File;
+import java.util.Arrays;
 import java.util.List;
 import javax.sql.DataSource;
 import org.junit.jupiter.api.Nested;
@@ -75,4 +78,47 @@ public class RegularTransferRepositoryDbUnitTest {
             assertEquals((float) 0.4, regularTransferList.get(1).getRatio());
         }
     }
+    @SpringBootTest(classes = MoneyAllocationApplication.class)
+    @TestExecutionListeners({DependencyInjectionTestExecutionListener.class, DbTestExecutionListener.class})
+    @Nested
+    public class UpdateDbTest {
+        @Autowired
+        private RegularTransferRepository repository;
+        @Autowired
+        private DataSource source;
+
+        private final File updateExpectedData  = new File(DATA_DIR + "regular_update_expected.xlsx");
+        @Test
+        public void testUpdate() {
+            RegularTransfer regularTransfer = RegularTransferCreator.regularCreate(
+                    3L, 4L, 5L, Boolean.TRUE, null,
+                    (float) 0.125, "sample", 2L);
+
+            repository.set(regularTransfer);
+            DbUnitUtil.assertMutateResult(
+                    source, "REGULAR_TRANSFER",
+                    updateExpectedData, Arrays.asList());
+        }
+    }
+
+    @SpringBootTest(classes = MoneyAllocationApplication.class)
+    @TestExecutionListeners({DependencyInjectionTestExecutionListener.class, DbTestExecutionListener.class})
+    @Nested
+    public class DeleteDbTest {
+        @Autowired
+        private RegularTransferRepository repository;
+        @Autowired
+        private DataSource source;
+
+        private final File deleteExpectedData  = new File(DATA_DIR + "regular_delete_expected.xlsx");
+
+        @Test
+        public void testDelete() {
+            repository.delete(3L);
+            DbUnitUtil.assertMutateResult(
+                    source, "REGULAR_TRANSFER",
+                    deleteExpectedData, Arrays.asList());
+        }
+    }
+
 }

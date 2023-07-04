@@ -64,8 +64,12 @@
         TO_ACCOUNT = #{toAccount},
         DESCRIPTION = #{description},
         PERCENTAGE = #{percentage},
-        AMOUNT = #{amount},
-        RATIO = #{ratio}
+        <if test="percentage">
+            RATIO = #{ratio}
+        </if>
+        <if test="!percentage">
+            AMOUNT = #{amount}
+        </if>
         WHERE
         ID = #{id};
     </update>
