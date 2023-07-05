@@ -7,15 +7,21 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 @Service
-public class AccountServiceImpl implements AccountService{
+public class AccountServiceImpl implements AccountService {
     private final AccountRepository accountRepository;
 
     public AccountServiceImpl(AccountRepository accountRepository) {
         this.accountRepository = accountRepository;
     }
+
     @Override
     public List<Account> findList(AccountSelector selector) {
         return accountRepository.find(selector);
+    }
+
+    @Override
+    public Account findOne(Long id) {
+        return accountRepository.findOne(id);
     }
 
     @Override

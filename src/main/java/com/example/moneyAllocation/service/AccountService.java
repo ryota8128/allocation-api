@@ -6,7 +6,12 @@ import java.util.List;
 
 public interface AccountService {
     List<Account> findList(AccountSelector selector);
+
+    Account findOne(Long id);
+
     void add(Account account);
+
     void set(Account account);
+
     void delete(Long id);
 }
