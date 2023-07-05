@@ -45,6 +45,16 @@ class AccountServiceImplTest {
         Mockito.verify(repository, Mockito.times(1)).find(selector);
     }
 
+
+    @Test
+    void findOne() {
+        Long id = 1L;
+        Account account = new Account();
+        Mockito.doReturn(account).when(repository).findOne(id);
+        Account result = target.findOne(id);
+        assertEquals(account, result);
+        Mockito.verify(repository, Mockito.times(1)).findOne(id);
+    }
     @Test
     void add() {
         Account account = new Account();
