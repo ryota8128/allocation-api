@@ -50,6 +50,16 @@ class RegularTransferRepositoryImplTest {
     }
 
     @Test
+    void findOne() {
+        Long id = 1L;
+        RegularTransfer regularTransfer = new RegularTransfer();
+        Mockito.doReturn(regularTransfer).when(mapper).findOne(id);
+        RegularTransfer result = repository.findOne(id);
+        assertEquals(regularTransfer, result);
+        Mockito.verify(mapper, Mockito.times(1)).findOne(id);
+    }
+
+    @Test
     void add() {
         RegularTransfer regularTransfer = new RegularTransfer();
         Mockito.doReturn(1).when(mapper).add(regularTransfer);
@@ -64,6 +74,7 @@ class RegularTransferRepositoryImplTest {
 
         assertThrows(RuntimeException.class, () -> repository.add(regularTransfer));
     }
+
     @Test
     void set() {
         RegularTransfer regularTransfer = new RegularTransfer();
