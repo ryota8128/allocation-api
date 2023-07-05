@@ -33,6 +33,11 @@ public class AccountController {
         return service.findList(selector);
     }
 
+    @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Account findOne(@RequestParam(required = true) Long id) {
+        return service.findOne(id);
+    }
+
     @PostMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
     public void add(@RequestBody Account account) {
         this.service.add(account);
