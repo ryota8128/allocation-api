@@ -52,6 +52,16 @@ class AccountRepositoryImplTest {
     }
 
     @Test
+    void findOne() {
+        Account account = new Account();
+        Long id = 1L;
+        Mockito.doReturn(account).when(mapper).findOne(id);
+        Account result = repository.findOne(id);
+        assertEquals(account, result);
+        Mockito.verify(mapper, Mockito.times(1)).findOne(id);
+    }
+
+    @Test
     void add() {
         Account account = new Account();
         Mockito.doReturn(1).when(mapper).add(account);

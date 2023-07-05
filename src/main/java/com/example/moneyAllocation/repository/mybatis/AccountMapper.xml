@@ -4,12 +4,12 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.example.moneyAllocation.repository.mybatis.AccountMapper">
-    <resultMap id="Account" type="com.example.moneyAllocation.domain.Account" >
-        <id property="id" column="ID" />
-        <result property="name" column="NAME" />
-        <result property="numFreeTransfer" column="NUM_FREE_TRANSFER" />
-        <result property="transferFee" column="TRANSFER_FEE" />
-        <result property="ownerId" column="OWNER_ID" />
+    <resultMap id="Account" type="com.example.moneyAllocation.domain.Account">
+        <id property="id" column="ID"/>
+        <result property="name" column="NAME"/>
+        <result property="numFreeTransfer" column="NUM_FREE_TRANSFER"/>
+        <result property="transferFee" column="TRANSFER_FEE"/>
+        <result property="ownerId" column="OWNER_ID"/>
     </resultMap>
 
     <select id="find" resultMap="Account">
@@ -29,8 +29,22 @@
         ORDER BY ID
     </select>
 
+    <select id="findOne" resultMap="Account">
+        SELECT
+        ID,
+        NAME,
+        NUM_FREE_TRANSFER,
+        TRANSFER_FEE,
+        OWNER_ID
+        FROM
+        ACCOUNT
+        <where>
+            ID = #{id}
+        </where>
+    </select>
+
     <insert id="add" parameterType="com.example.moneyAllocation.domain.Account" useGeneratedKeys="true"
-        keyProperty="id">
+            keyProperty="id">
         INSERT INTO ACCOUNT
         (
         NAME,

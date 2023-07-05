@@ -8,7 +8,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class AccountRepositoryImpl implements AccountRepository{
+public class AccountRepositoryImpl implements AccountRepository {
     private final SqlSession sqlSession;
 
     public AccountRepositoryImpl(SqlSession sqlSession) {
@@ -18,6 +18,15 @@ public class AccountRepositoryImpl implements AccountRepository{
     @Override
     public List<Account> find(AccountSelector selector) {
         return this.sqlSession.getMapper(AccountMapper.class).find(selector);
+    }
+
+    @Override
+    public Account findOne(Long id) {
+        Account account = this.sqlSession.getMapper(AccountMapper.class).findOne(id);
+        if (account == null) {
+            throw new ResourceNotFoundException("Account not found");
+        }
+        return account;
     }
 
     @Override

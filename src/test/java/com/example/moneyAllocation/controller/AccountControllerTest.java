@@ -45,7 +45,7 @@ class AccountControllerTest {
     }
 
     @Test
-    void index() throws Exception {
+    void find() throws Exception {
         List<Account> accountList = new ArrayList<>();
         Account account = new Account();
         account.setName("ryota");
@@ -57,14 +57,26 @@ class AccountControllerTest {
 
         Mockito.doReturn(accountList).when(service).findList(Mockito.argThat(matcher));
 
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/api/account/list")
-                .queryParam("ownerId", "2"))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andReturn();
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/api/account/list").queryParam("ownerId", "2"))
+                .andExpect(MockMvcResultMatchers.status().isOk()).andReturn();
 
         assertEquals(JsonMaker.toJsonString(accountList), result.getResponse().getContentAsString());
         Mockito.verify(service, Mockito.times(1)).findList(Mockito.argThat(matcher));
     }
+
+    @Test
+    void findOne() throws Exception {
+        Account account = new Account();
+        account.setName("ryota");
+        Mockito.doReturn(account).when(service).findOne(Mockito.argThat(argument -> argument == 1L));
+
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/api/account").queryParam("id", "1"))
+                .andExpect(MockMvcResultMatchers.status().isOk()).andReturn();
+
+        assertEquals(JsonMaker.toJsonString(account), result.getResponse().getContentAsString());
+        Mockito.verify(service, Mockito.times(1)).findOne(Mockito.argThat(id -> id == 1L));
+    }
+
 
     @Test
     void add() throws Exception {
@@ -80,10 +92,8 @@ class AccountControllerTest {
 
         Mockito.doNothing().when(service).add(Mockito.argThat(matcher));
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/account")
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .content(JsonMaker.toJsonString(account)))
-                .andExpect(MockMvcResultMatchers.status().isOk());
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/account").contentType(MediaType.APPLICATION_JSON_VALUE)
+                .content(JsonMaker.toJsonString(account))).andExpect(MockMvcResultMatchers.status().isOk());
 
         Mockito.verify(service, Mockito.times(1)).add(Mockito.argThat(matcher));
     }
@@ -101,10 +111,8 @@ class AccountControllerTest {
         };
         Mockito.doNothing().when(service).set(Mockito.argThat(matcher));
 
-        mockMvc.perform(MockMvcRequestBuilders.patch("/api/account")
-                        .contentType(MediaType.APPLICATION_JSON_VALUE)
-                        .content(JsonMaker.toJsonString(account)))
-                .andExpect(MockMvcResultMatchers.status().isOk());
+        mockMvc.perform(MockMvcRequestBuilders.patch("/api/account").contentType(MediaType.APPLICATION_JSON_VALUE)
+                .content(JsonMaker.toJsonString(account))).andExpect(MockMvcResultMatchers.status().isOk());
 
         Mockito.verify(service, Mockito.times(1)).set(Mockito.argThat(matcher));
     }
