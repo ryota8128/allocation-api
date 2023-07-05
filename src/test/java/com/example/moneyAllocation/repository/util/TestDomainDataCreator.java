@@ -1,8 +1,9 @@
 package com.example.moneyAllocation.repository.util;
 
 import com.example.moneyAllocation.domain.RegularTransfer;
+import com.example.moneyAllocation.domain.TemporaryTransfer;
 
-public class RegularTransferCreator {
+public class TestDomainDataCreator {
     public static RegularTransfer regularCreate(
             Long id, Long fromAccount, Long toAccount, Boolean percentage,
             Integer amount, Float ratio, String description, Long userId) {
@@ -18,5 +19,21 @@ public class RegularTransferCreator {
         regularTransfer.setUserId(userId);
         return regularTransfer;
     }
+
+    public static TemporaryTransfer temporaryCreate(
+            Long id, Long fromAccount, Long toAccount, Integer amount,
+            String description, Long userId) {
+        TemporaryTransfer temporaryTransfer = new TemporaryTransfer();
+        temporaryTransfer.setId(id);
+        temporaryTransfer.setFromAccount(fromAccount);
+        temporaryTransfer.setToAccount(toAccount);
+        temporaryTransfer.setAmount(amount);
+        temporaryTransfer.setDescription(description);
+        temporaryTransfer.setUserId(userId);
+
+        return temporaryTransfer;
+    }
+
+
 
 }

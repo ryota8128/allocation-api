@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS ACCOUNT (
 );
 
 CREATE TABLE regular_transfer (
-  id BIGINT PRIMARY KEY,
+  id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   from_account BIGINT NOT NULL,
   to_account BIGINT NOT NULL,
   description TEXT NOT NULL,
@@ -33,7 +33,7 @@ CREATE TABLE regular_transfer (
 
 
 CREATE TABLE temporary_transfer (
-  id BIGINT PRIMARY KEY,
+  id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   from_account BIGINT NOT NULL,
   to_account BIGINT NOT NULL,
   description TEXT NOT NULL,
