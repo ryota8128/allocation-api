@@ -6,7 +6,7 @@ import com.example.moneyAllocation.MoneyAllocationApplication;
 import com.example.moneyAllocation.domain.RegularTransfer;
 import com.example.moneyAllocation.domain.RegularTransferSelector;
 import com.example.moneyAllocation.repository.util.DbTestExecutionListener;
-import com.example.moneyAllocation.repository.util.RegularTransferCreator;
+import com.example.moneyAllocation.repository.util.TestDomainDataCreator;
 import com.example.moneyAllocation.util.DbUnitUtil;
 import java.io.File;
 import java.util.Arrays;
@@ -90,7 +90,7 @@ public class RegularTransferRepositoryDbUnitTest {
         private final File updateExpectedData  = new File(DATA_DIR + "regular_update_expected.xlsx");
         @Test
         public void testUpdate() {
-            RegularTransfer regularTransfer = RegularTransferCreator.regularCreate(
+            RegularTransfer regularTransfer = TestDomainDataCreator.regularCreate(
                     3L, 4L, 5L, Boolean.TRUE, null,
                     (float) 0.125, "sample", 2L);
 
