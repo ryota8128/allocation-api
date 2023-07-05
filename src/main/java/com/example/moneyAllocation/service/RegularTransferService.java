@@ -6,6 +6,7 @@ import java.util.List;
 
 public interface RegularTransferService {
     List<RegularTransfer> find(RegularTransferSelector selector);
+    RegularTransfer findOne(Long id);
 
     void add(RegularTransfer regularTransfer);
 

@@ -6,6 +6,7 @@ import com.example.moneyAllocation.domain.RegularTransferSelector;
 import com.example.moneyAllocation.repository.RegularTransferRepository;
 import java.util.ArrayList;
 import java.util.List;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -20,9 +21,16 @@ class RegularTransferServiceImplTest {
     @InjectMocks
     private RegularTransferServiceImpl service;
 
+    AutoCloseable mocks;
+
     @BeforeEach
     public void before() {
-        MockitoAnnotations.openMocks(this);
+        mocks = MockitoAnnotations.openMocks(this);
+    }
+
+    @AfterEach
+    public void after() throws Exception {
+        mocks.close();
     }
 
 
@@ -36,6 +44,17 @@ class RegularTransferServiceImplTest {
         List<RegularTransfer> result = service.find(selector);
         assertEquals(regularTransferList, result);
         Mockito.verify(repository, Mockito.times(1)).find(selector);
+    }
+
+    @Test
+    void findOne() {
+        Long id = 1L;
+        RegularTransfer regularTransfer = new RegularTransfer();
+        Mockito.doReturn(regularTransfer).when(repository).findOne(id);
+
+        RegularTransfer result = service.findOne(id);
+        assertEquals(regularTransfer, result);
+        Mockito.verify(repository, Mockito.times(1)).findOne(id);
     }
 
     @Test

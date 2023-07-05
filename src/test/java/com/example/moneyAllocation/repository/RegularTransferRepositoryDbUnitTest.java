@@ -76,6 +76,18 @@ public class RegularTransferRepositoryDbUnitTest {
             assertNull(regularTransferList.get(1).getAmount());
             assertEquals((float) 0.4, regularTransferList.get(1).getRatio());
         }
+
+        @Test
+        public void testFindOne() {
+            RegularTransfer regularTransfer = repository.findOne(1L);
+            assertEquals(1L, regularTransfer.getId());
+            assertEquals(1L, regularTransfer.getFromAccount());
+            assertEquals(2L, regularTransfer.getToAccount());
+            assertEquals("desc1", regularTransfer.getDescription());
+            assertEquals(false, regularTransfer.getPercentage());
+            assertEquals(30000, regularTransfer.getAmount());
+            assertNull(regularTransfer.getRatio());
+        }
     }
 
     @SpringBootTest(classes = MoneyAllocationApplication.class)

@@ -7,6 +7,8 @@ import java.util.List;
 public interface RegularTransferRepository {
     List<RegularTransfer> find(RegularTransferSelector selector);
 
+    RegularTransfer findOne(Long id);
+
     void add(RegularTransfer regularTransfer);
 
     void set(RegularTransfer regularTransfer);

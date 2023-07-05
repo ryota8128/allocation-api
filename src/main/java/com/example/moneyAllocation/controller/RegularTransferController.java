@@ -27,10 +27,15 @@ public class RegularTransferController {
     }
 
     @GetMapping(value = "/list", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<RegularTransfer> get(@RequestParam(required = false) Long userId) {
+    public List<RegularTransfer> find(@RequestParam(required = false) Long userId) {
         RegularTransferSelector selector = new RegularTransferSelector();
         selector.setUserId(userId);
         return this.service.find(selector);
+    }
+
+    @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
+    public RegularTransfer findOne(@RequestParam(required = true) Long id) {
+        return service.findOne(id);
     }
 
     @PostMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -47,12 +52,6 @@ public class RegularTransferController {
     public void delete(@RequestParam("id") Long deleteId) {
         service.delete(deleteId);
     }
-
-
-
-
-
-
 
 
 }

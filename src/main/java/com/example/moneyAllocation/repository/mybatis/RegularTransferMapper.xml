@@ -31,6 +31,23 @@
                 AND USER_ID = #{userId}
             </if>
         </where>
+        ORDER BY ID;
+    </select>
+
+    <select id="findOne" resultMap="RegularTransfer">
+        SELECT
+        ID,
+        FROM_ACCOUNT,
+        TO_ACCOUNT,
+        DESCRIPTION,
+        PERCENTAGE,
+        AMOUNT,
+        RATIO,
+        USER_ID
+        FROM REGULAR_TRANSFER
+        <where>
+            ID = #{id}
+        </where>
     </select>
 
     <insert id="add" parameterType="com.example.moneyAllocation.domain.RegularTransfer" useGeneratedKeys="true"

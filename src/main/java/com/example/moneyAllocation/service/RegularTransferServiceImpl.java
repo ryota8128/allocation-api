@@ -7,7 +7,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 @Service
-public class RegularTransferServiceImpl implements RegularTransferService{
+public class RegularTransferServiceImpl implements RegularTransferService {
     private final RegularTransferRepository repository;
 
     public RegularTransferServiceImpl(RegularTransferRepository repository) {
@@ -16,7 +16,12 @@ public class RegularTransferServiceImpl implements RegularTransferService{
 
     @Override
     public List<RegularTransfer> find(RegularTransferSelector selector) {
-        return  this.repository.find(selector);
+        return this.repository.find(selector);
+    }
+
+    @Override
+    public RegularTransfer findOne(Long id) {
+        return repository.findOne(id);
     }
 
     @Override
