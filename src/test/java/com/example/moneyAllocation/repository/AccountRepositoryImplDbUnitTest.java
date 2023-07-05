@@ -72,7 +72,16 @@ public class AccountRepositoryImplDbUnitTest {
             assertEquals(2, accountList.get(1).getNumFreeTransfer());
             assertEquals(120, accountList.get(1).getTransferFee());
             assertEquals(2L, accountList.get(1).getOwnerId());
+        }
 
+        @Test
+        public void testFindOne() {
+            Account account = repository.findOne(1L);
+            assertEquals(1L, account.getId());
+            assertEquals("三井", account.getName());
+            assertEquals(9999, account.getNumFreeTransfer());
+            assertEquals(150, account.getTransferFee());
+            assertEquals(1L, account.getOwnerId());
         }
     }
 
@@ -86,6 +95,7 @@ public class AccountRepositoryImplDbUnitTest {
         private DataSource source;
 
         private final File expectedData = new File(DATA_DIR + "account_insert_expected.xlsx");
+
         @Test
         public void testInsertWhenSuccess() {
             Account account = new Account();
@@ -159,12 +169,12 @@ public class AccountRepositoryImplDbUnitTest {
         private final File expectedData = new File(DATA_DIR + "account_delete_expected.xlsx");
 
         // TODO: account削除前にregular, temporaryを削除する処理を追加してから実装
-//        @Test
-//        public void testDeleteSuccess() {
-//            Long accountId = 2L;
-//            repository.delete(accountId);
-//            DbUnitUtil.assertMutateResult(source, "ACCOUNT", expectedData, Arrays.asList());
-//        }
+        //        @Test
+        //        public void testDeleteSuccess() {
+        //            Long accountId = 2L;
+        //            repository.delete(accountId);
+        //            DbUnitUtil.assertMutateResult(source, "ACCOUNT", expectedData, Arrays.asList());
+        //        }
 
         @Test
         public void testDeleteNotExistsId() {
