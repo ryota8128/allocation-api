@@ -7,6 +7,7 @@ import java.util.List;
 public interface AccountRepository {
     List<Account> find(AccountSelector selector);
 
+    Account findOne(Long id);
     void add(Account account);
 
     void set(Account account);

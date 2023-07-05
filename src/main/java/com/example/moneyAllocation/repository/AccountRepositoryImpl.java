@@ -21,6 +21,11 @@ public class AccountRepositoryImpl implements AccountRepository{
     }
 
     @Override
+    public Account findOne(Long id) {
+        return this.sqlSession.getMapper(AccountMapper.class).findOne(id);
+    }
+
+    @Override
     public void add(Account account) {
         int affected = this.sqlSession.getMapper(AccountMapper.class).add(account);
         if (affected != 1) {
