@@ -20,6 +20,11 @@ public class RegularTransferServiceImpl implements RegularTransferService{
     }
 
     @Override
+    public RegularTransfer findOne(Long id) {
+        return repository.findOne(id);
+    }
+
+    @Override
     public void add(RegularTransfer regularTransfer) {
         repository.add(regularTransfer);
     }
