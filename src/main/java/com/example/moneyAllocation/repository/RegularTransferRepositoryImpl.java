@@ -6,6 +6,7 @@ import com.example.moneyAllocation.repository.mybatis.RegularTransferMapper;
 import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.client.ResourceAccessException;
 
 @Repository
 public class RegularTransferRepositoryImpl implements RegularTransferRepository{
@@ -18,6 +19,15 @@ public class RegularTransferRepositoryImpl implements RegularTransferRepository{
     @Override
     public List<RegularTransfer> find(RegularTransferSelector selector) {
         return this.sqlSession.getMapper(RegularTransferMapper.class).find(selector);
+    }
+
+    @Override
+    public RegularTransfer findOne(Long id) {
+        RegularTransfer regularTransfer = this.sqlSession.getMapper(RegularTransferMapper.class).findOne(id);
+        if (regularTransfer == null) {
+            throw new ResourceAccessException("RegularTransfer not found");
+        }
+        return  regularTransfer;
     }
 
     @Override
