@@ -10,6 +10,8 @@ import org.apache.ibatis.annotations.Param;
 public interface RegularTransferMapper {
     List<RegularTransfer> find(RegularTransferSelector selector);
 
+    RegularTransfer findOne(@Param("id") Long id);
+
     int add(RegularTransfer regularTransfer);
 
     int set(RegularTransfer regularTransfer);
