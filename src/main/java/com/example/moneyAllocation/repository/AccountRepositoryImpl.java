@@ -8,7 +8,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class AccountRepositoryImpl implements AccountRepository{
+public class AccountRepositoryImpl implements AccountRepository {
     private final SqlSession sqlSession;
 
     public AccountRepositoryImpl(SqlSession sqlSession) {
