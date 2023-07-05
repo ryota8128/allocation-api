@@ -20,8 +20,7 @@ import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 
 public class RegularTransferRepositoryDbUnitTest {
-    private final String DATA_DIR = this.getClass().getResource("")
-            .getFile() + "data" + File.separator;
+    private final String DATA_DIR = this.getClass().getResource("").getFile() + "data" + File.separator;
 
     @SpringBootTest(classes = MoneyAllocationApplication.class)
     @TestExecutionListeners({DependencyInjectionTestExecutionListener.class, DbTestExecutionListener.class})
@@ -78,6 +77,27 @@ public class RegularTransferRepositoryDbUnitTest {
             assertEquals((float) 0.4, regularTransferList.get(1).getRatio());
         }
     }
+
+    @SpringBootTest(classes = MoneyAllocationApplication.class)
+    @TestExecutionListeners({DependencyInjectionTestExecutionListener.class, DbTestExecutionListener.class})
+    @Nested
+    public class InsertDbTest {
+        @Autowired
+        private RegularTransferRepository repository;
+        @Autowired
+        private DataSource source;
+
+        private final File insertExpectedData = new File(DATA_DIR + "regular_insert_expected.xlsx");
+
+        @Test
+        public void testInsert() {
+            RegularTransfer regularTransfer =
+                    TestDomainDataCreator.regularCreate(4L, 3L, 1L, false, 10000, null, "desc4", 1L);
+            repository.add(regularTransfer);
+            DbUnitUtil.assertMutateResult(source, "REGULAR_TRANSFER", insertExpectedData, Arrays.asList());
+        }
+    }
+
     @SpringBootTest(classes = MoneyAllocationApplication.class)
     @TestExecutionListeners({DependencyInjectionTestExecutionListener.class, DbTestExecutionListener.class})
     @Nested
@@ -87,17 +107,15 @@ public class RegularTransferRepositoryDbUnitTest {
         @Autowired
         private DataSource source;
 
-        private final File updateExpectedData  = new File(DATA_DIR + "regular_update_expected.xlsx");
+        private final File updateExpectedData = new File(DATA_DIR + "regular_update_expected.xlsx");
+
         @Test
         public void testUpdate() {
-            RegularTransfer regularTransfer = TestDomainDataCreator.regularCreate(
-                    3L, 4L, 5L, Boolean.TRUE, null,
-                    (float) 0.125, "sample", 2L);
+            RegularTransfer regularTransfer =
+                    TestDomainDataCreator.regularCreate(3L, 4L, 5L, Boolean.TRUE, null, (float) 0.125, "sample", 2L);
 
             repository.set(regularTransfer);
-            DbUnitUtil.assertMutateResult(
-                    source, "REGULAR_TRANSFER",
-                    updateExpectedData, Arrays.asList());
+            DbUnitUtil.assertMutateResult(source, "REGULAR_TRANSFER", updateExpectedData, Arrays.asList());
         }
     }
 
@@ -110,14 +128,12 @@ public class RegularTransferRepositoryDbUnitTest {
         @Autowired
         private DataSource source;
 
-        private final File deleteExpectedData  = new File(DATA_DIR + "regular_delete_expected.xlsx");
+        private final File deleteExpectedData = new File(DATA_DIR + "regular_delete_expected.xlsx");
 
         @Test
         public void testDelete() {
             repository.delete(3L);
-            DbUnitUtil.assertMutateResult(
-                    source, "REGULAR_TRANSFER",
-                    deleteExpectedData, Arrays.asList());
+            DbUnitUtil.assertMutateResult(source, "REGULAR_TRANSFER", deleteExpectedData, Arrays.asList());
         }
     }
 
