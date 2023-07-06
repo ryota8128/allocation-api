@@ -16,7 +16,11 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public User find(UserSelector selector) {
-        return sqlSession.getMapper(UserMapper.class).find(selector);
+        User user = sqlSession.getMapper(UserMapper.class).find(selector);
+        if (user == null) {
+            throw new ResourceNotFoundException("User not found");
+        }
+        return user;
     }
 
     @Override
