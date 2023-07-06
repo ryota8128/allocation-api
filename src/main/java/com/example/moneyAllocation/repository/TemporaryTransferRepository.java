@@ -7,6 +7,8 @@ import java.util.List;
 public interface TemporaryTransferRepository {
     List<TemporaryTransfer> find(TemporaryTransferSelector selector);
 
+    TemporaryTransfer findOne(Long id);
+
     void add(TemporaryTransfer temporaryTransfer);
 
     void set(TemporaryTransfer temporaryTransfer);

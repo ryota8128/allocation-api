@@ -20,6 +20,12 @@ public class TemporaryTransferServiceImpl implements TemporaryTransferService{
     }
 
     @Override
+    public TemporaryTransfer findOne(Long id) {
+        return repository.findOne(id);
+
+    }
+
+    @Override
     public void add(TemporaryTransfer temporaryTransfer) {
         repository.add(temporaryTransfer);
     }

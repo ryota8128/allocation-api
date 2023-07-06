@@ -31,6 +31,11 @@ public class TemporaryTransferController {
         return service.find(selector);
     }
 
+    @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
+    public TemporaryTransfer findOne(@RequestParam(required = true) Long id) {
+        return service.findOne(id);
+    }
+
     @PostMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
     public void add(@RequestBody TemporaryTransfer temporaryTransfer) {
         service.add(temporaryTransfer);

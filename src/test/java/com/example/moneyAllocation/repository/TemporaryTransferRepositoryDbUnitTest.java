@@ -60,6 +60,20 @@ public class TemporaryTransferRepositoryDbUnitTest {
             assertEquals(1L, temporaryTransferList.get(0).getUserId());
             assertEquals(2L, temporaryTransferList.get(1).getId());
         }
+
+        @Test
+        public void testFindOne() {
+            TemporaryTransferSelector selector = new TemporaryTransferSelector();
+            List<TemporaryTransfer> temporaryTransferList = repository.find(selector);
+            assertEquals(3, temporaryTransferList.size());
+            assertEquals(1L, temporaryTransferList.get(0).getId());
+            assertEquals(1L, temporaryTransferList.get(0).getFromAccount());
+            assertEquals(2L, temporaryTransferList.get(0).getToAccount());
+            assertEquals("desc1", temporaryTransferList.get(0).getDescription());
+            assertEquals(4800, temporaryTransferList.get(0).getAmount());
+            assertEquals(1L, temporaryTransferList.get(0).getUserId());
+        }
+
     }
 
     @SpringBootTest(classes = MoneyAllocationApplication.class)
