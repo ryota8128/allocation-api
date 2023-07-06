@@ -20,6 +20,12 @@ public class TemporaryTransferRepositoryImpl implements TemporaryTransferReposit
     public List<TemporaryTransfer> find(TemporaryTransferSelector selector) {
         return sqlSession.getMapper(TemporaryTransferMapper.class).find(selector);
     }
+
+    @Override
+    public TemporaryTransfer findOne(Long id) {
+        return sqlSession.getMapper(TemporaryTransferMapper.class).findOne(id);
+    }
+
     @Override
     public void add(TemporaryTransfer temporaryTransfer) {
         int affected = sqlSession.getMapper(TemporaryTransferMapper.class).add(temporaryTransfer);

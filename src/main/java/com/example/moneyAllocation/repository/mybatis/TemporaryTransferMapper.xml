@@ -29,6 +29,20 @@
         </where>
     </select>
 
+    <select id="findOne" resultMap="TemporaryTransfer">
+        SELECT
+        ID,
+        FROM_ACCOUNT,
+        TO_ACCOUNT,
+        DESCRIPTION,
+        AMOUNT,
+        USER_ID
+        FROM TEMPORARY_TRANSFER
+        <where>
+               ID = #{id}
+        </where>
+    </select>
+
     <insert id="add" parameterType="com.example.moneyAllocation.domain.TemporaryTransfer" useGeneratedKeys="true"
             keyProperty="id">
         INSERT INTO TEMPORARY_TRANSFER
