@@ -25,4 +25,38 @@
             EMAIL = #{email}
         </where>
     </select>
+
+    <insert id="add" parameterType="com.example.moneyAllocation.domain.User" useGeneratedKeys="true"
+            keyProperty="id">
+        INSERT INTO USER
+        (
+        NAME,
+        PASSWORD,
+        EMAIL,
+        ADMINISTRATOR_FLAG
+        )
+        VALUES
+        (
+        #{name},
+        #{password},
+        #{email},
+        #{administratorFlag}
+        )
+    </insert>
+
+    <update id="update" parameterType="com.example.moneyAllocation.domain.User">
+        UPDATE USER
+        SET
+        NAME = #{name},
+        PASSWORD = #{password},
+        EMAIL = #{email},
+        ADMINISTRATOR_FLAG = #{administratorFlag}
+        WHERE
+        ID = #{id}
+    </update>
+
+    <delete id="delete" parameterType="Long">
+        DELETE FROM USER
+        WHERE ID = #{id}
+    </delete>
 </mapper>
