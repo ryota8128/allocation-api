@@ -45,6 +45,16 @@ class TemporaryTransferServiceImplTest {
     }
 
     @Test
+    void findOne() {
+        TemporaryTransfer temporaryTransfer = new TemporaryTransfer();
+        Long id = 1L;
+        Mockito.doReturn(temporaryTransfer).when(repository).findOne(id);
+        TemporaryTransfer result = service.findOne(id);
+        assertEquals(temporaryTransfer, result);
+        Mockito.verify(repository, Mockito.times(1)).findOne(id);
+    }
+
+    @Test
     void add() {
         TemporaryTransfer temporaryTransfer = new TemporaryTransfer();
         Mockito.doNothing().when(repository).add(temporaryTransfer);

@@ -61,6 +61,20 @@ class TemporaryTransferControllerTest {
     }
 
     @Test
+    void findOne() throws Exception {
+        TemporaryTransfer temporaryTransfer = new TemporaryTransfer();
+        temporaryTransfer.setDescription("desc");
+        Mockito.doReturn(temporaryTransfer).when(service).findOne(Mockito.argThat(id -> id == 1));
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/api/temporary")
+                .queryParam("id", "1"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andReturn();
+
+        assertEquals(JsonMaker.toJsonString(temporaryTransfer), result.getResponse().getContentAsString());
+        Mockito.verify(service, Mockito.times(1)).findOne(Mockito.argThat(id -> id == 1L));
+    }
+
+    @Test
     void add() throws Exception {
         TemporaryTransfer temporaryTransfer = TestDomainDataCreator.temporaryCreate(1L, 2L, 3L, 23000, "desc", 2L);
 
