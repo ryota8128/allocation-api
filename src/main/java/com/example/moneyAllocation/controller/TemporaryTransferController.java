@@ -5,6 +5,7 @@ import com.example.moneyAllocation.domain.TemporaryTransferSelector;
 import com.example.moneyAllocation.service.TemporaryTransferService;
 import java.util.List;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/temporary")
+@CrossOrigin(origins = {"http://localhost:3000"})
 public class TemporaryTransferController {
     private final TemporaryTransferService service;
 
@@ -32,7 +34,7 @@ public class TemporaryTransferController {
     }
 
     @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
-    public TemporaryTransfer findOne(@RequestParam(required = true) Long id) {
+    public TemporaryTransfer findOne(@RequestParam Long id) {
         return service.findOne(id);
     }
 
