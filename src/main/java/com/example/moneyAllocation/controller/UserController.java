@@ -26,9 +26,9 @@ public class UserController {
     }
 
     @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
-    public User get(@RequestParam(required = true) String email) {
+    public User get(@RequestParam(required = true) String username) {
         UserSelector selector = new UserSelector();
-        selector.setEmail(email);
+        selector.setUsername(username);
         return service.find(selector);
     }
 
