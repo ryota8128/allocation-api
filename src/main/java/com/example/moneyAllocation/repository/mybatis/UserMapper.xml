@@ -6,7 +6,7 @@
 <mapper namespace="com.example.moneyAllocation.repository.mybatis.UserMapper">
     <resultMap id="User" type="com.example.moneyAllocation.domain.User">
         <id property="id" column="ID" />
-        <result property="name" column="NAME" />
+        <result property="username" column="USERNAME" />
         <result property="password" column="PASSWORD" />
         <result property="email" column="EMAIL" />
         <result property="administratorFlag" column="ADMINISTRATOR_FLAG" />
@@ -15,14 +15,14 @@
     <select id="find" resultMap="User">
         SELECT
         ID,
-        NAME,
+        USERNAME,
         PASSWORD,
         EMAIL,
         ADMINISTRATOR_FLAG
         FROM
         USER
         <where>
-            EMAIL = #{email}
+            USERNAME = #{username}
         </where>
     </select>
 
@@ -30,14 +30,14 @@
             keyProperty="id">
         INSERT INTO USER
         (
-        NAME,
+        USERNAME,
         PASSWORD,
         EMAIL,
         ADMINISTRATOR_FLAG
         )
         VALUES
         (
-        #{name},
+        #{username},
         #{password},
         #{email},
         #{administratorFlag}
@@ -47,7 +47,7 @@
     <update id="update" parameterType="com.example.moneyAllocation.domain.User">
         UPDATE USER
         SET
-        NAME = #{name},
+        USERNAME = #{username},
         PASSWORD = #{password},
         EMAIL = #{email},
         ADMINISTRATOR_FLAG = #{administratorFlag}
