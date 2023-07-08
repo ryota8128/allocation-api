@@ -1,8 +1,6 @@
 package com.example.moneyAllocation.domain;
 
 
-import com.example.moneyAllocation.security.LoginUser;
-
 public class User  {
     private Long id;
     private String username;
