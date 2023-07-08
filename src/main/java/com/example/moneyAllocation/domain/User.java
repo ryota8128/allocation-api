@@ -1,9 +1,12 @@
 package com.example.moneyAllocation.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class User  {
     private Long id;
     private String username;
+    @JsonIgnore
     private String password;
     private String email;
     private Boolean administratorFlag;
