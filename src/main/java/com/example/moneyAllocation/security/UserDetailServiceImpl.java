@@ -4,6 +4,7 @@ import com.example.moneyAllocation.domain.User;
 import com.example.moneyAllocation.domain.UserSelector;
 import com.example.moneyAllocation.repository.UserRepository;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -28,8 +29,9 @@ public class UserDetailServiceImpl implements UserDetailsService {
         } catch(Exception e) {
             throw new UsernameNotFoundException("User not found");
         }
-
-        return new LoginUser(user.getId(), user.getUsername(), user.getPassword(), user.getAdministratorFlag(), determineRoles(user.getAdministratorFlag()));
+        LoginUser loginUser = new LoginUser(user.getId(), user.getUsername(), user.getEmail(), user.getPassword(),
+                user.getAdministratorFlag());
+        return new LoginUserDetails(loginUser, determineRoles(user.getAdministratorFlag()));
     }
 
     private List<GrantedAuthority> determineRoles(boolean isAdmin) {
