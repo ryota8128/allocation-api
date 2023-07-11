@@ -2,9 +2,11 @@ package com.example.moneyAllocation.controller;
 
 import com.example.moneyAllocation.domain.Account;
 import com.example.moneyAllocation.domain.AccountSelector;
+import com.example.moneyAllocation.security.LoginUserDetails;
 import com.example.moneyAllocation.service.AccountService;
 import java.util.List;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,14 +29,14 @@ public class AccountController {
     }
 
     @GetMapping(value = "/list", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Account> find(@RequestParam(required = false) Long ownerId) {
+    public List<Account> find(@AuthenticationPrincipal LoginUserDetails authUser) {
         AccountSelector selector = new AccountSelector();
-        selector.setOwnerId(ownerId);
+        selector.setOwnerId(authUser.getLoginUser().id());
         return service.findList(selector);
     }
 
     @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Account findOne(@RequestParam(required = true) Long id) {
+    public Account findOne(@RequestParam Long id) {
         return service.findOne(id);
     }
 
