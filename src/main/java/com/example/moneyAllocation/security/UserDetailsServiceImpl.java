@@ -5,7 +5,6 @@ import com.example.moneyAllocation.domain.UserSelector;
 import com.example.moneyAllocation.repository.UserRepository;
 import java.util.List;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -37,20 +36,4 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         return isAdmin ? UserRole.ADMIN.getGrantedAuthority() : UserRole.USER.getGrantedAuthority();
     }
 
-    public enum UserRole {
-        ADMIN() {
-            @Override
-            public List<GrantedAuthority> getGrantedAuthority() {
-                return AuthorityUtils.createAuthorityList("ROLE_ADMIN", "ROLE_USER");
-            }
-        },
-        USER() {
-            @Override
-            public List<GrantedAuthority> getGrantedAuthority() {
-                return AuthorityUtils.createAuthorityList("ROLE_USER");
-            }
-        };
-
-        public abstract List<GrantedAuthority> getGrantedAuthority();
-    }
 }
