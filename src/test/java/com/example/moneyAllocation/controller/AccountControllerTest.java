@@ -2,6 +2,7 @@ package com.example.moneyAllocation.controller;
 
 import static org.junit.jupiter.api.Assertions.*;
 import com.example.moneyAllocation.domain.Account;
+import com.example.moneyAllocation.domain.AccountSelector;
 import com.example.moneyAllocation.repository.util.JsonMaker;
 import com.example.moneyAllocation.security.LoginUser;
 import com.example.moneyAllocation.security.LoginUserDetails;
@@ -19,7 +20,6 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -65,16 +65,21 @@ class AccountControllerTest {
     }
 
     @Test
-    void findOne() throws Exception {
-        Account account = new Account();
-        account.setName("ryota");
-        Mockito.doReturn(account).when(service).findOne(Mockito.argThat(argument -> argument == 1L));
+    void findOne() {
+        Account findResult = new Account();
+        findResult.setName("ryota");
 
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/api/account").queryParam("id", "1"))
-                .andExpect(MockMvcResultMatchers.status().isOk()).andReturn();
+        ArgumentMatcher<AccountSelector> matcher = argument -> {
+            assertEquals(1L, argument.getOwnerId());
+            assertEquals(2L, argument.getId());
+            return true;
+        };
+        Mockito.doReturn(findResult).when(service).findOne(Mockito.argThat(matcher));
 
-        assertEquals(JsonMaker.toJsonString(account), result.getResponse().getContentAsString());
-        Mockito.verify(service, Mockito.times(1)).findOne(Mockito.argThat(id -> id == 1L));
+        Account result = controller.findOne(loginUserDetails, 2L);
+
+        assertEquals(findResult, result);
+        Mockito.verify(service, Mockito.times(1)).findOne(Mockito.argThat(matcher));
     }
 
 

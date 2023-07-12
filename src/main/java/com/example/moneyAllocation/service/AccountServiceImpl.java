@@ -20,8 +20,8 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public Account findOne(Long id) {
-        return accountRepository.findOne(id);
+    public Account findOne(AccountSelector selector) {
+        return accountRepository.findOne(selector);
     }
 
     @Override

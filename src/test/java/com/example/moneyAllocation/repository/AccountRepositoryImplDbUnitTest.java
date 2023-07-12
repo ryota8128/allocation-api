@@ -76,12 +76,23 @@ public class AccountRepositoryImplDbUnitTest {
 
         @Test
         public void testFindOne() {
-            Account account = repository.findOne(1L);
+            AccountSelector selector = new AccountSelector();
+            selector.setOwnerId(1L);
+            selector.setId(1L);
+            Account account = repository.findOne(selector);
             assertEquals(1L, account.getId());
             assertEquals("三井", account.getName());
             assertEquals(9999, account.getNumFreeTransfer());
             assertEquals(150, account.getTransferFee());
             assertEquals(1L, account.getOwnerId());
+        }
+
+        @Test
+        public void testFindOneWhenNotExists() {
+            AccountSelector selector = new AccountSelector();
+            selector.setOwnerId(2L);
+            selector.setId(1L);
+            assertThrows(ResourceNotFoundException.class, () -> repository.findOne(selector));
         }
     }
 

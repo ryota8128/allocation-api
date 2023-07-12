@@ -7,7 +7,7 @@ import java.util.List;
 public interface AccountService {
     List<Account> findList(AccountSelector selector);
 
-    Account findOne(Long id);
+    Account findOne(AccountSelector selector);
 
     void add(Account account);
 
