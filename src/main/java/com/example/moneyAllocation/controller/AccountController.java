@@ -29,9 +29,9 @@ public class AccountController {
     }
 
     @GetMapping(value = "/list", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Account> find(@AuthenticationPrincipal LoginUserDetails authUser) {
+    public List<Account> find(@AuthenticationPrincipal LoginUserDetails loginUserDetails) {
         AccountSelector selector = new AccountSelector();
-        selector.setOwnerId(authUser.getLoginUser().id());
+        selector.setOwnerId(loginUserDetails.getLoginUser().id());
         return service.findList(selector);
     }
 
@@ -41,7 +41,8 @@ public class AccountController {
     }
 
     @PostMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
-    public void add(@RequestBody Account account) {
+    public void add(@AuthenticationPrincipal LoginUserDetails loginUserDetails, @RequestBody Account account) {
+        account.setOwnerId(loginUserDetails.getLoginUser().id());
         this.service.add(account);
     }
 

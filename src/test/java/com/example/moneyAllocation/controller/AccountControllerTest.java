@@ -79,23 +79,16 @@ class AccountControllerTest {
 
 
     @Test
-    void add() throws Exception {
+    void add() {
         Account account = new Account();
-        account.setTransferFee(1000);
         account.setName("test");
+        account.setNumFreeTransfer(3);
+        account.setTransferFee(100);
 
-        ArgumentMatcher<Account> matcher = argument -> {
-            assertEquals(1000, argument.getTransferFee());
-            assertEquals("test", argument.getName());
-            return true;
-        };
+        Mockito.doNothing().when(service).add(account);
+        controller.add(loginUserDetails, account);
 
-        Mockito.doNothing().when(service).add(Mockito.argThat(matcher));
-
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/account").contentType(MediaType.APPLICATION_JSON_VALUE)
-                .content(JsonMaker.toJsonString(account))).andExpect(MockMvcResultMatchers.status().isOk());
-
-        Mockito.verify(service, Mockito.times(1)).add(Mockito.argThat(matcher));
+        Mockito.verify(service, Mockito.times(1)).add(account);
     }
 
     @Test
