@@ -3,9 +3,11 @@ package com.example.moneyAllocation.controller;
 
 import com.example.moneyAllocation.domain.RegularTransfer;
 import com.example.moneyAllocation.domain.RegularTransferSelector;
+import com.example.moneyAllocation.security.LoginUserDetails;
 import com.example.moneyAllocation.service.RegularTransferService;
 import java.util.List;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,9 +29,9 @@ public class RegularTransferController {
     }
 
     @GetMapping(value = "/list", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<RegularTransfer> find(@RequestParam(required = false) Long userId) {
+    public List<RegularTransfer> find(@AuthenticationPrincipal LoginUserDetails loginUserDetails) {
         RegularTransferSelector selector = new RegularTransferSelector();
-        selector.setUserId(userId);
+        selector.setUserId(loginUserDetails.getLoginUser().id());
         return this.service.find(selector);
     }
 

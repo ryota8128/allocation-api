@@ -2,8 +2,10 @@ package com.example.moneyAllocation.controller;
 
 import static org.junit.jupiter.api.Assertions.*;
 import com.example.moneyAllocation.domain.RegularTransfer;
-import com.example.moneyAllocation.domain.RegularTransferSelector;
 import com.example.moneyAllocation.repository.util.JsonMaker;
+import com.example.moneyAllocation.security.LoginUser;
+import com.example.moneyAllocation.security.LoginUserDetails;
+import com.example.moneyAllocation.security.UserRole;
 import com.example.moneyAllocation.service.RegularTransferService;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,16 +29,20 @@ class RegularTransferControllerTest {
     RegularTransferService service;
 
     @InjectMocks
-    RegularTransferController target;
+    RegularTransferController controller;
 
     private MockMvc mockMvc;
 
     private AutoCloseable mocks;
 
+    private LoginUserDetails loginUserDetails;
+
     @BeforeEach
     public void before() {
         mocks = MockitoAnnotations.openMocks(this);
-        mockMvc = MockMvcBuilders.standaloneSetup(target).build();
+        mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
+        LoginUser loginUser = new LoginUser(1L, "test-user", "test@exampl.xx.xx", "test-encoded-password", false);
+        loginUserDetails = new LoginUserDetails(loginUser, UserRole.USER.getGrantedAuthority());
     }
 
     @AfterEach
@@ -45,21 +51,14 @@ class RegularTransferControllerTest {
     }
 
     @Test
-    void find() throws Exception {
-        List<RegularTransfer> regularTransferList = new ArrayList<>();
-        regularTransferList.add(new RegularTransfer());
-        RegularTransferSelector selector = new RegularTransferSelector();
+    void find() {
+        List<RegularTransfer> findResult = new ArrayList<>();
+        findResult.add(new RegularTransfer());
+        Mockito.doReturn(findResult).when(service).find(Mockito.argThat(arg -> arg.getUserId()==1L));
 
-        ArgumentMatcher<RegularTransferSelector> matcher = argument -> {
-            assertEquals(1L, argument.getUserId());
-            return true;
-        };
-        Mockito.doReturn(regularTransferList).when(service).find(Mockito.argThat(matcher));
-
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/api/regular/list").queryParam("userId", "1"))
-                .andExpect(MockMvcResultMatchers.status().isOk()).andReturn();
-        assertEquals(JsonMaker.toJsonString(regularTransferList), result.getResponse().getContentAsString());
-        Mockito.verify(service, Mockito.times(1)).find(Mockito.argThat(matcher));
+        List<RegularTransfer> result = controller.find(loginUserDetails);
+        assertEquals(findResult, result);
+        Mockito.verify(service, Mockito.times(1)).find(Mockito.argThat(arg -> arg.getUserId()==1L));
     }
 
     @Test
