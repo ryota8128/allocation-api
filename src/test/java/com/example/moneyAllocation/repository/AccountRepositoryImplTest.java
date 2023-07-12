@@ -1,6 +1,7 @@
 package com.example.moneyAllocation.repository;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertThrowsExactly;
 import com.example.moneyAllocation.domain.Account;
 import com.example.moneyAllocation.domain.AccountSelector;
@@ -54,11 +55,25 @@ class AccountRepositoryImplTest {
     @Test
     void findOne() {
         Account account = new Account();
-        Long id = 1L;
-        Mockito.doReturn(account).when(mapper).findOne(id);
-        Account result = repository.findOne(id);
+        AccountSelector selector = new AccountSelector();
+        selector.setId(1L);
+        selector.setOwnerId(1L);
+
+        Mockito.doReturn(account).when(mapper).findOne(selector);
+        Account result = repository.findOne(selector);
         assertEquals(account, result);
-        Mockito.verify(mapper, Mockito.times(1)).findOne(id);
+        Mockito.verify(mapper, Mockito.times(1)).findOne(selector);
+    }
+
+    @Test
+    void findOneNotExists() {
+        Account account = new Account();
+        AccountSelector selector = new AccountSelector();
+        selector.setId(1L);
+        selector.setOwnerId(1L);
+        Mockito.doReturn(null).when(mapper).findOne(selector);
+        assertThrows(ResourceNotFoundException.class, () -> repository.findOne(selector));
+        Mockito.verify(mapper, Mockito.times(1)).findOne(selector);
     }
 
     @Test
