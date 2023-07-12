@@ -2,6 +2,7 @@ package com.example.moneyAllocation.repository;
 
 import com.example.moneyAllocation.domain.RegularTransfer;
 import com.example.moneyAllocation.domain.RegularTransferSelector;
+import com.example.moneyAllocation.exception.ResourceNotFoundException;
 import com.example.moneyAllocation.repository.mybatis.RegularTransferMapper;
 import java.util.List;
 import org.apache.ibatis.session.SqlSession;

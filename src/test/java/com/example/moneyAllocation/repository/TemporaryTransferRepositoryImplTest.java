@@ -3,6 +3,7 @@ package com.example.moneyAllocation.repository;
 import static org.junit.jupiter.api.Assertions.*;
 import com.example.moneyAllocation.domain.TemporaryTransfer;
 import com.example.moneyAllocation.domain.TemporaryTransferSelector;
+import com.example.moneyAllocation.exception.ResourceNotFoundException;
 import com.example.moneyAllocation.repository.mybatis.TemporaryTransferMapper;
 import java.util.ArrayList;
 import java.util.List;
