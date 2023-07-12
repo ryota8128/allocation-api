@@ -48,13 +48,15 @@ class RegularTransferServiceImplTest {
 
     @Test
     void findOne() {
-        Long id = 1L;
+        RegularTransferSelector selector = new RegularTransferSelector();
+        selector.setId(1L);
+        selector.setUserId(1L);
         RegularTransfer regularTransfer = new RegularTransfer();
-        Mockito.doReturn(regularTransfer).when(repository).findOne(id);
+        Mockito.doReturn(regularTransfer).when(repository).findOne(selector);
 
-        RegularTransfer result = service.findOne(id);
+        RegularTransfer result = service.findOne(selector);
         assertEquals(regularTransfer, result);
-        Mockito.verify(repository, Mockito.times(1)).findOne(id);
+        Mockito.verify(repository, Mockito.times(1)).findOne(selector);
     }
 
     @Test

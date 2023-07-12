@@ -2,6 +2,7 @@ package com.example.moneyAllocation.repository;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import com.example.moneyAllocation.MoneyAllocationApplication;
 import com.example.moneyAllocation.domain.RegularTransfer;
 import com.example.moneyAllocation.domain.RegularTransferSelector;
@@ -79,7 +80,10 @@ public class RegularTransferRepositoryDbUnitTest {
 
         @Test
         public void testFindOne() {
-            RegularTransfer regularTransfer = repository.findOne(1L);
+            RegularTransferSelector selector = new RegularTransferSelector();
+            selector.setId(1L);
+            selector.setUserId(1L);
+            RegularTransfer regularTransfer = repository.findOne(selector);
             assertEquals(1L, regularTransfer.getId());
             assertEquals(1L, regularTransfer.getFromAccount());
             assertEquals(2L, regularTransfer.getToAccount());
@@ -87,6 +91,14 @@ public class RegularTransferRepositoryDbUnitTest {
             assertEquals(false, regularTransfer.getPercentage());
             assertEquals(30000, regularTransfer.getAmount());
             assertNull(regularTransfer.getRatio());
+        }
+
+        @Test
+        public void testFindOneNotExist() {
+            RegularTransferSelector selector = new RegularTransferSelector();
+            selector.setId(1L);
+            selector.setUserId(2L);
+            assertThrows(ResourceNotFoundException.class, () -> repository.findOne(selector));
         }
     }
 
@@ -106,7 +118,7 @@ public class RegularTransferRepositoryDbUnitTest {
             RegularTransfer regularTransfer =
                     TestDomainDataCreator.regularCreate(4L, 3L, 1L, false, 10000, null, "desc4", 1L);
             repository.add(regularTransfer);
-            DbUnitUtil.assertMutateResult(source, "REGULAR_TRANSFER", insertExpectedData, Arrays.asList());
+            DbUnitUtil.assertMutateResult(source, "REGULAR_TRANSFER", insertExpectedData, List.of());
         }
     }
 
@@ -127,7 +139,7 @@ public class RegularTransferRepositoryDbUnitTest {
                     TestDomainDataCreator.regularCreate(3L, 4L, 5L, Boolean.TRUE, null, (float) 0.125, "sample", 2L);
 
             repository.set(regularTransfer);
-            DbUnitUtil.assertMutateResult(source, "REGULAR_TRANSFER", updateExpectedData, Arrays.asList());
+            DbUnitUtil.assertMutateResult(source, "REGULAR_TRANSFER", updateExpectedData, List.of());
         }
     }
 
@@ -145,7 +157,7 @@ public class RegularTransferRepositoryDbUnitTest {
         @Test
         public void testDelete() {
             repository.delete(3L);
-            DbUnitUtil.assertMutateResult(source, "REGULAR_TRANSFER", deleteExpectedData, Arrays.asList());
+            DbUnitUtil.assertMutateResult(source, "REGULAR_TRANSFER", deleteExpectedData, List.of());
         }
     }
 
