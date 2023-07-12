@@ -28,6 +28,6 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler
     public ResponseEntity<Object> handleResourceValidationException(
             ResourceValidationException exception, WebRequest request) {
-        return super.handleExceptionInternal(exception, "入力データの形式に誤りがあります", HttpHeaders.EMPTY, HttpStatus.BAD_REQUEST, request);
+        return super.handleExceptionInternal(exception, exception.getMessage(), HttpHeaders.EMPTY, HttpStatus.BAD_REQUEST, request);
     }
 }
