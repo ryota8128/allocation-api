@@ -1,6 +1,7 @@
 package com.example.moneyAllocation.controller;
 
-import com.example.moneyAllocation.repository.ResourceNotFoundException;
+import com.example.moneyAllocation.exception.ResourceNotFoundException;
+import com.example.moneyAllocation.exception.ResourceValidationException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -24,6 +25,9 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         return super.handleExceptionInternal(exception, "該当するリソースが見つかりません", HttpHeaders.EMPTY, HttpStatus.NOT_FOUND, request);
     }
 
-
-
+    @ExceptionHandler
+    public ResponseEntity<Object> handleResourceValidationException(
+            ResourceValidationException exception, WebRequest request) {
+        return super.handleExceptionInternal(exception, "入力データの形式に誤りがあります", HttpHeaders.EMPTY, HttpStatus.BAD_REQUEST, request);
+    }
 }

@@ -1,4 +1,4 @@
-package com.example.moneyAllocation.repository;
+package com.example.moneyAllocation.exception;
 
 public class ResourceNotFoundException extends RuntimeException {
     public ResourceNotFoundException(String message) {
