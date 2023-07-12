@@ -21,8 +21,8 @@ public class AccountRepositoryImpl implements AccountRepository {
     }
 
     @Override
-    public Account findOne(Long id) {
-        Account account = this.sqlSession.getMapper(AccountMapper.class).findOne(id);
+    public Account findOne(AccountSelector selector) {
+        Account account = this.sqlSession.getMapper(AccountMapper.class).findOne(selector);
         if (account == null) {
             throw new ResourceNotFoundException("Account not found");
         }

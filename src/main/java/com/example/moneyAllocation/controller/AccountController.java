@@ -36,8 +36,11 @@ public class AccountController {
     }
 
     @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Account findOne(@RequestParam Long id) {
-        return service.findOne(id);
+    public Account findOne(@AuthenticationPrincipal LoginUserDetails loginUserDetails, @RequestParam Long id) {
+        AccountSelector selector = new AccountSelector();
+        selector.setOwnerId(loginUserDetails.getLoginUser().id());
+        selector.setId(id);
+        return service.findOne(selector);
     }
 
     @PostMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)

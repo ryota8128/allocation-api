@@ -10,7 +10,7 @@ import org.apache.ibatis.annotations.Param;
 public interface AccountMapper {
     List<Account> find(AccountSelector selector);
 
-    Account findOne(@Param("id") Long id);
+    Account findOne(AccountSelector selector);
 
     int add(Account account);
 
