@@ -21,8 +21,8 @@ public class RegularTransferRepositoryImpl implements RegularTransferRepository{
     }
 
     @Override
-    public RegularTransfer findOne(Long id) {
-        RegularTransfer regularTransfer = this.sqlSession.getMapper(RegularTransferMapper.class).findOne(id);
+    public RegularTransfer findOne(RegularTransferSelector selector) {
+        RegularTransfer regularTransfer = this.sqlSession.getMapper(RegularTransferMapper.class).findOne(selector);
         if (regularTransfer == null) {
             throw new ResourceNotFoundException("RegularTransfer not found");
         }

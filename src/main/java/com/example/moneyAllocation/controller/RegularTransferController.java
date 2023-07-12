@@ -36,8 +36,11 @@ public class RegularTransferController {
     }
 
     @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
-    public RegularTransfer findOne(@RequestParam(required = true) Long id) {
-        return service.findOne(id);
+    public RegularTransfer findOne(@AuthenticationPrincipal LoginUserDetails loginUserDetails, @RequestParam Long id) {
+        RegularTransferSelector selector = new RegularTransferSelector();
+        selector.setId(id);
+        selector.setUserId(loginUserDetails.getLoginUser().id());
+        return service.findOne(selector);
     }
 
     @PostMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
