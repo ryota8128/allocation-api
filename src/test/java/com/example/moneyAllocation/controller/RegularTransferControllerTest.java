@@ -3,7 +3,6 @@ package com.example.moneyAllocation.controller;
 import static org.junit.jupiter.api.Assertions.*;
 import com.example.moneyAllocation.domain.RegularTransfer;
 import com.example.moneyAllocation.domain.RegularTransferSelector;
-import com.example.moneyAllocation.repository.util.JsonMaker;
 import com.example.moneyAllocation.security.LoginUser;
 import com.example.moneyAllocation.security.LoginUserDetails;
 import com.example.moneyAllocation.security.UserRole;
@@ -18,7 +17,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -89,20 +87,19 @@ class RegularTransferControllerTest {
     }
 
     @Test
-    void update() throws Exception {
+    void update() {
         RegularTransfer regularTransfer = new RegularTransfer();
         regularTransfer.setFromAccount(3L);
         regularTransfer.setDescription("desc");
-
         ArgumentMatcher<RegularTransfer> matcher = arg -> {
+            assertEquals(1L, arg.getUserId());
             assertEquals(3L, arg.getFromAccount());
             assertEquals("desc", arg.getDescription());
             return true;
         };
 
-        Mockito.doNothing().when(service).set(Mockito.argThat(matcher));
-        mockMvc.perform(MockMvcRequestBuilders.patch("/api/regular").contentType(MediaType.APPLICATION_JSON_VALUE)
-                .content(JsonMaker.toJsonString(regularTransfer)));
+        Mockito.doNothing().when(service).set(regularTransfer);
+        controller.update(loginUserDetails, regularTransfer);
         Mockito.verify(service, Mockito.times(1)).set(Mockito.argThat(matcher));
     }
 

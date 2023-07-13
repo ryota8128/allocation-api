@@ -47,7 +47,9 @@
         FROM REGULAR_TRANSFER
         <where>
             ID = #{id}
-            AND USER_ID = #{userId}
+            <if test="userId != null">
+                AND USER_ID = #{userId}
+            </if>
         </where>
     </select>
 

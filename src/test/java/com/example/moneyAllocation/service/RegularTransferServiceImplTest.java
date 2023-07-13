@@ -77,7 +77,6 @@ class RegularTransferServiceImplTest {
         regularTransfer.setFromAccount(1L);
         regularTransfer.setToAccount(2L);
         regularTransfer.setUserId(1L);
-        regularTransfer.setId(5L);
 
         ArgumentMatcher<AccountSelector> matcher = arg -> {
             assertEquals(1L, arg.getOwnerId());
@@ -102,7 +101,7 @@ class RegularTransferServiceImplTest {
         regularTransfer.setFromAccount(1L);
         regularTransfer.setToAccount(2L);
         regularTransfer.setUserId(1L);
-        regularTransfer.setId(5L);
+
 
         ArgumentMatcher<AccountSelector> matcher = arg -> {
             assertEquals(1L, arg.getOwnerId());
@@ -174,11 +173,163 @@ class RegularTransferServiceImplTest {
 
 
     @Test
-    void set() {
+    void setSuccessWithRatio() {
+
         RegularTransfer regularTransfer = new RegularTransfer();
+        regularTransfer.setPercentage(true);
+        regularTransfer.setRatio(0F);
+        regularTransfer.setFromAccount(1L);
+        regularTransfer.setToAccount(2L);
+        regularTransfer.setUserId(1L);
+        regularTransfer.setId(5L);
+
+        RegularTransfer findRegular = new RegularTransfer();
+        findRegular.setUserId(1L);
+
+        ArgumentMatcher<AccountSelector> accountMatcher = arg -> {
+            assertEquals(1L, arg.getOwnerId());
+            assertTrue(arg.getId() == 1L || arg.getId() == 2L);
+            return true;
+        };
+
+        ArgumentMatcher<RegularTransferSelector> regularMatcher = arg -> {
+            assertEquals(5L, arg.getId());
+            return true;
+        };
+
+        Mockito.doReturn(new Account()).when(accountRepository).findOne(Mockito.argThat(accountMatcher));
+        Mockito.doReturn(findRegular).when(regularTransferRepository).findOne(Mockito.argThat(regularMatcher));
         Mockito.doNothing().when(regularTransferRepository).set(regularTransfer);
         service.set(regularTransfer);
+
+        Mockito.verify(accountRepository, Mockito.times(2)).findOne(Mockito.argThat(accountMatcher));
+        Mockito.verify(regularTransferRepository, Mockito.times(1)).findOne(Mockito.argThat(regularMatcher));
         Mockito.verify(regularTransferRepository, Mockito.times(1)).set(regularTransfer);
+    }
+
+    @Test
+    void setSuccessWithAmount() {
+
+        RegularTransfer regularTransfer = new RegularTransfer();
+        regularTransfer.setPercentage(false);
+        regularTransfer.setAmount(100);
+        regularTransfer.setFromAccount(1L);
+        regularTransfer.setToAccount(2L);
+        regularTransfer.setUserId(1L);
+        regularTransfer.setId(5L);
+
+        RegularTransfer findRegular = new RegularTransfer();
+        findRegular.setUserId(1L);
+
+        ArgumentMatcher<AccountSelector> accountMatcher = arg -> {
+            assertEquals(1L, arg.getOwnerId());
+            assertTrue(arg.getId() == 1L || arg.getId() == 2L);
+            return true;
+        };
+
+        ArgumentMatcher<RegularTransferSelector> regularMatcher = arg -> {
+            assertEquals(5L, arg.getId());
+            return true;
+        };
+
+        Mockito.doReturn(new Account()).when(accountRepository).findOne(Mockito.argThat(accountMatcher));
+        Mockito.doReturn(findRegular).when(regularTransferRepository).findOne(Mockito.argThat(regularMatcher));
+
+        Mockito.doNothing().when(regularTransferRepository).set(regularTransfer);
+        service.set(regularTransfer);
+
+        Mockito.verify(accountRepository, Mockito.times(2)).findOne(Mockito.argThat(accountMatcher));
+        Mockito.verify(regularTransferRepository, Mockito.times(1)).findOne(Mockito.argThat(regularMatcher));
+        Mockito.verify(regularTransferRepository, Mockito.times(1)).set(regularTransfer);
+    }
+
+    // 別のuserIdを持つregularTransferがとれた場合はエラーになる
+    @Test
+    void setIllegalRegularTransferId() {
+        RegularTransfer regularTransfer = new RegularTransfer();
+        regularTransfer.setPercentage(true);
+        regularTransfer.setRatio(0.1F);
+        regularTransfer.setFromAccount(1L);
+        regularTransfer.setToAccount(2L);
+        regularTransfer.setUserId(1L);
+        regularTransfer.setId(5L);
+
+        RegularTransfer findRegular = new RegularTransfer();
+        findRegular.setUserId(2L);
+
+        ArgumentMatcher<AccountSelector> accountMatcher = arg -> {
+            assertEquals(1L, arg.getOwnerId());
+            assertTrue(arg.getId() == 1L || arg.getId() == 2L);
+            return true;
+        };
+
+        ArgumentMatcher<RegularTransferSelector> regularMatcher = arg -> {
+            assertEquals(5L, arg.getId());
+            return true;
+        };
+
+        // 別のuserIdを持つregularTransferがとれた場合
+        Mockito.doReturn(findRegular).when(regularTransferRepository).findOne(Mockito.argThat(regularMatcher));
+        Mockito.doReturn(new Account()).when(accountRepository).findOne(Mockito.argThat(accountMatcher));
+
+        assertThrows(ResourceValidationException.class, () -> service.set(regularTransfer));
+        Mockito.verify(accountRepository, Mockito.times(2)).findOne(Mockito.argThat(accountMatcher));
+        Mockito.verify(regularTransferRepository, Mockito.times(1)).findOne(Mockito.argThat(regularMatcher));
+
+    }
+
+    @Test
+    void setWhenIllegalRatioNull() {
+        RegularTransfer regularTransfer = new RegularTransfer();
+        regularTransfer.setPercentage(true);
+        regularTransfer.setRatio(null);
+
+        assertThrows(ResourceValidationException.class, () -> service.set(regularTransfer));
+    }
+
+    @Test
+    void setWhenIllegalIllegalAmountNull() {
+        RegularTransfer regularTransfer = new RegularTransfer();
+        regularTransfer.setPercentage(false);
+        regularTransfer.setAmount(null);
+
+        assertThrows(ResourceValidationException.class, () -> service.set(regularTransfer));
+    }
+
+    @Test
+    void setWhenRatioUnder0() {
+        RegularTransfer regularTransfer = new RegularTransfer();
+        regularTransfer.setPercentage(true);
+        regularTransfer.setRatio(-0.1F);
+
+        assertThrows(ResourceValidationException.class, () -> service.set(regularTransfer));
+    }
+
+    @Test
+    void setWhenRatioOver1() {
+        RegularTransfer regularTransfer = new RegularTransfer();
+        regularTransfer.setPercentage(true);
+        regularTransfer.setRatio(1.1F);
+
+        assertThrows(ResourceValidationException.class, () -> service.set(regularTransfer));
+    }
+
+    @Test
+    void setWhenIllegalAccount() {
+        RegularTransfer regularTransfer = new RegularTransfer();
+        regularTransfer.setPercentage(true);
+        regularTransfer.setRatio(1F);
+        regularTransfer.setFromAccount(1L);
+        regularTransfer.setToAccount(2L);
+        regularTransfer.setUserId(5L);
+
+        ArgumentMatcher<AccountSelector> matcher = arg -> {
+            assertEquals(5L, arg.getOwnerId());
+            return true;
+        };
+
+        Mockito.doThrow(ResourceNotFoundException.class).when(accountRepository).findOne(Mockito.argThat(matcher));
+        assertThrows(ResourceValidationException.class, () -> service.set(regularTransfer));
     }
 
     @Test

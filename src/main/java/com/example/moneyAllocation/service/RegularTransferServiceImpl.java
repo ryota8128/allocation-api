@@ -13,23 +13,23 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class RegularTransferServiceImpl implements RegularTransferService {
-    private final RegularTransferRepository transferRepository;
+    private final RegularTransferRepository regularTransferRepository;
     private final AccountRepository accountRepository;
 
-    public RegularTransferServiceImpl(RegularTransferRepository transferRepository,
+    public RegularTransferServiceImpl(RegularTransferRepository regularTransferRepository,
                                       AccountRepository accountRepository) {
-        this.transferRepository = transferRepository;
+        this.regularTransferRepository = regularTransferRepository;
         this.accountRepository = accountRepository;
     }
 
     @Override
     public List<RegularTransfer> find(RegularTransferSelector selector) {
-        return this.transferRepository.find(selector);
+        return this.regularTransferRepository.find(selector);
     }
 
     @Override
     public RegularTransfer findOne(RegularTransferSelector selector) {
-        return transferRepository.findOne(selector);
+        return regularTransferRepository.findOne(selector);
     }
 
     @Override
@@ -63,7 +63,7 @@ public class RegularTransferServiceImpl implements RegularTransferService {
             }
         }
 
-        transferRepository.add(regularTransfer);
+        regularTransferRepository.add(regularTransfer);
     }
 
     @Override
@@ -97,11 +97,22 @@ public class RegularTransferServiceImpl implements RegularTransferService {
             }
         }
 
-        transferRepository.set(regularTransfer);
+        // すでにデータベースにあるregularTransfer.idのデータのuserIdがregularTransfer.userIdと一致してるかチェック
+        try {
+            RegularTransferSelector selector = new RegularTransferSelector();
+            selector.setId(regularTransfer.getId());
+            if (!regularTransfer.getUserId().equals(regularTransferRepository.findOne(selector).getUserId())) {
+                throw new Exception("存在しない定期振込が指定されました");
+            }
+        } catch(Exception e) {
+            throw  new ResourceValidationException("存在しない定期振り込みが指定されました");
+        }
+
+        regularTransferRepository.set(regularTransfer);
     }
 
     @Override
     public void delete(Long id) {
-        transferRepository.delete(id);
+        regularTransferRepository.delete(id);
     }
 }
