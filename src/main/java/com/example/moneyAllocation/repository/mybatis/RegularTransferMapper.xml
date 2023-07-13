@@ -91,11 +91,14 @@
             AMOUNT = #{amount}
         </if>
         WHERE
-        ID = #{id};
+        ID = #{id}
     </update>
 
     <delete id="delete" parameterType="Long">
         DELETE FROM REGULAR_TRANSFER
-        WHERE ID = #{id};
+        <where>
+            ID = #{id}
+            AND USER_ID = #{userId}
+        </where>
     </delete>
 </mapper>

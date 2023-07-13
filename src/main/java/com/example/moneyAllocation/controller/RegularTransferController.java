@@ -58,8 +58,11 @@ public class RegularTransferController {
     }
 
     @DeleteMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
-    public void delete(@RequestParam("id") Long deleteId) {
-        service.delete(deleteId);
+    public void delete(@AuthenticationPrincipal LoginUserDetails loginUserDetails, @RequestParam("id") Long deleteId) {
+        RegularTransferSelector selector = new RegularTransferSelector();
+        selector.setUserId(loginUserDetails.getLoginUser().id());
+        selector.setId(deleteId);
+        service.delete(selector);
     }
 
 }

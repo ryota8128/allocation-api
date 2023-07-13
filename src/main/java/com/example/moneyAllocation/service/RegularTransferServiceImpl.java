@@ -112,7 +112,7 @@ public class RegularTransferServiceImpl implements RegularTransferService {
     }
 
     @Override
-    public void delete(Long id) {
-        regularTransferRepository.delete(id);
+    public void delete(RegularTransferSelector selector) {
+        regularTransferRepository.delete(selector);
     }
 }

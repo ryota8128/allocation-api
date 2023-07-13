@@ -12,5 +12,5 @@ public interface RegularTransferService {
 
     void set(RegularTransfer regularTransfer);
 
-    void delete(Long id);
+    void delete(RegularTransferSelector selector);
 }

@@ -48,8 +48,8 @@ public class RegularTransferRepositoryImpl implements RegularTransferRepository{
     }
 
     @Override
-    public void delete(Long id) {
-        int affected = this.sqlSession.getMapper(RegularTransferMapper.class).delete(id);
+    public void delete(RegularTransferSelector selector) {
+        int affected = this.sqlSession.getMapper(RegularTransferMapper.class).delete(selector);
         if (affected != 1) {
             throw new ResourceNotFoundException("RegularTransfer not found");
         }
