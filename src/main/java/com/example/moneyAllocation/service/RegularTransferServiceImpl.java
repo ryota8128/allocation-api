@@ -93,7 +93,7 @@ public class RegularTransferServiceImpl implements RegularTransferService {
                 // accountIdとOwnerIdを指定して取得できない口座がある場合は例外をスロー
                 accountRepository.findOne(selector);
             } catch (ResourceNotFoundException e) {
-                throw new ResourceValidationException("存在しない口座が指定されました");
+                throw new ResourceValidationException("存在しない定期振込が指定されました");
             }
         }
 
