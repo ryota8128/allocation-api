@@ -45,11 +45,11 @@ class RegularTransferControllerTest {
     void find() {
         List<RegularTransfer> findResult = new ArrayList<>();
         findResult.add(new RegularTransfer());
-        Mockito.doReturn(findResult).when(service).find(Mockito.argThat(arg -> arg.getUserId()==1L));
+        Mockito.doReturn(findResult).when(service).find(Mockito.argThat(arg -> arg.getUserId() == 1L));
 
         List<RegularTransfer> result = controller.find(loginUserDetails);
         assertEquals(findResult, result);
-        Mockito.verify(service, Mockito.times(1)).find(Mockito.argThat(arg -> arg.getUserId()==1L));
+        Mockito.verify(service, Mockito.times(1)).find(Mockito.argThat(arg -> arg.getUserId() == 1L));
     }
 
     @Test
@@ -63,7 +63,7 @@ class RegularTransferControllerTest {
         };
         Mockito.doReturn(regularTransfer).when(service).findOne(Mockito.argThat(matcher));
 
-        RegularTransfer result =controller.findOne(loginUserDetails, 1L);
+        RegularTransfer result = controller.findOne(loginUserDetails, 1L);
         assertEquals(regularTransfer, result);
         Mockito.verify(service, Mockito.times(1)).findOne(Mockito.argThat(matcher));
     }
