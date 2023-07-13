@@ -68,6 +68,35 @@ public class RegularTransferServiceImpl implements RegularTransferService {
 
     @Override
     public void set(RegularTransfer regularTransfer) {
+        // percentのboolによってamountかratioが必須
+        if (regularTransfer.getPercentage()) {
+            if (regularTransfer.getRatio() == null) {
+                throw new ResourceValidationException("ratioがnullになっています");
+            }
+
+            float ratio = regularTransfer.getRatio();
+            if (ratio < 0 || ratio > 1) {
+                throw new ResourceValidationException("ratioは0以上1以下で入力してください");
+            }
+        } else {
+            if (regularTransfer.getAmount() == null) {
+                throw new ResourceValidationException("amountがnullになっています");
+            }
+        }
+
+        // fromAccountとtoAccountのownerIdはログインユーザのIDと一致してる必要あり
+        for (Long accountId : Arrays.asList(regularTransfer.getFromAccount(), regularTransfer.getToAccount())) {
+            AccountSelector selector = new AccountSelector();
+            selector.setId(accountId);
+            selector.setOwnerId(regularTransfer.getUserId());
+            try {
+                // accountIdとOwnerIdを指定して取得できない口座がある場合は例外をスロー
+                accountRepository.findOne(selector);
+            } catch (ResourceNotFoundException e) {
+                throw new ResourceValidationException("存在しない口座が指定されました");
+            }
+        }
+
         transferRepository.set(regularTransfer);
     }
 

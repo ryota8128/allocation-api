@@ -44,13 +44,16 @@ public class RegularTransferController {
     }
 
     @PostMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
-    public void add(@AuthenticationPrincipal LoginUserDetails loginUserDetails, @RequestBody RegularTransfer regularTransfer) {
+    public void add(@AuthenticationPrincipal LoginUserDetails loginUserDetails,
+                    @RequestBody RegularTransfer regularTransfer) {
         regularTransfer.setUserId(loginUserDetails.getLoginUser().id());
         this.service.add(regularTransfer);
     }
 
     @PatchMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
-    public void update(@RequestBody RegularTransfer regularTransfer) {
+    public void update(@AuthenticationPrincipal LoginUserDetails loginUserDetails,
+                       @RequestBody RegularTransfer regularTransfer) {
+        regularTransfer.setUserId(loginUserDetails.getLoginUser().id());
         service.set(regularTransfer);
     }
 
@@ -58,6 +61,5 @@ public class RegularTransferController {
     public void delete(@RequestParam("id") Long deleteId) {
         service.delete(deleteId);
     }
-
 
 }
