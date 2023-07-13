@@ -2,6 +2,7 @@ package com.example.moneyAllocation.repository;
 
 import com.example.moneyAllocation.domain.User;
 import com.example.moneyAllocation.domain.UserSelector;
+import com.example.moneyAllocation.exception.ResourceNotFoundException;
 import com.example.moneyAllocation.repository.mybatis.UserMapper;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;

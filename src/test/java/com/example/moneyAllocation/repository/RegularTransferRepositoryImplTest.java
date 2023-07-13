@@ -20,13 +20,11 @@ class RegularTransferRepositoryImplTest {
     @Mock
     RegularTransferMapper mapper;
 
-    private AutoCloseable mocks;
-
     private RegularTransferRepository repository;
 
     @BeforeEach
     public void before() {
-        mocks = MockitoAnnotations.openMocks(this);
+        MockitoAnnotations.openMocks(this);
         Mockito.doReturn(mapper).when(sqlSession).getMapper(RegularTransferMapper.class);
         repository = new RegularTransferRepositoryImpl(sqlSession);
     }
@@ -51,12 +49,15 @@ class RegularTransferRepositoryImplTest {
 
     @Test
     void findOne() {
-        Long id = 1L;
         RegularTransfer regularTransfer = new RegularTransfer();
-        Mockito.doReturn(regularTransfer).when(mapper).findOne(id);
-        RegularTransfer result = repository.findOne(id);
+        RegularTransferSelector selector = new RegularTransferSelector();
+        selector.setId(1L);
+        selector.setUserId(1L);
+
+        Mockito.doReturn(regularTransfer).when(mapper).findOne(selector);
+        RegularTransfer result = repository.findOne(selector);
         assertEquals(regularTransfer, result);
-        Mockito.verify(mapper, Mockito.times(1)).findOne(id);
+        Mockito.verify(mapper, Mockito.times(1)).findOne(selector);
     }
 
     @Test
@@ -93,18 +94,16 @@ class RegularTransferRepositoryImplTest {
 
     @Test
     void delete() {
-        RegularTransfer regularTransfer = new RegularTransfer();
-        Long id = 1L;
-        Mockito.doReturn(1).when(mapper).delete(id);
-        repository.delete(id);
-        Mockito.verify(mapper, Mockito.times(1)).delete(id);
+        RegularTransferSelector selector = new RegularTransferSelector();
+        Mockito.doReturn(1).when(mapper).delete(selector);
+        repository.delete(selector);
+        Mockito.verify(mapper, Mockito.times(1)).delete(selector);
     }
 
     @Test
     void deleteFail() {
-        Long id = 1L;
-        Mockito.doReturn(0).when(mapper).delete(id);
-
-        assertThrows(RuntimeException.class, () -> repository.delete(id));
+        RegularTransferSelector selector = new RegularTransferSelector();
+        Mockito.doReturn(0).when(mapper).delete(selector);
+        assertThrows(RuntimeException.class, () -> repository.delete(selector));
     }
 }

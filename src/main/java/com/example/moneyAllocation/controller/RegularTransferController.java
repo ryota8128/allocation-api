@@ -3,9 +3,11 @@ package com.example.moneyAllocation.controller;
 
 import com.example.moneyAllocation.domain.RegularTransfer;
 import com.example.moneyAllocation.domain.RegularTransferSelector;
+import com.example.moneyAllocation.security.LoginUserDetails;
 import com.example.moneyAllocation.service.RegularTransferService;
 import java.util.List;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,31 +29,40 @@ public class RegularTransferController {
     }
 
     @GetMapping(value = "/list", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<RegularTransfer> find(@RequestParam(required = false) Long userId) {
+    public List<RegularTransfer> find(@AuthenticationPrincipal LoginUserDetails loginUserDetails) {
         RegularTransferSelector selector = new RegularTransferSelector();
-        selector.setUserId(userId);
+        selector.setUserId(loginUserDetails.getLoginUser().id());
         return this.service.find(selector);
     }
 
     @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
-    public RegularTransfer findOne(@RequestParam(required = true) Long id) {
-        return service.findOne(id);
+    public RegularTransfer findOne(@AuthenticationPrincipal LoginUserDetails loginUserDetails, @RequestParam Long id) {
+        RegularTransferSelector selector = new RegularTransferSelector();
+        selector.setId(id);
+        selector.setUserId(loginUserDetails.getLoginUser().id());
+        return service.findOne(selector);
     }
 
     @PostMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
-    public void add(@RequestBody RegularTransfer regularTransfer) {
+    public void add(@AuthenticationPrincipal LoginUserDetails loginUserDetails,
+                    @RequestBody RegularTransfer regularTransfer) {
+        regularTransfer.setUserId(loginUserDetails.getLoginUser().id());
         this.service.add(regularTransfer);
     }
 
     @PatchMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
-    public void update(@RequestBody RegularTransfer regularTransfer) {
+    public void update(@AuthenticationPrincipal LoginUserDetails loginUserDetails,
+                       @RequestBody RegularTransfer regularTransfer) {
+        regularTransfer.setUserId(loginUserDetails.getLoginUser().id());
         service.set(regularTransfer);
     }
 
     @DeleteMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
-    public void delete(@RequestParam("id") Long deleteId) {
-        service.delete(deleteId);
+    public void delete(@AuthenticationPrincipal LoginUserDetails loginUserDetails, @RequestParam("id") Long deleteId) {
+        RegularTransferSelector selector = new RegularTransferSelector();
+        selector.setUserId(loginUserDetails.getLoginUser().id());
+        selector.setId(deleteId);
+        service.delete(selector);
     }
-
 
 }
