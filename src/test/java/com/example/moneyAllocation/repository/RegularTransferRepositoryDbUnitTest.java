@@ -156,8 +156,19 @@ public class RegularTransferRepositoryDbUnitTest {
 
         @Test
         public void testDelete() {
-            repository.delete(3L);
+            RegularTransferSelector selector = new RegularTransferSelector();
+            selector.setId(3L);
+            selector.setUserId(2L);
+            repository.delete(selector);
             DbUnitUtil.assertMutateResult(source, "REGULAR_TRANSFER", deleteExpectedData, List.of());
+        }
+
+        @Test
+        public void testFailDelete() {
+            RegularTransferSelector selector = new RegularTransferSelector();
+            selector.setId(3L);
+            selector.setUserId(1L);
+            assertThrows(ResourceNotFoundException.class, () -> repository.delete(selector));
         }
     }
 

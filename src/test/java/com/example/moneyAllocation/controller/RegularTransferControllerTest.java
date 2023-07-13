@@ -17,9 +17,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 class RegularTransferControllerTest {
     @Mock
@@ -28,8 +25,6 @@ class RegularTransferControllerTest {
     @InjectMocks
     RegularTransferController controller;
 
-    private MockMvc mockMvc;
-
     private AutoCloseable mocks;
 
     private LoginUserDetails loginUserDetails;
@@ -37,7 +32,6 @@ class RegularTransferControllerTest {
     @BeforeEach
     public void before() {
         mocks = MockitoAnnotations.openMocks(this);
-        mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
         LoginUser loginUser = new LoginUser(1L, "test-user", "test@exampl.xx.xx", "test-encoded-password", false);
         loginUserDetails = new LoginUserDetails(loginUser, UserRole.USER.getGrantedAuthority());
     }
@@ -104,10 +98,15 @@ class RegularTransferControllerTest {
     }
 
     @Test
-    void delete() throws Exception {
-        ArgumentMatcher<Long> matcher = arg -> arg == 2L;
+    void delete() {
+        ArgumentMatcher<RegularTransferSelector> matcher = arg -> {
+            assertEquals(3L, arg.getId());
+            assertEquals(1L, arg.getUserId());
+            return true;
+        };
+
         Mockito.doNothing().when(service).delete(Mockito.argThat(matcher));
-        mockMvc.perform(MockMvcRequestBuilders.delete("/api/regular").queryParam("id", "2"));
+        controller.delete(loginUserDetails, 3L);
         Mockito.verify(service, Mockito.times(1)).delete(Mockito.argThat(matcher));
     }
 

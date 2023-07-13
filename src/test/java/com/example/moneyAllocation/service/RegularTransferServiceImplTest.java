@@ -334,10 +334,10 @@ class RegularTransferServiceImplTest {
 
     @Test
     void delete() {
-        Long id = 1L;
-        Mockito.doNothing().when(regularTransferRepository).delete(id);
-        service.delete(id);
-        Mockito.verify(regularTransferRepository, Mockito.times(1)).delete(id);
+        RegularTransferSelector selector = new RegularTransferSelector();
+        Mockito.doNothing().when(regularTransferRepository).delete(selector);
+        service.delete(selector);
+        Mockito.verify(regularTransferRepository, Mockito.times(1)).delete(selector);
     }
 
 }
