@@ -77,21 +77,15 @@ class RegularTransferControllerTest {
     }
 
     @Test
-    void add() throws Exception {
+    void add() {
 
         RegularTransfer regularTransfer = new RegularTransfer();
         regularTransfer.setId(1L);
         regularTransfer.setAmount(30000);
 
-        ArgumentMatcher<RegularTransfer> matcher = argument -> {
-            assertEquals(1L, argument.getId());
-            assertEquals(30000, argument.getAmount());
-            return true;
-        };
-
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/regular").contentType(MediaType.APPLICATION_JSON_VALUE)
-                .content(JsonMaker.toJsonString(regularTransfer)));
-        Mockito.verify(service, Mockito.times(1)).add(Mockito.argThat(matcher));
+        Mockito.doNothing().when(service).add(regularTransfer);
+        controller.add(loginUserDetails, regularTransfer);
+        Mockito.verify(service, Mockito.times(1)).add(regularTransfer);
     }
 
     @Test
