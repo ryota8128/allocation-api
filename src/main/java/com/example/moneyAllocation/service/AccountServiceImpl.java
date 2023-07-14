@@ -35,7 +35,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public void delete(Long id) {
-        accountRepository.delete(id);
+    public void delete(AccountSelector selector) {
+        accountRepository.delete(selector);
     }
 }

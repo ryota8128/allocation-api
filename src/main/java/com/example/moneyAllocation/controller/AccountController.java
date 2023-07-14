@@ -50,13 +50,17 @@ public class AccountController {
     }
 
     @PatchMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
-    public void set(@RequestBody Account account) {
+    public void set(@AuthenticationPrincipal LoginUserDetails loginUserDetails, @RequestBody Account account) {
+        account.setOwnerId(loginUserDetails.getLoginUser().id());
         this.service.set(account);
     }
 
     @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public void delete(@PathVariable Long id) {
-        this.service.delete(id);
+    public void delete(@AuthenticationPrincipal LoginUserDetails loginUserDetails, @PathVariable Long id) {
+        AccountSelector selector = new AccountSelector();
+        selector.setId(id);
+        selector.setOwnerId(loginUserDetails.getLoginUser().id());
+        this.service.delete(selector);
     }
 }
 

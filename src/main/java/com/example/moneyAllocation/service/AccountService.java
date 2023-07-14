@@ -13,5 +13,5 @@ public interface AccountService {
 
     void set(Account account);
 
-    void delete(Long id);
+    void delete(AccountSelector selector);
 }

@@ -24,13 +24,12 @@ class AccountRepositoryImplTest {
     @Mock
     AccountMapper mapper;
 
-    private AutoCloseable mocks;
 
     private AccountRepository repository;
 
     @BeforeEach
     public void before() {
-        mocks = MockitoAnnotations.openMocks(this);
+        MockitoAnnotations.openMocks(this);
         Mockito.doReturn(mapper).when(sqlSession).getMapper(AccountMapper.class);
         repository = new AccountRepositoryImpl(sqlSession);
     }
@@ -68,7 +67,6 @@ class AccountRepositoryImplTest {
 
     @Test
     void findOneNotExists() {
-        Account account = new Account();
         AccountSelector selector = new AccountSelector();
         selector.setId(1L);
         selector.setOwnerId(1L);
@@ -114,16 +112,16 @@ class AccountRepositoryImplTest {
 
     @Test
     void delete() {
-        Long deleteId = 1L;
-        Mockito.doReturn(1).when(mapper).delete(deleteId);
-        this.repository.delete(deleteId);
-        Mockito.verify(mapper, Mockito.times(1)).delete(deleteId);
+        AccountSelector selector = new AccountSelector();
+        Mockito.doReturn(1).when(mapper).delete(selector);
+        this.repository.delete(selector);
+        Mockito.verify(mapper, Mockito.times(1)).delete(selector);
     }
     @Test
     void deleteFail() {
-        Long deleteId = 1L;
-        Mockito.doReturn(0).when(mapper).delete(deleteId);
-        assertThrowsExactly(ResourceNotFoundException.class, () -> this.repository.delete(deleteId));
-        Mockito.verify(mapper, Mockito.times(1)).delete(deleteId);
+        AccountSelector selector = new AccountSelector();
+        Mockito.doReturn(0).when(mapper).delete(selector);
+        assertThrowsExactly(ResourceNotFoundException.class, () -> this.repository.delete(selector));
+        Mockito.verify(mapper, Mockito.times(1)).delete(selector);
     }
 }

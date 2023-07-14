@@ -12,5 +12,5 @@ public interface AccountRepository {
 
     void set(Account account);
 
-    void delete(Long id);
+    void delete(AccountSelector selector);
 }
