@@ -78,4 +78,17 @@
         DELETE FROM TEMPORARY_TRANSFER
         WHERE ID = #{id};
     </delete>
+
+    <update id="setNullAccount" parameterType="Long">
+        UPDATE temporary_transfer
+        SET from_account = CASE
+        WHEN from_account = #{accountId} THEN NULL
+        ELSE from_account
+        END,
+        to_account = CASE
+        WHEN to_account = #{accountId} THEN NULL
+        ELSE to_account
+        END
+        WHERE from_account = #{accountId} OR to_account = #{accountId};
+    </update>
 </mapper>

@@ -16,4 +16,6 @@ public interface RegularTransferMapper {
     int set(RegularTransfer regularTransfer);
 
     int delete(RegularTransferSelector selector);
+
+    void setNullAccount(Long accountId);
 }

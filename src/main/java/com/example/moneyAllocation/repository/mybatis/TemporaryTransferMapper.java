@@ -17,5 +17,7 @@ public interface TemporaryTransferMapper {
     int set(TemporaryTransfer temporaryTransfer);
 
     int delete(Long id);
+
+    void setNullAccount(Long accountId);
 }
 
