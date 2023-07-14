@@ -3,7 +3,6 @@ package com.example.moneyAllocation.controller;
 import static org.junit.jupiter.api.Assertions.*;
 import com.example.moneyAllocation.domain.Account;
 import com.example.moneyAllocation.domain.AccountSelector;
-import com.example.moneyAllocation.repository.util.JsonMaker;
 import com.example.moneyAllocation.security.LoginUser;
 import com.example.moneyAllocation.security.LoginUserDetails;
 import com.example.moneyAllocation.security.UserRole;
@@ -18,10 +17,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 class AccountControllerTest {
@@ -31,7 +27,6 @@ class AccountControllerTest {
     @InjectMocks
     private AccountController controller;
 
-    private MockMvc mockMvc;
 
     private AutoCloseable mocks;
 
@@ -40,7 +35,6 @@ class AccountControllerTest {
     @BeforeEach
     public void before() {
         mocks = MockitoAnnotations.openMocks(this);
-        mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
         LoginUser loginUser = new LoginUser(1L, "test-user", "test@exampl.xx.xx", "test-encoded-password", false);
         loginUserDetails = new LoginUserDetails(loginUser, UserRole.USER.getGrantedAuthority());
     }
@@ -97,7 +91,7 @@ class AccountControllerTest {
     }
 
     @Test
-    void set() throws Exception {
+    void set() {
         Account account = new Account();
         account.setTransferFee(1000);
         account.setName("test");
@@ -105,29 +99,28 @@ class AccountControllerTest {
         ArgumentMatcher<Account> matcher = argument -> {
             assertEquals(1000, argument.getTransferFee());
             assertEquals("test", argument.getName());
+            assertEquals(1L, argument.getOwnerId());
             return true;
         };
-        Mockito.doNothing().when(service).set(Mockito.argThat(matcher));
 
-        mockMvc.perform(MockMvcRequestBuilders.patch("/api/account").contentType(MediaType.APPLICATION_JSON_VALUE)
-                .content(JsonMaker.toJsonString(account))).andExpect(MockMvcResultMatchers.status().isOk());
+        controller.set(loginUserDetails, account);
+        Mockito.doNothing().when(service).set(Mockito.argThat(matcher));
 
         Mockito.verify(service, Mockito.times(1)).set(Mockito.argThat(matcher));
     }
 
     @Test
-    void delete() throws Exception {
+    void delete() {
         Long id = 1L;
-
-        ArgumentMatcher<Long> matcher = argument -> {
-            return argument == 1L;
+        ArgumentMatcher<AccountSelector> matcher = arg -> {
+            assertEquals(id, arg.getId());
+            assertEquals(1L, arg.getOwnerId());
+            return true;
         };
+
         Mockito.doNothing().when(service).delete(Mockito.argThat(matcher));
 
-        mockMvc.perform(MockMvcRequestBuilders.delete("/api/account/1"))
-                .andExpect(MockMvcResultMatchers.status().isOk());
-
+        controller.delete(loginUserDetails, id);
         Mockito.verify(service, Mockito.times(1)).delete(Mockito.argThat(matcher));
-
     }
 }

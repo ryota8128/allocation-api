@@ -190,8 +190,10 @@ public class AccountRepositoryImplDbUnitTest {
 
         @Test
         public void testDeleteNotExistsId() {
-            Long accountId = 8L;
-            assertThrows(ResourceNotFoundException.class, () -> repository.delete(accountId));
+            AccountSelector selector = new AccountSelector();
+            selector.setId(6L);
+            selector.setOwnerId(1L);
+            assertThrows(ResourceNotFoundException.class, () -> repository.delete(selector));
         }
     }
 }

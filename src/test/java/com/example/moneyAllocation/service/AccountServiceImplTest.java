@@ -76,9 +76,9 @@ class AccountServiceImplTest {
 
     @Test
     void delete() {
-        Long id = 2L;
-        Mockito.doNothing().when(repository).delete(id);
-        target.delete(id);
-        Mockito.verify(repository, Mockito.times(1)).delete(id);
+        AccountSelector selector = new AccountSelector();
+        Mockito.doNothing().when(repository).delete(selector);
+        target.delete(selector);
+        Mockito.verify(repository, Mockito.times(1)).delete(selector);
     }
 }
