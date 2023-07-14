@@ -75,7 +75,8 @@
         TRANSFER_FEE = #{transferFee},
         OWNER_ID = #{ownerId}
         WHERE
-        ID = #{id};
+        ID = #{id}
+        AND OWNER_ID = #{ownerId}
     </update>
 
     <delete id="delete" parameterType="Long">

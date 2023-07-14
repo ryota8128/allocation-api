@@ -50,7 +50,8 @@ public class AccountController {
     }
 
     @PatchMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
-    public void set(@RequestBody Account account) {
+    public void set(@AuthenticationPrincipal LoginUserDetails loginUserDetails, @RequestBody Account account) {
+        account.setOwnerId(loginUserDetails.getLoginUser().id());
         this.service.set(account);
     }
 
