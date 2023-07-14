@@ -81,6 +81,8 @@
 
     <delete id="delete" parameterType="Long">
         DELETE FROM ACCOUNT
-        WHERE ID = #{id};
+        WHERE
+        ID = #{id}
+        AND OWNER_ID = #{ownerId}
     </delete>
 </mapper>

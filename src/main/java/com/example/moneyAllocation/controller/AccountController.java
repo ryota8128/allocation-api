@@ -56,8 +56,11 @@ public class AccountController {
     }
 
     @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public void delete(@PathVariable Long id) {
-        this.service.delete(id);
+    public void delete(@AuthenticationPrincipal LoginUserDetails loginUserDetails, @PathVariable Long id) {
+        AccountSelector selector = new AccountSelector();
+        selector.setId(id);
+        selector.setOwnerId(loginUserDetails.getLoginUser().id());
+        this.service.delete(selector);
     }
 }
 

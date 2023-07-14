@@ -47,8 +47,8 @@ public class AccountRepositoryImpl implements AccountRepository {
     }
 
     @Override
-    public void delete(Long id) {
-        int affected = this.sqlSession.getMapper(AccountMapper.class).delete(id);
+    public void delete(AccountSelector selector) {
+        int affected = this.sqlSession.getMapper(AccountMapper.class).delete(selector);
         if (affected != 1) {
             throw new ResourceNotFoundException("Account not found");
         }
