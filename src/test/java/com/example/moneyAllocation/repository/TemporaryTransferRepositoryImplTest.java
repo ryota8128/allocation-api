@@ -109,4 +109,12 @@ class TemporaryTransferRepositoryImplTest {
         assertThrows(ResourceNotFoundException.class, () -> repository.delete(id));
         Mockito.verify(mapper, Mockito.times(1)).delete(id);
     }
+
+    @Test
+    void setNullAccount() {
+        Long accountId = 1L;
+        Mockito.doNothing().when(mapper).setNullAccount(accountId);
+        repository.setNullAccount(accountId);
+        Mockito.verify(mapper, Mockito.times(1)).setNullAccount(accountId);
+    }
 }

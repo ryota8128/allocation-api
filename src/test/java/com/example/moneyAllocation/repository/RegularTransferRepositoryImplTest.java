@@ -106,4 +106,13 @@ class RegularTransferRepositoryImplTest {
         Mockito.doReturn(0).when(mapper).delete(selector);
         assertThrows(RuntimeException.class, () -> repository.delete(selector));
     }
+
+    @Test
+    void setNullAccount() {
+        Long accountId = 1L;
+        Mockito.doNothing().when(mapper).setNullAccount(accountId);
+        repository.setNullAccount(accountId);
+        Mockito.verify(mapper, Mockito.times(1)).setNullAccount(accountId);
+    }
+
 }

@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import com.example.moneyAllocation.domain.Account;
 import com.example.moneyAllocation.domain.AccountSelector;
 import com.example.moneyAllocation.repository.AccountRepository;
+import com.example.moneyAllocation.repository.RegularTransferRepository;
+import com.example.moneyAllocation.repository.TemporaryTransferRepository;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.AfterEach;
@@ -16,7 +18,13 @@ import org.mockito.MockitoAnnotations;
 
 class AccountServiceImplTest {
     @Mock
-    public AccountRepository repository;
+    private AccountRepository accountRepository;
+
+    @Mock
+    private RegularTransferRepository regularTransferRepository;
+
+    @Mock
+    private TemporaryTransferRepository temporaryTransferRepository;
 
     @InjectMocks
     public AccountServiceImpl target;
@@ -39,10 +47,10 @@ class AccountServiceImplTest {
         selector.setOwnerId(2L);
         List<Account> accountList = new ArrayList<>();
         accountList.add(new Account());
-        Mockito.doReturn(accountList).when(repository).find(selector);
+        Mockito.doReturn(accountList).when(accountRepository).find(selector);
         List<Account> result = target.findList(selector);
         assertEquals(accountList, result);
-        Mockito.verify(repository, Mockito.times(1)).find(selector);
+        Mockito.verify(accountRepository, Mockito.times(1)).find(selector);
     }
 
 
@@ -53,32 +61,39 @@ class AccountServiceImplTest {
         selector.setId(1L);
         selector.setOwnerId(2L);
 
-        Mockito.doReturn(account).when(repository).findOne(selector);
+        Mockito.doReturn(account).when(accountRepository).findOne(selector);
         Account result = target.findOne(selector);
         assertEquals(account, result);
-        Mockito.verify(repository, Mockito.times(1)).findOne(selector);
+        Mockito.verify(accountRepository, Mockito.times(1)).findOne(selector);
     }
     @Test
     void add() {
         Account account = new Account();
-        Mockito.doNothing().when(repository).add(account);
+        Mockito.doNothing().when(accountRepository).add(account);
         target.add(account);
-        Mockito.verify(repository, Mockito.times(1)).add(account);
+        Mockito.verify(accountRepository, Mockito.times(1)).add(account);
     }
 
     @Test
     void set() {
         Account account = new Account();
-        Mockito.doNothing().when(repository).set(account);
+        Mockito.doNothing().when(accountRepository).set(account);
         target.set(account);
-        Mockito.verify(repository, Mockito.times(1)).set(account);
+        Mockito.verify(accountRepository, Mockito.times(1)).set(account);
     }
 
     @Test
     void delete() {
         AccountSelector selector = new AccountSelector();
-        Mockito.doNothing().when(repository).delete(selector);
+        selector.setId(1L);
+        Mockito.doNothing().when(accountRepository).delete(selector);
+        Mockito.doNothing().when(regularTransferRepository).setNullAccount(selector.getId());
+        Mockito.doNothing().when(temporaryTransferRepository).setNullAccount(selector.getId());
+
         target.delete(selector);
-        Mockito.verify(repository, Mockito.times(1)).delete(selector);
+        Mockito.verify(accountRepository, Mockito.times(1)).delete(selector);
+        Mockito.verify(regularTransferRepository, Mockito.times(1)).setNullAccount(selector.getId());
+        Mockito.verify(temporaryTransferRepository, Mockito.times(1)).setNullAccount(selector.getId());
+
     }
 }
