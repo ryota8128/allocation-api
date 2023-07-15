@@ -3,6 +3,7 @@ package com.example.moneyAllocation.controller;
 import com.example.moneyAllocation.exception.ResourceNotFoundException;
 import com.example.moneyAllocation.exception.ResourceValidationException;
 import java.sql.SQLIntegrityConstraintViolationException;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,5 +30,11 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<Object> handleResourceValidationException(
             ResourceValidationException exception, WebRequest request) {
         return super.handleExceptionInternal(exception, exception.getMessage(), HttpHeaders.EMPTY, HttpStatus.BAD_REQUEST, request);
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<Object> handleSQLDuplicateKeyException(
+            DuplicateKeyException exception, WebRequest request) {
+        return super.handleExceptionInternal(exception, "重複したデータを追加しました", HttpHeaders.EMPTY, HttpStatus.BAD_REQUEST, request);
     }
 }
