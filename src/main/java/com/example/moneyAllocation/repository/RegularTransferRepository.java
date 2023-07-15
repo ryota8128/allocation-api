@@ -14,4 +14,6 @@ public interface RegularTransferRepository {
     void set(RegularTransfer regularTransfer);
 
     void delete(RegularTransferSelector selector);
+
+    void setNullAccount(Long accountId);
 }

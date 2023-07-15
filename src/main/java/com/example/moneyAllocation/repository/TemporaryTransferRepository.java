@@ -14,4 +14,6 @@ public interface TemporaryTransferRepository {
     void set(TemporaryTransfer temporaryTransfer);
 
     void delete(Long id);
+
+    void setNullAccount(Long accountId);
 }

@@ -54,4 +54,9 @@ public class RegularTransferRepositoryImpl implements RegularTransferRepository{
             throw new ResourceNotFoundException("RegularTransfer not found");
         }
     }
+
+    @Override
+    public void setNullAccount(Long accountId) {
+        this.sqlSession.getMapper(RegularTransferMapper.class).setNullAccount(accountId);
+    }
 }

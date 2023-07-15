@@ -49,7 +49,11 @@ public class TemporaryTransferRepositoryImpl implements TemporaryTransferReposit
         if (affected != 1) {
             throw new ResourceNotFoundException("TemporaryTransfer not found");
         }
+    }
 
 
+    @Override
+    public void setNullAccount(Long accountId) {
+        this.sqlSession.getMapper(TemporaryTransferMapper.class).setNullAccount(accountId);
     }
 }

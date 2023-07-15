@@ -38,7 +38,7 @@ public class AccountRepositoryImplDbUnitTest {
         public void testFindAll() {
             AccountSelector selector = new AccountSelector();
             List<Account> accountList = repository.find(selector);
-            assertEquals(5, accountList.size());
+            assertEquals(6, accountList.size());
             assertEquals(1L, accountList.get(0).getId());
             assertEquals("三井", accountList.get(0).getName());
             assertEquals(9999, accountList.get(0).getNumFreeTransfer());
@@ -54,6 +54,12 @@ public class AccountRepositoryImplDbUnitTest {
             assertEquals(2, accountList.get(4).getNumFreeTransfer());
             assertEquals(120, accountList.get(4).getTransferFee());
             assertEquals(2L, accountList.get(4).getOwnerId());
+            assertEquals(6L, accountList.get(5).getId());
+            assertEquals("ゆうちょ", accountList.get(5).getName());
+            assertEquals(0, accountList.get(5).getNumFreeTransfer());
+            assertEquals(130, accountList.get(5).getTransferFee());
+            assertEquals(2L, accountList.get(5).getOwnerId());
+
 
         }
 
@@ -62,7 +68,7 @@ public class AccountRepositoryImplDbUnitTest {
             AccountSelector selector = new AccountSelector();
             selector.setOwnerId(2L);
             List<Account> accountList = repository.find(selector);
-            assertEquals(2, accountList.size());
+            assertEquals(3, accountList.size());
             assertEquals(4L, accountList.get(0).getId());
             assertEquals("PayPay", accountList.get(0).getName());
             assertEquals(3, accountList.get(0).getNumFreeTransfer());
@@ -73,6 +79,11 @@ public class AccountRepositoryImplDbUnitTest {
             assertEquals(2, accountList.get(1).getNumFreeTransfer());
             assertEquals(120, accountList.get(1).getTransferFee());
             assertEquals(2L, accountList.get(1).getOwnerId());
+            assertEquals(6L, accountList.get(2).getId());
+            assertEquals("ゆうちょ", accountList.get(2).getName());
+            assertEquals(0, accountList.get(2).getNumFreeTransfer());
+            assertEquals(130, accountList.get(2).getTransferFee());
+            assertEquals(2L, accountList.get(2).getOwnerId());
         }
 
         @Test
@@ -181,12 +192,14 @@ public class AccountRepositoryImplDbUnitTest {
         private final File expectedData = new File(DATA_DIR + "account_delete_expected.xlsx");
 
         // TODO: account削除前にregular, temporaryを削除する処理を追加してから実装
-        //        @Test
-        //        public void testDeleteSuccess() {
-        //            Long accountId = 2L;
-        //            repository.delete(accountId);
-        //            DbUnitUtil.assertMutateResult(source, "ACCOUNT", expectedData, Arrays.asList());
-        //        }
+        @Test
+        public void testDeleteSuccess() {
+            AccountSelector selector = new AccountSelector();
+            selector.setId(6L);
+            selector.setOwnerId(2L);
+            repository.delete(selector);
+            DbUnitUtil.assertMutateResult(source, "ACCOUNT", expectedData, Arrays.asList());
+        }
 
         @Test
         public void testDeleteNotExistsId() {

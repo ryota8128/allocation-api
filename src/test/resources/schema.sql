@@ -19,8 +19,8 @@ CREATE TABLE IF NOT EXISTS ACCOUNT (
 
 CREATE TABLE regular_transfer (
   id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  from_account BIGINT NOT NULL,
-  to_account BIGINT NOT NULL,
+  from_account BIGINT,
+  to_account BIGINT,
   description TEXT NOT NULL,
   percentage BOOLEAN NOT NULL DEFAULT FALSE,
   amount INT UNSIGNED,
@@ -34,8 +34,8 @@ CREATE TABLE regular_transfer (
 
 CREATE TABLE temporary_transfer (
   id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  from_account BIGINT NOT NULL,
-  to_account BIGINT NOT NULL,
+  from_account BIGINT,
+  to_account BIGINT,
   description TEXT NOT NULL,
   amount INT UNSIGNED NOT NULL,
   user_id BIGINT,
