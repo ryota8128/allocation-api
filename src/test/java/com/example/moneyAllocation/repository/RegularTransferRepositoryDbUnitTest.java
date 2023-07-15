@@ -132,6 +132,7 @@ public class RegularTransferRepositoryDbUnitTest {
         private DataSource source;
 
         private final File updateExpectedData = new File(DATA_DIR + "regular_update_expected.xlsx");
+        private final File setNullExpectedData = new File(DATA_DIR + "regular_setNull_expected.xlsx");
 
         @Test
         public void testUpdate() {
@@ -141,6 +142,14 @@ public class RegularTransferRepositoryDbUnitTest {
             repository.set(regularTransfer);
             DbUnitUtil.assertMutateResult(source, "REGULAR_TRANSFER", updateExpectedData, List.of());
         }
+
+        @Test
+        public void testSetNull() {
+            repository.setNullAccount(2L);
+            DbUnitUtil.assertMutateResult(source, "REGULAR_TRANSFER", setNullExpectedData, List.of());
+        }
+
+
     }
 
     @SpringBootTest(classes = MoneyAllocationApplication.class)

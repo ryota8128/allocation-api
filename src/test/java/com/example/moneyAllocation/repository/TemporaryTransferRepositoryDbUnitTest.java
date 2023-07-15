@@ -111,6 +111,7 @@ public class TemporaryTransferRepositoryDbUnitTest {
         private DataSource source;
 
         private final File updateExpectedData  = new File(DATA_DIR + "temporary_update_expected.xlsx");
+        private final File setNullExpectedData = new File(DATA_DIR + "temporary_setNull_expected.xlsx");
 
         @Test
         public void testUpdate() {
@@ -120,6 +121,12 @@ public class TemporaryTransferRepositoryDbUnitTest {
             DbUnitUtil.assertMutateResult(
                     source, "TEMPORARY_TRANSFER",
                     updateExpectedData, Arrays.asList());
+        }
+
+        @Test
+        public void testSetNull() {
+            repository.setNullAccount(2L);
+            DbUnitUtil.assertMutateResult(source, "TEMPORARY_TRANSFER", setNullExpectedData, List.of());
         }
 
     }
