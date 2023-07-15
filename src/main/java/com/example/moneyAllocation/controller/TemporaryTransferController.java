@@ -52,13 +52,17 @@ public class TemporaryTransferController {
     }
 
     @PatchMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
-    public void set(@AuthenticationPrincipal LoginUserDetails loginUserDetails, @RequestBody TemporaryTransfer temporaryTransfer) {
+    public void set(@AuthenticationPrincipal LoginUserDetails loginUserDetails,
+                    @RequestBody TemporaryTransfer temporaryTransfer) {
         temporaryTransfer.setUserId(loginUserDetails.getLoginUser().id());
         service.set(temporaryTransfer);
     }
 
     @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public void delete(@PathVariable Long id) {
-        service.delete(id);
+    public void delete(@AuthenticationPrincipal LoginUserDetails loginUserDetails, @PathVariable Long id) {
+        TemporaryTransferSelector selector = new TemporaryTransferSelector();
+        selector.setUserId(loginUserDetails.getLoginUser().id());
+        selector.setId(id);
+        service.delete(selector);
     }
 }

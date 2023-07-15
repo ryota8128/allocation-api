@@ -13,7 +13,7 @@ public interface TemporaryTransferRepository {
 
     void set(TemporaryTransfer temporaryTransfer);
 
-    void delete(Long id);
+    void delete(TemporaryTransferSelector selector);
 
     void setNullAccount(Long accountId);
 }

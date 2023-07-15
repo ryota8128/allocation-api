@@ -5,12 +5,12 @@
 
 <mapper namespace="com.example.moneyAllocation.repository.mybatis.TemporaryTransferMapper">
     <resultMap id="TemporaryTransfer" type="com.example.moneyAllocation.domain.TemporaryTransfer">
-        <id property="id" column="ID" />
-        <result property="fromAccount" column="FROM_ACCOUNT" />
-        <result property="toAccount" column="TO_ACCOUNT" />
-        <result property="description" column="DESCRIPTION" />
-        <result property="amount" column="AMOUNT" />
-        <result property="userId" column="USER_ID" />
+        <id property="id" column="ID"/>
+        <result property="fromAccount" column="FROM_ACCOUNT"/>
+        <result property="toAccount" column="TO_ACCOUNT"/>
+        <result property="description" column="DESCRIPTION"/>
+        <result property="amount" column="AMOUNT"/>
+        <result property="userId" column="USER_ID"/>
     </resultMap>
 
     <select id="find" resultMap="TemporaryTransfer">
@@ -40,7 +40,7 @@
         FROM TEMPORARY_TRANSFER
         <where>
             ID = #{id}
-            AND  USER_ID = #{userId}
+            AND USER_ID = #{userId}
         </where>
     </select>
 
@@ -78,7 +78,10 @@
 
     <delete id="delete" parameterType="Long">
         DELETE FROM TEMPORARY_TRANSFER
-        WHERE ID = #{id};
+        <where>
+            ID = #{id}
+            AND USER_ID = #{userId}
+        </where>
     </delete>
 
     <update id="setNullAccount" parameterType="Long">

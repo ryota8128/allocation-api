@@ -48,8 +48,8 @@ public class TemporaryTransferRepositoryImpl implements TemporaryTransferReposit
     }
 
     @Override
-    public void delete(Long id) {
-        int affected = sqlSession.getMapper(TemporaryTransferMapper.class).delete(id);
+    public void delete(TemporaryTransferSelector selector) {
+        int affected = sqlSession.getMapper(TemporaryTransferMapper.class).delete(selector);
         if (affected != 1) {
             throw new ResourceNotFoundException("TemporaryTransfer not found");
         }

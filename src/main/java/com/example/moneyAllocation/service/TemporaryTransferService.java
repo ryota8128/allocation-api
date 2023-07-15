@@ -13,5 +13,5 @@ public interface TemporaryTransferService {
 
     void set(TemporaryTransfer temporaryTransfer);
 
-    void delete(Long id);
+    void delete(TemporaryTransferSelector selector);
 }

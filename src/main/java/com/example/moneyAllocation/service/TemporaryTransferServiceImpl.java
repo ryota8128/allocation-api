@@ -7,7 +7,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 @Service
-public class TemporaryTransferServiceImpl implements TemporaryTransferService{
+public class TemporaryTransferServiceImpl implements TemporaryTransferService {
     private final TemporaryTransferRepository repository;
 
     public TemporaryTransferServiceImpl(TemporaryTransferRepository repository) {
@@ -35,7 +35,7 @@ public class TemporaryTransferServiceImpl implements TemporaryTransferService{
     }
 
     @Override
-    public void delete(Long id) {
-        repository.delete(id);
+    public void delete(TemporaryTransferSelector selector) {
+        repository.delete(selector);
     }
 }
