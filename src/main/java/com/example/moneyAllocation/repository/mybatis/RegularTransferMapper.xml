@@ -92,6 +92,7 @@
         </if>
         WHERE
         ID = #{id}
+        AND USER_ID = #{userId}
     </update>
 
     <delete id="delete" parameterType="Long">

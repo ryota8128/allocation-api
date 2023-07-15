@@ -93,19 +93,8 @@ public class RegularTransferServiceImpl implements RegularTransferService {
                 // accountIdとOwnerIdを指定して取得できない口座がある場合は例外をスロー
                 accountRepository.findOne(selector);
             } catch (ResourceNotFoundException e) {
-                throw new ResourceValidationException("存在しない定期振込が指定されました");
+                throw new ResourceValidationException("入力データに不備があります");
             }
-        }
-
-        // すでにデータベースにあるregularTransfer.idのデータのuserIdがregularTransfer.userIdと一致してるかチェック
-        try {
-            RegularTransferSelector selector = new RegularTransferSelector();
-            selector.setId(regularTransfer.getId());
-            if (!regularTransfer.getUserId().equals(regularTransferRepository.findOne(selector).getUserId())) {
-                throw new Exception("存在しない定期振込が指定されました");
-            }
-        } catch(Exception e) {
-            throw  new ResourceValidationException("存在しない定期振り込みが指定されました");
         }
 
         regularTransferRepository.set(regularTransfer);
