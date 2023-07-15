@@ -22,7 +22,6 @@ public class TemporaryTransferServiceImpl implements TemporaryTransferService{
     @Override
     public TemporaryTransfer findOne(TemporaryTransferSelector selector) {
         return repository.findOne(selector);
-
     }
 
     @Override
