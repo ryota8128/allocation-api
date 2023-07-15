@@ -3,6 +3,7 @@ package com.example.moneyAllocation.repository;
 import static org.junit.jupiter.api.Assertions.*;
 import com.example.moneyAllocation.domain.RegularTransfer;
 import com.example.moneyAllocation.domain.RegularTransferSelector;
+import com.example.moneyAllocation.exception.ResourceNotFoundException;
 import com.example.moneyAllocation.repository.mybatis.RegularTransferMapper;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,24 +40,30 @@ class RegularTransferRepositoryImplTest {
         List<RegularTransfer> regularTransferList = new ArrayList<>();
         regularTransferList.add(new RegularTransfer());
 
-        RegularTransferSelector selector = new RegularTransferSelector();
-        selector.setUserId(1L);
-        Mockito.doReturn(regularTransferList).when(mapper).find(selector);
-        List<RegularTransfer> result = repository.find(selector);
+        Long userId = 1L;
+        Mockito.doReturn(regularTransferList).when(mapper).find(userId);
+        List<RegularTransfer> result = repository.find(userId);
         assertEquals(regularTransferList, result);
-        Mockito.verify(mapper, Mockito.times(1)).find(selector);
+        Mockito.verify(mapper, Mockito.times(1)).find(userId);
     }
 
     @Test
     void findOne() {
         RegularTransfer regularTransfer = new RegularTransfer();
         RegularTransferSelector selector = new RegularTransferSelector();
-        selector.setId(1L);
-        selector.setUserId(1L);
 
         Mockito.doReturn(regularTransfer).when(mapper).findOne(selector);
         RegularTransfer result = repository.findOne(selector);
         assertEquals(regularTransfer, result);
+        Mockito.verify(mapper, Mockito.times(1)).findOne(selector);
+    }
+
+    @Test
+    void findOneFail() {
+        RegularTransferSelector selector = new RegularTransferSelector();
+
+        Mockito.doReturn(null).when(mapper).findOne(selector);
+        assertThrows(ResourceNotFoundException.class, () -> repository.findOne(selector));
         Mockito.verify(mapper, Mockito.times(1)).findOne(selector);
     }
 

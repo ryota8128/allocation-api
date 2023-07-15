@@ -35,23 +35,23 @@ class TemporaryTransferServiceImplTest {
 
     @Test
     void find() {
-        TemporaryTransferSelector selector = new TemporaryTransferSelector();
+        Long userId = 2L;
         List<TemporaryTransfer> temporaryTransferList = new ArrayList<>();
         temporaryTransferList.add(new TemporaryTransfer());
-        Mockito.doReturn(temporaryTransferList).when(repository).find(selector);
-        List<TemporaryTransfer> result = service.find(selector);
+        Mockito.doReturn(temporaryTransferList).when(repository).find(userId);
+        List<TemporaryTransfer> result = service.find(userId);
         assertEquals(result, temporaryTransferList);
-        Mockito.verify(repository, Mockito.times(1)).find(selector);
+        Mockito.verify(repository, Mockito.times(1)).find(userId);
     }
 
     @Test
     void findOne() {
         TemporaryTransfer temporaryTransfer = new TemporaryTransfer();
-        Long id = 1L;
-        Mockito.doReturn(temporaryTransfer).when(repository).findOne(id);
-        TemporaryTransfer result = service.findOne(id);
+        TemporaryTransferSelector selector = new TemporaryTransferSelector();
+        Mockito.doReturn(temporaryTransfer).when(repository).findOne(selector);
+        TemporaryTransfer result = service.findOne(selector);
         assertEquals(temporaryTransfer, result);
-        Mockito.verify(repository, Mockito.times(1)).findOne(id);
+        Mockito.verify(repository, Mockito.times(1)).findOne(selector);
     }
 
     @Test
@@ -72,9 +72,10 @@ class TemporaryTransferServiceImplTest {
 
     @Test
     void delete() {
-        Long id = 2L;
-        Mockito.doNothing().when(repository).delete(id);
-        service.delete(id);
-        Mockito.verify(repository, Mockito.times(1)).delete(id);
+        TemporaryTransferSelector selector = new TemporaryTransferSelector();
+
+        Mockito.doNothing().when(repository).delete(selector);
+        service.delete(selector);
+        Mockito.verify(repository, Mockito.times(1)).delete(selector);
     }
 }

@@ -1,9 +1,11 @@
 package com.example.moneyAllocation.repository;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import com.example.moneyAllocation.MoneyAllocationApplication;
 import com.example.moneyAllocation.domain.TemporaryTransfer;
 import com.example.moneyAllocation.domain.TemporaryTransferSelector;
+import com.example.moneyAllocation.exception.ResourceNotFoundException;
 import com.example.moneyAllocation.repository.util.DbTestExecutionListener;
 import com.example.moneyAllocation.repository.util.TestDomainDataCreator;
 import com.example.moneyAllocation.util.DbUnitUtil;
@@ -32,25 +34,9 @@ public class TemporaryTransferRepositoryDbUnitTest {
         private DataSource dataSource;
 
         @Test
-        public void testFindAll() {
-            TemporaryTransferSelector selector = new TemporaryTransferSelector();
-            List<TemporaryTransfer> temporaryTransferList = repository.find(selector);
-            assertEquals(3, temporaryTransferList.size());
-            assertEquals(1L, temporaryTransferList.get(0).getId());
-            assertEquals(1L, temporaryTransferList.get(0).getFromAccount());
-            assertEquals(2L, temporaryTransferList.get(0).getToAccount());
-            assertEquals("desc1", temporaryTransferList.get(0).getDescription());
-            assertEquals(4800, temporaryTransferList.get(0).getAmount());
-            assertEquals(1L, temporaryTransferList.get(0).getUserId());
-            assertEquals(2L, temporaryTransferList.get(1).getId());
-            assertEquals(3L, temporaryTransferList.get(2).getId());
-        }
-
-        @Test
         public void testFindWithUserId() {
-            TemporaryTransferSelector selector = new TemporaryTransferSelector();
-            selector.setUserId(1L);
-            List<TemporaryTransfer> temporaryTransferList = repository.find(selector);
+            Long userId = 1L;
+            List<TemporaryTransfer> temporaryTransferList = repository.find(userId);
             assertEquals(2, temporaryTransferList.size());
             assertEquals(1L, temporaryTransferList.get(0).getId());
             assertEquals(1L, temporaryTransferList.get(0).getFromAccount());
@@ -64,14 +50,23 @@ public class TemporaryTransferRepositoryDbUnitTest {
         @Test
         public void testFindOne() {
             TemporaryTransferSelector selector = new TemporaryTransferSelector();
-            List<TemporaryTransfer> temporaryTransferList = repository.find(selector);
-            assertEquals(3, temporaryTransferList.size());
-            assertEquals(1L, temporaryTransferList.get(0).getId());
-            assertEquals(1L, temporaryTransferList.get(0).getFromAccount());
-            assertEquals(2L, temporaryTransferList.get(0).getToAccount());
-            assertEquals("desc1", temporaryTransferList.get(0).getDescription());
-            assertEquals(4800, temporaryTransferList.get(0).getAmount());
-            assertEquals(1L, temporaryTransferList.get(0).getUserId());
+            selector.setId(1L);
+            selector.setUserId(1L);
+            TemporaryTransfer temporaryTransfer = repository.findOne(selector);
+            assertEquals(1L, temporaryTransfer.getId());
+            assertEquals(1L, temporaryTransfer.getFromAccount());
+            assertEquals(2L, temporaryTransfer.getToAccount());
+            assertEquals("desc1", temporaryTransfer.getDescription());
+            assertEquals(4800, temporaryTransfer.getAmount());
+            assertEquals(1L, temporaryTransfer.getUserId());
+        }
+
+        @Test
+        public void testFindOneAnotherUserTemporary() {
+            TemporaryTransferSelector selector = new TemporaryTransferSelector();
+            selector.setId(1L);
+            selector.setUserId(2L);
+            assertThrows(ResourceNotFoundException.class, () -> repository.findOne(selector));
         }
 
     }
@@ -145,7 +140,10 @@ public class TemporaryTransferRepositoryDbUnitTest {
 
         @Test
         public void testDelete() {
-            repository.delete(3L);
+            TemporaryTransferSelector selector = new TemporaryTransferSelector();
+            selector.setUserId(2L);
+            selector.setId(3L);
+            repository.delete(selector);
             DbUnitUtil.assertMutateResult(
                     source, "TEMPORARY_TRANSFER",
                     deleteExpectedData, Arrays.asList());

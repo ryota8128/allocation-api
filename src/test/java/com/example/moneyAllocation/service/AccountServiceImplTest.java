@@ -43,14 +43,13 @@ class AccountServiceImplTest {
 
     @Test
     void findList() {
-        AccountSelector selector = new AccountSelector();
-        selector.setOwnerId(2L);
+        Long id = 2L;
         List<Account> accountList = new ArrayList<>();
         accountList.add(new Account());
-        Mockito.doReturn(accountList).when(accountRepository).find(selector);
-        List<Account> result = target.findList(selector);
+        Mockito.doReturn(accountList).when(accountRepository).find(id);
+        List<Account> result = target.findList(id);
         assertEquals(accountList, result);
-        Mockito.verify(accountRepository, Mockito.times(1)).find(selector);
+        Mockito.verify(accountRepository, Mockito.times(1)).find(id);
     }
 
 

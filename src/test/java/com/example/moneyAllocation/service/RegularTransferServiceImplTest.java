@@ -45,14 +45,14 @@ class RegularTransferServiceImplTest {
 
     @Test
     void find() {
+        Long userId = 3L;
         List<RegularTransfer> regularTransferList = new ArrayList<>();
         regularTransferList.add(new RegularTransfer());
-        RegularTransferSelector selector = new RegularTransferSelector();
-        Mockito.doReturn(regularTransferList).when(regularTransferRepository).find(selector);
+        Mockito.doReturn(regularTransferList).when(regularTransferRepository).find(userId);
 
-        List<RegularTransfer> result = service.find(selector);
+        List<RegularTransfer> result = service.find(userId);
         assertEquals(regularTransferList, result);
-        Mockito.verify(regularTransferRepository, Mockito.times(1)).find(selector);
+        Mockito.verify(regularTransferRepository, Mockito.times(1)).find(userId);
     }
 
     @Test
@@ -183,27 +183,17 @@ class RegularTransferServiceImplTest {
         regularTransfer.setUserId(1L);
         regularTransfer.setId(5L);
 
-        RegularTransfer findRegular = new RegularTransfer();
-        findRegular.setUserId(1L);
-
         ArgumentMatcher<AccountSelector> accountMatcher = arg -> {
             assertEquals(1L, arg.getOwnerId());
             assertTrue(arg.getId() == 1L || arg.getId() == 2L);
             return true;
         };
 
-        ArgumentMatcher<RegularTransferSelector> regularMatcher = arg -> {
-            assertEquals(5L, arg.getId());
-            return true;
-        };
-
         Mockito.doReturn(new Account()).when(accountRepository).findOne(Mockito.argThat(accountMatcher));
-        Mockito.doReturn(findRegular).when(regularTransferRepository).findOne(Mockito.argThat(regularMatcher));
         Mockito.doNothing().when(regularTransferRepository).set(regularTransfer);
         service.set(regularTransfer);
 
         Mockito.verify(accountRepository, Mockito.times(2)).findOne(Mockito.argThat(accountMatcher));
-        Mockito.verify(regularTransferRepository, Mockito.times(1)).findOne(Mockito.argThat(regularMatcher));
         Mockito.verify(regularTransferRepository, Mockito.times(1)).set(regularTransfer);
     }
 
@@ -218,64 +208,19 @@ class RegularTransferServiceImplTest {
         regularTransfer.setUserId(1L);
         regularTransfer.setId(5L);
 
-        RegularTransfer findRegular = new RegularTransfer();
-        findRegular.setUserId(1L);
-
         ArgumentMatcher<AccountSelector> accountMatcher = arg -> {
             assertEquals(1L, arg.getOwnerId());
             assertTrue(arg.getId() == 1L || arg.getId() == 2L);
             return true;
         };
 
-        ArgumentMatcher<RegularTransferSelector> regularMatcher = arg -> {
-            assertEquals(5L, arg.getId());
-            return true;
-        };
-
         Mockito.doReturn(new Account()).when(accountRepository).findOne(Mockito.argThat(accountMatcher));
-        Mockito.doReturn(findRegular).when(regularTransferRepository).findOne(Mockito.argThat(regularMatcher));
 
         Mockito.doNothing().when(regularTransferRepository).set(regularTransfer);
         service.set(regularTransfer);
 
         Mockito.verify(accountRepository, Mockito.times(2)).findOne(Mockito.argThat(accountMatcher));
-        Mockito.verify(regularTransferRepository, Mockito.times(1)).findOne(Mockito.argThat(regularMatcher));
         Mockito.verify(regularTransferRepository, Mockito.times(1)).set(regularTransfer);
-    }
-
-    // 別のuserIdを持つregularTransferがとれた場合はエラーになる
-    @Test
-    void setIllegalRegularTransferId() {
-        RegularTransfer regularTransfer = new RegularTransfer();
-        regularTransfer.setPercentage(true);
-        regularTransfer.setRatio(0.1F);
-        regularTransfer.setFromAccount(1L);
-        regularTransfer.setToAccount(2L);
-        regularTransfer.setUserId(1L);
-        regularTransfer.setId(5L);
-
-        RegularTransfer findRegular = new RegularTransfer();
-        findRegular.setUserId(2L);
-
-        ArgumentMatcher<AccountSelector> accountMatcher = arg -> {
-            assertEquals(1L, arg.getOwnerId());
-            assertTrue(arg.getId() == 1L || arg.getId() == 2L);
-            return true;
-        };
-
-        ArgumentMatcher<RegularTransferSelector> regularMatcher = arg -> {
-            assertEquals(5L, arg.getId());
-            return true;
-        };
-
-        // 別のuserIdを持つregularTransferがとれた場合
-        Mockito.doReturn(findRegular).when(regularTransferRepository).findOne(Mockito.argThat(regularMatcher));
-        Mockito.doReturn(new Account()).when(accountRepository).findOne(Mockito.argThat(accountMatcher));
-
-        assertThrows(ResourceValidationException.class, () -> service.set(regularTransfer));
-        Mockito.verify(accountRepository, Mockito.times(2)).findOne(Mockito.argThat(accountMatcher));
-        Mockito.verify(regularTransferRepository, Mockito.times(1)).findOne(Mockito.argThat(regularMatcher));
-
     }
 
     @Test

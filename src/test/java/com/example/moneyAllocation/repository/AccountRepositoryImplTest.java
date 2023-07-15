@@ -41,15 +41,15 @@ class AccountRepositoryImplTest {
 
     @Test
     void find() {
+        Long ownerId = 2L;
         List<Account> accountList = new ArrayList<>();
         accountList.add(new Account());
 
-        AccountSelector selector = new AccountSelector();
-        Mockito.doReturn(accountList).when(mapper).find(selector);
+        Mockito.doReturn(accountList).when(mapper).find(ownerId);
 
-        List<Account> result = this.repository.find(selector);
+        List<Account> result = this.repository.find(ownerId);
         assertEquals(accountList, result);
-        Mockito.verify(mapper, Mockito.times(1)).find(selector);
+        Mockito.verify(mapper, Mockito.times(1)).find(ownerId);
     }
 
     @Test
