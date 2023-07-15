@@ -45,12 +45,15 @@ public class TemporaryTransferController {
     }
 
     @PostMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
-    public void add(@RequestBody TemporaryTransfer temporaryTransfer) {
+    public void add(@AuthenticationPrincipal LoginUserDetails loginUserDetails,
+                    @RequestBody TemporaryTransfer temporaryTransfer) {
+        temporaryTransfer.setUserId(loginUserDetails.getLoginUser().id());
         service.add(temporaryTransfer);
     }
 
     @PatchMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
-    public void set(@RequestBody TemporaryTransfer temporaryTransfer) {
+    public void set(@AuthenticationPrincipal LoginUserDetails loginUserDetails, @RequestBody TemporaryTransfer temporaryTransfer) {
+        temporaryTransfer.setUserId(loginUserDetails.getLoginUser().id());
         service.set(temporaryTransfer);
     }
 
