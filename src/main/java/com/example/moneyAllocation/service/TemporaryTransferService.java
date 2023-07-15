@@ -5,13 +5,13 @@ import com.example.moneyAllocation.domain.TemporaryTransferSelector;
 import java.util.List;
 
 public interface TemporaryTransferService {
-    List<TemporaryTransfer> find(TemporaryTransferSelector selector);
+    List<TemporaryTransfer> find(Long userId);
 
-    TemporaryTransfer findOne(Long id);
+    TemporaryTransfer findOne(TemporaryTransferSelector selector);
 
     void add(TemporaryTransfer temporaryTransfer);
 
     void set(TemporaryTransfer temporaryTransfer);
 
-    void delete(Long id);
+    void delete(TemporaryTransferSelector selector);
 }

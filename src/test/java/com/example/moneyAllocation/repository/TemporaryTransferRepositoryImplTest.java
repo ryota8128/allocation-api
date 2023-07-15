@@ -45,21 +45,32 @@ class TemporaryTransferRepositoryImplTest {
     void find() {
         List<TemporaryTransfer> temporaryTransferList = new ArrayList<>();
         temporaryTransferList.add(new TemporaryTransfer());
-        TemporaryTransferSelector selector = new TemporaryTransferSelector();
-        Mockito.doReturn(temporaryTransferList).when(mapper).find(selector);
-        List<TemporaryTransfer> result = repository.find(selector);
+        Long userId = 1L;
+
+        Mockito.doReturn(temporaryTransferList).when(mapper).find(userId);
+        List<TemporaryTransfer> result = repository.find(userId);
         assertEquals(temporaryTransferList, result);
-        Mockito.verify(mapper, Mockito.times(1)).find(selector);
+        Mockito.verify(mapper, Mockito.times(1)).find(userId);
     }
 
     @Test
     void findOne() {
         TemporaryTransfer temporaryTransfer = new TemporaryTransfer();
-        Long id = 1L;
-        Mockito.doReturn(temporaryTransfer).when(mapper).findOne(id);
-        TemporaryTransfer result = repository.findOne(id);
+        TemporaryTransferSelector selector = new TemporaryTransferSelector();
+
+        Mockito.doReturn(temporaryTransfer).when(mapper).findOne(selector);
+        TemporaryTransfer result = repository.findOne(selector);
         assertEquals(temporaryTransfer, result);
-        Mockito.verify(mapper, Mockito.times(1)).findOne(id);
+        Mockito.verify(mapper, Mockito.times(1)).findOne(selector);
+    }
+
+    @Test
+    void findOneFail() {
+        TemporaryTransferSelector selector = new TemporaryTransferSelector();
+
+        Mockito.doReturn(null).when(mapper).findOne(selector);
+        assertThrows(ResourceNotFoundException.class, () -> repository.findOne(selector));
+        Mockito.verify(mapper, Mockito.times(1)).findOne(selector);
     }
 
     @Test
@@ -96,18 +107,20 @@ class TemporaryTransferRepositoryImplTest {
 
     @Test
     void delete() {
-        Long id = 1L;
-        Mockito.doReturn(1).when(mapper).delete(id);
-        repository.delete(id);
-        Mockito.verify(mapper, Mockito.times(1)).delete(id);
+        TemporaryTransferSelector selector = new TemporaryTransferSelector();
+
+        Mockito.doReturn(1).when(mapper).delete(selector);
+        repository.delete(selector);
+        Mockito.verify(mapper, Mockito.times(1)).delete(selector);
     }
 
     @Test
     void deleteFail() {
-        Long id = 1L;
-        Mockito.doReturn(0).when(mapper).delete(id);
-        assertThrows(ResourceNotFoundException.class, () -> repository.delete(id));
-        Mockito.verify(mapper, Mockito.times(1)).delete(id);
+        TemporaryTransferSelector selector = new TemporaryTransferSelector();
+
+        Mockito.doReturn(0).when(mapper).delete(selector);
+        assertThrows(ResourceNotFoundException.class, () -> repository.delete(selector));
+        Mockito.verify(mapper, Mockito.times(1)).delete(selector);
     }
 
     @Test

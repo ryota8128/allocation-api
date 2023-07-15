@@ -17,8 +17,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 class AccountControllerTest {
     @Mock
@@ -49,13 +47,12 @@ class AccountControllerTest {
 
         List<Account> findResult = new ArrayList<>();
         findResult.add(new Account());
-        Mockito.doReturn(findResult).when(service).findList(Mockito.argThat(argument -> argument.getOwnerId() == 1L));
+        Mockito.doReturn(findResult).when(service).findList(Mockito.argThat(argument -> argument.equals(1L)));
 
         List<Account> result = controller.find(loginUserDetails);
 
         assertEquals(findResult, result);
-        Mockito.verify(service, Mockito.times(1)).findList(Mockito.argThat(argument -> argument.getOwnerId() == 1L));
-
+        Mockito.verify(service, Mockito.times(1)).findList(Mockito.argThat(argument -> argument.equals(1L)));
     }
 
     @Test

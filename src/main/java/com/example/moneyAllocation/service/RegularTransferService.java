@@ -5,7 +5,7 @@ import com.example.moneyAllocation.domain.RegularTransferSelector;
 import java.util.List;
 
 public interface RegularTransferService {
-    List<RegularTransfer> find(RegularTransferSelector selector);
+    List<RegularTransfer> find(Long userId);
     RegularTransfer findOne(RegularTransferSelector selector);
 
     void add(RegularTransfer regularTransfer);

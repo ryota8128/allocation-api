@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
 public interface AccountMapper {
-    List<Account> find(AccountSelector selector);
+    List<Account> find(Long ownerId);
 
     Account findOne(AccountSelector selector);
 

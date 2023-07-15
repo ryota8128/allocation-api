@@ -3,8 +3,10 @@ package com.example.moneyAllocation.controller;
 import static org.junit.jupiter.api.Assertions.*;
 import com.example.moneyAllocation.domain.TemporaryTransfer;
 import com.example.moneyAllocation.domain.TemporaryTransferSelector;
-import com.example.moneyAllocation.repository.util.JsonMaker;
 import com.example.moneyAllocation.repository.util.TestDomainDataCreator;
+import com.example.moneyAllocation.security.LoginUser;
+import com.example.moneyAllocation.security.LoginUserDetails;
+import com.example.moneyAllocation.security.UserRole;
 import com.example.moneyAllocation.service.TemporaryTransferService;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,15 +18,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 class TemporaryTransferControllerTest {
-    private MockMvc mockMvc;
 
     @Mock
     private TemporaryTransferService service;
@@ -34,10 +31,13 @@ class TemporaryTransferControllerTest {
 
     private AutoCloseable mocks;
 
+    private LoginUserDetails loginUserDetails;
+
     @BeforeEach
     public void before() {
         mocks = MockitoAnnotations.openMocks(this);
-        mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
+        LoginUser loginUser = new LoginUser(1L, "test-user", "test@exampl.xx.xx", "test-encoded-password", false);
+        loginUserDetails = new LoginUserDetails(loginUser, UserRole.USER.getGrantedAuthority());
     }
 
     @AfterEach
@@ -46,83 +46,74 @@ class TemporaryTransferControllerTest {
     }
 
     @Test
-    void find() throws Exception {
+    void find() {
         List<TemporaryTransfer> temporaryTransferList = new ArrayList<>();
-        TemporaryTransfer temporaryTransfer = new TemporaryTransfer();
-        temporaryTransfer.setAmount(2304);
-        temporaryTransferList.add(temporaryTransfer);
-        ArgumentMatcher<TemporaryTransferSelector> matcher = args -> args.getUserId() == 1L;
-        Mockito.doReturn(temporaryTransferList).when(service).find(Mockito.argThat(matcher));
+        temporaryTransferList.add(new TemporaryTransfer());
 
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/api/temporary/list").queryParam("userId", "1"))
-                .andExpect(MockMvcResultMatchers.status().isOk()).andReturn();
-        assertEquals(JsonMaker.toJsonString(temporaryTransferList), result.getResponse().getContentAsString());
-        Mockito.verify(service, Mockito.times(1)).find(Mockito.argThat(matcher));
+        Mockito.doReturn(temporaryTransferList).when(service).find(Mockito.argThat(userId -> userId.equals(1L)));
+
+        List<TemporaryTransfer> result = controller.find(loginUserDetails);
+
+        assertEquals(temporaryTransferList, result);
+        Mockito.verify(service, Mockito.times(1)).find(Mockito.argThat(userId -> userId.equals(1L)));
     }
 
     @Test
-    void findOne() throws Exception {
+    void findOne() {
         TemporaryTransfer temporaryTransfer = new TemporaryTransfer();
-        temporaryTransfer.setDescription("desc");
-        Mockito.doReturn(temporaryTransfer).when(service).findOne(Mockito.argThat(id -> id == 1));
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/api/temporary")
-                .queryParam("id", "1"))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andReturn();
 
-        assertEquals(JsonMaker.toJsonString(temporaryTransfer), result.getResponse().getContentAsString());
-        Mockito.verify(service, Mockito.times(1)).findOne(Mockito.argThat(id -> id == 1L));
+        ArgumentMatcher<TemporaryTransferSelector> matcher = arg -> {
+            assertEquals(1L, arg.getUserId());
+            assertEquals(2L, arg.getId());
+            return true;
+        };
+        Mockito.doReturn(temporaryTransfer).when(service).findOne(Mockito.argThat(matcher));
+        TemporaryTransfer result = controller.findOne(loginUserDetails, 2L);
+
+        assertEquals(temporaryTransfer, result);
+        Mockito.verify(service, Mockito.times(1)).findOne(Mockito.argThat(matcher));
     }
 
     @Test
-    void add() throws Exception {
-        TemporaryTransfer temporaryTransfer = TestDomainDataCreator.temporaryCreate(1L, 2L, 3L, 23000, "desc", 2L);
+    void add() {
+        TemporaryTransfer temporaryTransfer = TestDomainDataCreator.temporaryCreate(1L, 2L, 3L, 23000, "desc", null);
 
         ArgumentMatcher<TemporaryTransfer> matcher = argument -> {
-            assertEquals(1L, argument.getId());
-            assertEquals(2L, argument.getFromAccount());
-            assertEquals(3L, argument.getToAccount());
-            assertEquals(23000, argument.getAmount());
-            assertEquals("desc", argument.getDescription());
-            assertEquals(2L, argument.getUserId());
+            assertEquals(1L, argument.getUserId());
+            assertEquals(temporaryTransfer, argument);
             return true;
         };
         Mockito.doNothing().when(service).add(Mockito.argThat(matcher));
-
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/temporary").contentType(MediaType.APPLICATION_JSON_VALUE)
-                .content(JsonMaker.toJsonString(temporaryTransfer)));
+        controller.add(loginUserDetails, temporaryTransfer);
 
         Mockito.verify(service, Mockito.times(1)).add(Mockito.argThat(matcher));
     }
 
     @Test
-    void set() throws Exception {
-        TemporaryTransfer temporaryTransfer = TestDomainDataCreator.temporaryCreate(1L, 2L, 3L, 23000, "desc", 2L);
+    void set() {
+        TemporaryTransfer temporaryTransfer = TestDomainDataCreator.temporaryCreate(1L, 2L, 3L, 23000, "desc", null);
 
         ArgumentMatcher<TemporaryTransfer> matcher = argument -> {
-            assertEquals(1L, argument.getId());
-            assertEquals(2L, argument.getFromAccount());
-            assertEquals(3L, argument.getToAccount());
-            assertEquals(23000, argument.getAmount());
-            assertEquals("desc", argument.getDescription());
-            assertEquals(2L, argument.getUserId());
+            assertEquals(1L, argument.getUserId());
+            assertEquals(temporaryTransfer, argument);
             return true;
         };
-        Mockito.doNothing().when(service).set(Mockito.argThat(matcher));
 
-        mockMvc.perform(MockMvcRequestBuilders.patch("/api/temporary").contentType(MediaType.APPLICATION_JSON_VALUE)
-                .content(JsonMaker.toJsonString(temporaryTransfer)));
+        Mockito.doNothing().when(service).set(Mockito.argThat(matcher));
+        controller.set(loginUserDetails, temporaryTransfer);
 
         Mockito.verify(service, Mockito.times(1)).set(Mockito.argThat(matcher));
     }
 
     @Test
-    void delete() throws Exception {
-        Mockito.doNothing().when(service).delete(Mockito.argThat(arg -> arg == 1L));
-
-        mockMvc.perform(MockMvcRequestBuilders.delete("/api/temporary/1"))
-                .andExpect(MockMvcResultMatchers.status().isOk());
-
-        Mockito.verify(service, Mockito.times(1)).delete(Mockito.argThat(arg -> arg == 1L));
+    void delete() {
+        ArgumentMatcher<TemporaryTransferSelector> matcher = arg -> {
+            assertEquals(1L, arg.getUserId());
+            assertEquals(2L, arg.getId());
+            return true;
+        };
+        Mockito.doNothing().when(service).delete(Mockito.argThat(matcher));
+        controller.delete(loginUserDetails, 2L);
+        Mockito.verify(service, Mockito.times(1)).delete(Mockito.argThat(matcher));
     }
 }

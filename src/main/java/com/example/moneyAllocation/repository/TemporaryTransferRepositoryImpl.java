@@ -18,13 +18,17 @@ public class TemporaryTransferRepositoryImpl implements TemporaryTransferReposit
     }
 
     @Override
-    public List<TemporaryTransfer> find(TemporaryTransferSelector selector) {
-        return sqlSession.getMapper(TemporaryTransferMapper.class).find(selector);
+    public List<TemporaryTransfer> find(Long userId) {
+        return sqlSession.getMapper(TemporaryTransferMapper.class).find(userId);
     }
 
     @Override
-    public TemporaryTransfer findOne(Long id) {
-        return sqlSession.getMapper(TemporaryTransferMapper.class).findOne(id);
+    public TemporaryTransfer findOne(TemporaryTransferSelector selector) {
+        TemporaryTransfer temporaryTransfer = sqlSession.getMapper(TemporaryTransferMapper.class).findOne(selector);
+        if ( temporaryTransfer == null) {
+            throw new ResourceNotFoundException("TemporaryTransfer not found");
+        }
+        return temporaryTransfer;
     }
 
     @Override
@@ -44,8 +48,8 @@ public class TemporaryTransferRepositoryImpl implements TemporaryTransferReposit
     }
 
     @Override
-    public void delete(Long id) {
-        int affected = sqlSession.getMapper(TemporaryTransferMapper.class).delete(id);
+    public void delete(TemporaryTransferSelector selector) {
+        int affected = sqlSession.getMapper(TemporaryTransferMapper.class).delete(selector);
         if (affected != 1) {
             throw new ResourceNotFoundException("TemporaryTransfer not found");
         }

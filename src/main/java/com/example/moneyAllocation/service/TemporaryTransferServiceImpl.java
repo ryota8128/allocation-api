@@ -7,7 +7,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 @Service
-public class TemporaryTransferServiceImpl implements TemporaryTransferService{
+public class TemporaryTransferServiceImpl implements TemporaryTransferService {
     private final TemporaryTransferRepository repository;
 
     public TemporaryTransferServiceImpl(TemporaryTransferRepository repository) {
@@ -15,14 +15,13 @@ public class TemporaryTransferServiceImpl implements TemporaryTransferService{
     }
 
     @Override
-    public List<TemporaryTransfer> find(TemporaryTransferSelector selector) {
-        return repository.find(selector);
+    public List<TemporaryTransfer> find(Long userId) {
+        return repository.find(userId);
     }
 
     @Override
-    public TemporaryTransfer findOne(Long id) {
-        return repository.findOne(id);
-
+    public TemporaryTransfer findOne(TemporaryTransferSelector selector) {
+        return repository.findOne(selector);
     }
 
     @Override
@@ -36,7 +35,7 @@ public class TemporaryTransferServiceImpl implements TemporaryTransferService{
     }
 
     @Override
-    public void delete(Long id) {
-        repository.delete(id);
+    public void delete(TemporaryTransferSelector selector) {
+        repository.delete(selector);
     }
 }

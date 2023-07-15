@@ -23,8 +23,8 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public List<Account> findList(AccountSelector selector) {
-        return accountRepository.find(selector);
+    public List<Account> findList(Long ownerId) {
+        return accountRepository.find(ownerId);
     }
 
     @Override

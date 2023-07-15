@@ -35,39 +35,9 @@ public class AccountRepositoryImplDbUnitTest {
         private DataSource source;
 
         @Test
-        public void testFindAll() {
-            AccountSelector selector = new AccountSelector();
-            List<Account> accountList = repository.find(selector);
-            assertEquals(6, accountList.size());
-            assertEquals(1L, accountList.get(0).getId());
-            assertEquals("三井", accountList.get(0).getName());
-            assertEquals(9999, accountList.get(0).getNumFreeTransfer());
-            assertEquals(150, accountList.get(0).getTransferFee());
-            assertEquals(1L, accountList.get(0).getOwnerId());
-            assertEquals(4L, accountList.get(3).getId());
-            assertEquals("PayPay", accountList.get(3).getName());
-            assertEquals(3, accountList.get(3).getNumFreeTransfer());
-            assertEquals(140, accountList.get(3).getTransferFee());
-            assertEquals(2L, accountList.get(3).getOwnerId());
-            assertEquals(5L, accountList.get(4).getId());
-            assertEquals("ソニー", accountList.get(4).getName());
-            assertEquals(2, accountList.get(4).getNumFreeTransfer());
-            assertEquals(120, accountList.get(4).getTransferFee());
-            assertEquals(2L, accountList.get(4).getOwnerId());
-            assertEquals(6L, accountList.get(5).getId());
-            assertEquals("ゆうちょ", accountList.get(5).getName());
-            assertEquals(0, accountList.get(5).getNumFreeTransfer());
-            assertEquals(130, accountList.get(5).getTransferFee());
-            assertEquals(2L, accountList.get(5).getOwnerId());
-
-
-        }
-
-        @Test
         public void testFindWithOwnerId() {
-            AccountSelector selector = new AccountSelector();
-            selector.setOwnerId(2L);
-            List<Account> accountList = repository.find(selector);
+            Long ownerId = 2L;
+            List<Account> accountList = repository.find(ownerId);
             assertEquals(3, accountList.size());
             assertEquals(4L, accountList.get(0).getId());
             assertEquals("PayPay", accountList.get(0).getName());

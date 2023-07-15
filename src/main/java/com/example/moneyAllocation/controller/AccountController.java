@@ -30,9 +30,7 @@ public class AccountController {
 
     @GetMapping(value = "/list", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Account> find(@AuthenticationPrincipal LoginUserDetails loginUserDetails) {
-        AccountSelector selector = new AccountSelector();
-        selector.setOwnerId(loginUserDetails.getLoginUser().id());
-        return service.findList(selector);
+        return service.findList(loginUserDetails.getLoginUser().id());
     }
 
     @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)

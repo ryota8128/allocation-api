@@ -2,9 +2,11 @@ package com.example.moneyAllocation.controller;
 
 import com.example.moneyAllocation.domain.TemporaryTransfer;
 import com.example.moneyAllocation.domain.TemporaryTransferSelector;
+import com.example.moneyAllocation.security.LoginUserDetails;
 import com.example.moneyAllocation.service.TemporaryTransferService;
 import java.util.List;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,29 +29,38 @@ public class TemporaryTransferController {
     }
 
     @GetMapping(value = "/list", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<TemporaryTransfer> find(@RequestParam(required = false) Long userId) {
-        TemporaryTransferSelector selector = new TemporaryTransferSelector();
-        selector.setUserId(userId);
-        return service.find(selector);
+    public List<TemporaryTransfer> find(@AuthenticationPrincipal LoginUserDetails loginUserDetails) {
+        return service.find(loginUserDetails.getLoginUser().id());
     }
 
     @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
-    public TemporaryTransfer findOne(@RequestParam Long id) {
-        return service.findOne(id);
+    public TemporaryTransfer findOne(@AuthenticationPrincipal LoginUserDetails loginUserDetails,
+                                     @RequestParam Long id) {
+        TemporaryTransferSelector selector = new TemporaryTransferSelector();
+        selector.setId(id);
+        selector.setUserId(loginUserDetails.getLoginUser().id());
+        return service.findOne(selector);
     }
 
     @PostMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
-    public void add(@RequestBody TemporaryTransfer temporaryTransfer) {
+    public void add(@AuthenticationPrincipal LoginUserDetails loginUserDetails,
+                    @RequestBody TemporaryTransfer temporaryTransfer) {
+        temporaryTransfer.setUserId(loginUserDetails.getLoginUser().id());
         service.add(temporaryTransfer);
     }
 
     @PatchMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
-    public void set(@RequestBody TemporaryTransfer temporaryTransfer) {
+    public void set(@AuthenticationPrincipal LoginUserDetails loginUserDetails,
+                    @RequestBody TemporaryTransfer temporaryTransfer) {
+        temporaryTransfer.setUserId(loginUserDetails.getLoginUser().id());
         service.set(temporaryTransfer);
     }
 
     @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public void delete(@PathVariable Long id) {
-        service.delete(id);
+    public void delete(@AuthenticationPrincipal LoginUserDetails loginUserDetails, @PathVariable Long id) {
+        TemporaryTransferSelector selector = new TemporaryTransferSelector();
+        selector.setUserId(loginUserDetails.getLoginUser().id());
+        selector.setId(id);
+        service.delete(selector);
     }
 }

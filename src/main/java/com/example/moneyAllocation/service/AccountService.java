@@ -5,7 +5,7 @@ import com.example.moneyAllocation.domain.AccountSelector;
 import java.util.List;
 
 public interface AccountService {
-    List<Account> findList(AccountSelector selector);
+    List<Account> findList(Long ownerId);
 
     Account findOne(AccountSelector selector);
 
