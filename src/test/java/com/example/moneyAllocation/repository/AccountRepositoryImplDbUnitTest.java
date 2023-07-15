@@ -18,6 +18,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 
@@ -102,7 +103,7 @@ public class AccountRepositoryImplDbUnitTest {
         }
 
         @Test
-        public void testInsertConstraintException() {
+        public void testInsertOwnerIdConstraintException() {
             Account account = new Account();
             account.setName("hoge");
             account.setTransferFee(120);
@@ -111,6 +112,19 @@ public class AccountRepositoryImplDbUnitTest {
 
             assertThrowsExactly(DataIntegrityViolationException.class, () -> repository.add(account));
         }
+
+        @Test
+        public void testInsertUniqueNameAndOwnerIdConstraintException() {
+            Account account = new Account();
+            account.setName("三井");
+            account.setTransferFee(120);
+            account.setNumFreeTransfer(4);
+            account.setOwnerId(1L);
+
+            assertThrowsExactly(DuplicateKeyException.class, () -> repository.add(account));
+        }
+
+
     }
 
     @SpringBootTest(classes = MoneyAllocationApplication.class)
