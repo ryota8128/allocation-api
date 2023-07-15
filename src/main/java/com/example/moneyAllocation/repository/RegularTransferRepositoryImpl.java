@@ -17,8 +17,8 @@ public class RegularTransferRepositoryImpl implements RegularTransferRepository{
     }
 
     @Override
-    public List<RegularTransfer> find(RegularTransferSelector selector) {
-        return this.sqlSession.getMapper(RegularTransferMapper.class).find(selector);
+    public List<RegularTransfer> find(Long userId) {
+        return this.sqlSession.getMapper(RegularTransferMapper.class).find(userId);
     }
 
     @Override

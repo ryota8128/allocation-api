@@ -23,8 +23,8 @@ public class RegularTransferServiceImpl implements RegularTransferService {
     }
 
     @Override
-    public List<RegularTransfer> find(RegularTransferSelector selector) {
-        return this.regularTransferRepository.find(selector);
+    public List<RegularTransfer> find(Long userId) {
+        return this.regularTransferRepository.find(userId);
     }
 
     @Override

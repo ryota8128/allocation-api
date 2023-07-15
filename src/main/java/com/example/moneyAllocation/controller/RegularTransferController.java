@@ -30,9 +30,7 @@ public class RegularTransferController {
 
     @GetMapping(value = "/list", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<RegularTransfer> find(@AuthenticationPrincipal LoginUserDetails loginUserDetails) {
-        RegularTransferSelector selector = new RegularTransferSelector();
-        selector.setUserId(loginUserDetails.getLoginUser().id());
-        return this.service.find(selector);
+        return this.service.find(loginUserDetails.getLoginUser().id());
     }
 
     @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)

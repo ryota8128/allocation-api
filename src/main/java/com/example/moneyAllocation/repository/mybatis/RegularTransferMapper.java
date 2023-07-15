@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
 public interface RegularTransferMapper {
-    List<RegularTransfer> find(RegularTransferSelector selector);
+    List<RegularTransfer> find(Long userId);
 
     RegularTransfer findOne(RegularTransferSelector selector);
 
