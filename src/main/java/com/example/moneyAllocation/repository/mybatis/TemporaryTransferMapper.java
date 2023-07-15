@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
 public interface TemporaryTransferMapper {
-    List<TemporaryTransfer> find(TemporaryTransferSelector selector);
+    List<TemporaryTransfer> find(Long userId);
 
     TemporaryTransfer findOne(TemporaryTransferSelector selector);
 

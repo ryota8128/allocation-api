@@ -23,9 +23,7 @@
         USER_ID
         FROM TEMPORARY_TRANSFER
         <where>
-            <if test="userId != null">
-                AND USER_ID = #{userId}
-            </if>
+            USER_ID = #{userId}
         </where>
     </select>
 

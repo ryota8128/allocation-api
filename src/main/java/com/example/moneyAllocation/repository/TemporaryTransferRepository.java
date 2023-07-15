@@ -5,7 +5,7 @@ import com.example.moneyAllocation.domain.TemporaryTransferSelector;
 import java.util.List;
 
 public interface TemporaryTransferRepository {
-    List<TemporaryTransfer> find(TemporaryTransferSelector selector);
+    List<TemporaryTransfer> find(Long userId);
 
     TemporaryTransfer findOne(TemporaryTransferSelector selector);
 

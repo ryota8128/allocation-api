@@ -30,9 +30,7 @@ public class TemporaryTransferController {
 
     @GetMapping(value = "/list", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<TemporaryTransfer> find(@AuthenticationPrincipal LoginUserDetails loginUserDetails) {
-        TemporaryTransferSelector selector = new TemporaryTransferSelector();
-        selector.setUserId(loginUserDetails.getLoginUser().id());
-        return service.find(selector);
+        return service.find(loginUserDetails.getLoginUser().id());
     }
 
     @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
