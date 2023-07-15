@@ -23,8 +23,12 @@ public class TemporaryTransferRepositoryImpl implements TemporaryTransferReposit
     }
 
     @Override
-    public TemporaryTransfer findOne(Long id) {
-        return sqlSession.getMapper(TemporaryTransferMapper.class).findOne(id);
+    public TemporaryTransfer findOne(TemporaryTransferSelector selector) {
+        TemporaryTransfer temporaryTransfer = sqlSession.getMapper(TemporaryTransferMapper.class).findOne(selector);
+        if ( temporaryTransfer == null) {
+            throw new ResourceNotFoundException("TemporaryTransfer not found");
+        }
+        return temporaryTransfer;
     }
 
     @Override

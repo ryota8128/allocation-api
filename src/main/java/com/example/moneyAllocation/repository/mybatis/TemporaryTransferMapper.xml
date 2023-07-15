@@ -39,7 +39,8 @@
         USER_ID
         FROM TEMPORARY_TRANSFER
         <where>
-               ID = #{id}
+            ID = #{id}
+            AND  USER_ID = #{userId}
         </where>
     </select>
 
