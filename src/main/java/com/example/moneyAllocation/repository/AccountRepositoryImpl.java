@@ -17,8 +17,8 @@ public class AccountRepositoryImpl implements AccountRepository {
     }
 
     @Override
-    public List<Account> find(AccountSelector selector) {
-        return this.sqlSession.getMapper(AccountMapper.class).find(selector);
+    public List<Account> find(Long ownerId) {
+        return this.sqlSession.getMapper(AccountMapper.class).find(ownerId);
     }
 
     @Override

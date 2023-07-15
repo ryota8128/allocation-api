@@ -5,9 +5,10 @@ import com.example.moneyAllocation.domain.AccountSelector;
 import java.util.List;
 
 public interface AccountRepository {
-    List<Account> find(AccountSelector selector);
+    List<Account> find(Long ownerId);
 
     Account findOne(AccountSelector selector);
+
     void add(Account account);
 
     void set(Account account);
