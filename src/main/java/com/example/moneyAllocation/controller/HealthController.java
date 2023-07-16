@@ -12,13 +12,14 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin(origins = {"http://localhost:3000"})
 public class HealthController {
     @GetMapping
-    public Account get() {
-        Account account = new Account();
-        account.setName("test");
-        account.setOwnerId(99L);
-        account.setId(99L);
-        account.setNumFreeTransfer(1);
-        account.setTransferFee(100);
-        return account;
+    public String get() {
+        String dbUser = System.getenv("DB_USER");
+        String dbPass = System.getenv("DB_PASS");
+        String dbHost = System.getenv("DB_HOST");
+        String dbPort = System.getenv("DB_PORT");
+        String dbSchema = System.getenv("DB_SCHEMA");
+        StringBuilder sb = new StringBuilder(dbUser);
+        sb.append("\n" + dbPass).append("\n" + dbHost).append("\n" + dbPort).append("\n" + dbSchema);
+        return sb.toString();
     }
 }
