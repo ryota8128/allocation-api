@@ -1,12 +1,9 @@
 package com.example.moneyAllocation.controller;
 
 
-import com.example.moneyAllocation.domain.Account;
-import com.example.moneyAllocation.domain.User;
 import com.example.moneyAllocation.domain.UserSelector;
 import com.example.moneyAllocation.exception.HealthDieException;
 import com.example.moneyAllocation.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
