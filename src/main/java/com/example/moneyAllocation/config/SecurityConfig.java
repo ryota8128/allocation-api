@@ -30,7 +30,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/auth/login").permitAll() // loginへのアクセスを許可
-                .antMatchers("/health").permitAll() // apiのヘルスチェック用
+                .antMatchers("/health/**").permitAll() // apiのヘルスチェック用
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()  // OPTIONSリクエストを全て許可
                 .anyRequest().authenticated() // それ以外のリクエストは認証を必要とする
                 .and()
