@@ -4,6 +4,7 @@ package com.example.moneyAllocation.controller;
 import com.example.moneyAllocation.domain.Account;
 import com.example.moneyAllocation.domain.User;
 import com.example.moneyAllocation.domain.UserSelector;
+import com.example.moneyAllocation.exception.HealthDieException;
 import com.example.moneyAllocation.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -23,21 +24,17 @@ public class HealthController {
 
     @GetMapping("")
     public String get() {
-        String dbUser = System.getenv("DB_USER");
-        String dbPass = System.getenv("DB_PASS");
-        String dbHost = System.getenv("DB_HOST");
-        String dbPort = System.getenv("DB_PORT");
-        String dbSchema = System.getenv("DB_SCHEMA");
-        StringBuilder sb = new StringBuilder(dbUser);
-        sb.append("\n" + dbPass).append("\n" + dbHost).append("\n" + dbPort).append("\n" + dbSchema);
-        return sb.toString();
+        return "Backend APP OK";
     }
 
     @GetMapping("/db")
-    public User getUser() {
+    public String health() {
         String username = "user1";
         UserSelector selector = new UserSelector();
         selector.setUsername(username);
-        return repository.find(selector);
+        if (repository.find(selector) == null) {
+            throw new HealthDieException("DBとの接続に失敗しました");
+        }
+        return "Database connection OK";
     }
 }

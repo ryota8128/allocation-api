@@ -1,5 +1,6 @@
 package com.example.moneyAllocation.controller;
 
+import com.example.moneyAllocation.exception.HealthDieException;
 import com.example.moneyAllocation.exception.ResourceNotFoundException;
 import com.example.moneyAllocation.exception.ResourceValidationException;
 import java.sql.SQLIntegrityConstraintViolationException;
@@ -36,5 +37,11 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<Object> handleSQLDuplicateKeyException(
             DuplicateKeyException exception, WebRequest request) {
         return super.handleExceptionInternal(exception, "重複したデータを追加しました", HttpHeaders.EMPTY, HttpStatus.BAD_REQUEST, request);
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<Object> handleHealthDieException(
+            HealthDieException exception, WebRequest request) {
+        return super.handleExceptionInternal(exception, exception.getMessage(), HttpHeaders.EMPTY, HttpStatus.FORBIDDEN, request);
     }
 }
