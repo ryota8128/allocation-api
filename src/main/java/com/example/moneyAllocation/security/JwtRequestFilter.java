@@ -1,6 +1,7 @@
 package com.example.moneyAllocation.security;
 
 import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.security.SignatureException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -41,7 +42,13 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                 username = jwtUtil.extractUsername(jwt);
             } catch (ExpiredJwtException e) {
                 // log the exception
-                logger.warn("不正なユーザです");
+                logger.warn("tokenの期限が切れています");
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "期限切れのtokenです");
+                return;
+            }catch (SignatureException e) {
+                logger.warn("認証に失敗しました");
+                response.sendError(HttpServletResponse.SC_FORBIDDEN, "認証に失敗しました");
+                return;
             }
         }
 
