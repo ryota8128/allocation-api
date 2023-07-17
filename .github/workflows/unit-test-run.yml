@@ -21,12 +21,5 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Set up Maven
-        run: |
-          sudo yum update
-          sudo yum install maven -y
-
-
       - name: Run Unit Tests
-        run: mvn test --no-transfer-progress
-
+        run: mvn test
