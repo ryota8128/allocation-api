@@ -32,9 +32,9 @@ jobs:
       run: mvn clean install
       
     - name: move jar to home dir
-      run: mv ./target/moneyAllocation-0.0.1-SNAPSHOT.jar ~/
+      run: mv ./target/moneyAllocation-0.0.1-SNAPSHOT.jar ~/app.jar
       
-    - name: run-app
-      run: sh ~/run-app.sh 
+#     - name: run-app
+#       run: sh ~/run-app.sh 
     
 
