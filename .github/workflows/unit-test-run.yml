@@ -22,14 +22,10 @@ jobs:
 #          distribution: 'temurin'
 #          maven-version: '3.5.2'
 
-      # Setup Maven Version
-      - name: Set up Maven
-        uses: actions/setup-maven@v1
-        with:
-          maven-version: '3.5.2'
 
-      - name: local repo clean
-        run: mvn dependency:purge-local-repository
+
+      - name: maven version check
+        run: mvn --version
       - name: Run Unit Tests
         run: mvn clean install
 
