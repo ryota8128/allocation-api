@@ -11,6 +11,19 @@ jobs:
     
     steps:
     - uses: actions/checkout@v2
+    - name: Setup Maven
+      run: |
+        if [ ! -d "/opt/apache-maven-3.5.2" ]; then
+          wget https://archive.apache.org/dist/maven/maven-3/3.5.2/binaries/apache-maven-3.5.2-bin.tar.gz -P /tmp
+          sudo tar xf /tmp/apache-maven-*.tar.gz -C /opt
+          if [ -L /opt/maven ] ; then
+            sudo rm /opt/maven
+          fi
+          sudo ln -s /opt/apache-maven-3.5.2 /opt/maven
+        fi
+        echo "M2_HOME=/opt/maven" >> $GITHUB_ENV
+        echo "MAVEN_HOME=/opt/maven" >> $GITHUB_ENV
+        echo "PATH=/opt/maven/bin:$PATH" >> $GITHUB_ENV
 
     - name: Verify Maven installation
       run: mvn -version
