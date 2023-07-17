@@ -19,13 +19,9 @@ jobs:
           wget https://archive.apache.org/dist/maven/maven-3/3.5.2/binaries/apache-maven-3.5.2-bin.tar.gz -P /tmp
           sudo tar xf /tmp/apache-maven-*.tar.gz -C /opt
           sudo ln -s /opt/apache-maven-3.5.2 /opt/maven
-          sudo tee /etc/profile.d/maven.sh <<- END
-            export JAVA_HOME=/usr/lib/jvm/default-java
-            export M2_HOME=/opt/maven
-            export MAVEN_HOME=/opt/maven
-            export PATH=${M2_HOME}/bin:${PATH}
-          END
-          source /etc/profile.d/maven.sh
+          echo "M2_HOME=/opt/maven" >> $GITHUB_ENV
+          echo "MAVEN_HOME=/opt/maven" >> $GITHUB_ENV
+          echo "PATH=/opt/maven/bin:$PATH" >> $GITHUB_ENV
 
       - name: Verify Maven installation
         run: mvn -version
