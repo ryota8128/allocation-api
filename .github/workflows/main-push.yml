@@ -24,6 +24,7 @@ jobs:
         echo "M2_HOME=/opt/maven" >> $GITHUB_ENV
         echo "MAVEN_HOME=/opt/maven" >> $GITHUB_ENV
         echo "PATH=/opt/maven/bin:$PATH" >> $GITHUB_ENV
+        echo "JAVA_HOME=/usr/lib/jvm/java-17-amazon-corretto.x86_64" >> $GITHUB_ENV
 
     - name: Verify Maven installation
       run: mvn -version
