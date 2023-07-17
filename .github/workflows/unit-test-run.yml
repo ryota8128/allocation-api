@@ -19,8 +19,8 @@ jobs:
         uses: actions/setup-java@v2
         with:
           java-version: '17'
+          maven-version: '3.8.4'
           distribution: 'temurin'
-          maven-version: '3.5.2'
 
       - name: Run Unit Tests
         run: mvn test
