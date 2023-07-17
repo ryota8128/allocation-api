@@ -45,7 +45,11 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                 logger.warn("tokenの期限が切れています");
                 response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "期限切れのtokenです");
                 return;
-            }catch (SignatureException e) {
+            } catch (SignatureException e) {
+                logger.warn("認証に失敗しました");
+                response.sendError(HttpServletResponse.SC_FORBIDDEN, "認証に失敗しました");
+                return;
+            } catch (Exception e) {
                 logger.warn("認証に失敗しました");
                 response.sendError(HttpServletResponse.SC_FORBIDDEN, "認証に失敗しました");
                 return;
@@ -59,10 +63,10 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
             if (jwtUtil.validateToken(jwt, userDetails)) {
 
-                UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
-                        userDetails, null, userDetails.getAuthorities());
-                usernamePasswordAuthenticationToken
-                        .setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
+                        new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                usernamePasswordAuthenticationToken.setDetails(
+                        new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
             }
         }
