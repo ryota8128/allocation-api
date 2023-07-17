@@ -23,8 +23,8 @@ jobs:
 
       - name: Set up Maven
         run: |
-          sudo apt-get update
-          sudo apt-get install maven -y
+          sudo yum update
+          sudo yum install maven -y
 
 
       - name: Run Unit Tests
