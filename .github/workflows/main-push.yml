@@ -32,10 +32,9 @@ jobs:
 #       run: mvn clean install
       
     - name: move jar to home dir
-      run: |
-        pwd
-        ls ./allocation-api/allocation-api/target/
+      run:  mv ./target/moneyAllocation-0.0.1-SNAPSHOT.jar ~/
       
-#       mv ./allocation-api/allocation-api/target/moneyAllocation-0.0.1-SNAPSHOT.jar ~/
+    - name: check jar in home dir
+      run: ls ~
     
 
