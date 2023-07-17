@@ -16,7 +16,7 @@ jobs:
       - uses: actions/checkout@v2
       - name: Setup Maven
         run: |
-          wget https://downloads.apache.org/maven/maven-3/3.5.2/binaries/apache-maven-3.5.2-bin.tar.gz -P /tmp
+          wget https://archive.apache.org/dist/maven/maven-3/3.5.2/binaries/apache-maven-3.5.2-bin.tar.gz -P /tmp
           sudo tar xf /tmp/apache-maven-*.tar.gz -C /opt
           sudo ln -s /opt/apache-maven-3.5.2 /opt/maven
           sudo tee /etc/profile.d/maven.sh <<- END
