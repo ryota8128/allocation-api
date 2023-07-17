@@ -20,6 +20,7 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
+          maven-version: '3.5.2'
 
       - name: Run Unit Tests
         run: mvn test
