@@ -22,5 +22,8 @@ jobs:
 #          distribution: 'temurin'
 #          maven-version: '3.5.2'
 
+      - name: local repo clean
+        run: mvn dependency:purge-local-repository
       - name: Run Unit Tests
         run: mvn clean install
+
