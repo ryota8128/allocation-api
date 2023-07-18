@@ -31,6 +31,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/auth/login").permitAll() // loginへのアクセスを許可
                 .antMatchers("/health/**").permitAll() // apiのヘルスチェック用
+                .antMatchers("/api/user/add").permitAll()  // 新規ユーザの追加
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()  // OPTIONSリクエストを全て許可
                 .anyRequest().authenticated() // それ以外のリクエストは認証を必要とする
                 .and()
