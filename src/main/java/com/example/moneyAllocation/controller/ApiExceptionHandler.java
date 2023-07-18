@@ -3,6 +3,7 @@ package com.example.moneyAllocation.controller;
 import com.example.moneyAllocation.exception.HealthDieException;
 import com.example.moneyAllocation.exception.ResourceNotFoundException;
 import com.example.moneyAllocation.exception.ResourceValidationException;
+import com.example.moneyAllocation.exception.UserRegisterException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpHeaders;
@@ -42,6 +43,12 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler
     public ResponseEntity<Object> handleHealthDieException(
             HealthDieException exception, WebRequest request) {
+        return super.handleExceptionInternal(exception, exception.getMessage(), HttpHeaders.EMPTY, HttpStatus.FORBIDDEN, request);
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<Object> handleUserRegisterException(
+            UserRegisterException exception, WebRequest request) {
         return super.handleExceptionInternal(exception, exception.getMessage(), HttpHeaders.EMPTY, HttpStatus.FORBIDDEN, request);
     }
 }

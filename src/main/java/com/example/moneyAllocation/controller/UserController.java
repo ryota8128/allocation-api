@@ -3,8 +3,12 @@ package com.example.moneyAllocation.controller;
 
 import com.example.moneyAllocation.domain.User;
 import com.example.moneyAllocation.domain.UserSelector;
+import com.example.moneyAllocation.exception.UserRegisterException;
+import com.example.moneyAllocation.security.JwtResponse;
+import com.example.moneyAllocation.security.JwtUtils;
 import com.example.moneyAllocation.service.UserService;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,8 +25,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
     private final UserService service;
 
-    public UserController(UserService service) {
+    private final JwtUtils jwtUtils;
+
+    public UserController(UserService service, JwtUtils jwtUtils) {
         this.service = service;
+        this.jwtUtils = jwtUtils;
     }
 
     @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -32,10 +39,18 @@ public class UserController {
         return service.find(selector);
     }
 
-    @PostMapping(value = "",produces = MediaType.APPLICATION_JSON_VALUE)
-    public void insert(@RequestBody User user) {
+    @PostMapping(value = "/add", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> register(@RequestBody User user) {
         user.setAdministratorFlag(false);
-        service.add(user);
+        try {
+            service.add(user);
+        } catch (Exception e) {
+            throw new UserRegisterException("新規ユーザの登録に失敗しました");
+        }
+
+        final String jwt = jwtUtils.generateToken(user.getUsername());
+
+        return ResponseEntity.ok(new JwtResponse(jwt));
     }
 
     @PatchMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
