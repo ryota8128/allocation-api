@@ -20,21 +20,23 @@
         TO_ACCOUNT,
         DESCRIPTION,
         AMOUNT,
-        USER_ID
+        USER_ID,
+        TRANSFER_ID
         FROM TEMPORARY_TRANSFER
         <where>
             USER_ID = #{userId}
         </where>
     </select>
 
-    <select id="findOne" resultMap="TemporaryTransfer">
+    <select id="findOne" resultMap="TemporaryTransfer" parameterType="com.example.moneyAllocation.domain.TransferSelector">
         SELECT
         ID,
         FROM_ACCOUNT,
         TO_ACCOUNT,
         DESCRIPTION,
         AMOUNT,
-        USER_ID
+        USER_ID,
+        TRANSFER_ID
         FROM TEMPORARY_TRANSFER
         <where>
             ID = #{id}
@@ -50,7 +52,8 @@
         to_account,
         description,
         amount,
-        user_id
+        user_id,
+        transfer_id
         )
         VALUES
         (
@@ -58,7 +61,8 @@
         #{toAccount},
         #{description},
         #{amount},
-        #{userId}
+        #{userId},
+        #{transferId}
         )
     </insert>
 
@@ -68,17 +72,23 @@
         FROM_ACCOUNT = #{fromAccount},
         TO_ACCOUNT = #{toAccount},
         DESCRIPTION = #{description},
-        AMOUNT = #{amount}
+        AMOUNT = #{amount},
+        TRANSFER_ID = #{transferId}
         WHERE
         ID = #{id}
         AND USER_ID = #{userId}
     </update>
 
-    <delete id="delete" parameterType="Long">
+    <delete id="delete" parameterType="com.example.moneyAllocation.domain.TemporaryTransferSelector">
         DELETE FROM TEMPORARY_TRANSFER
         <where>
+            <if test="transferId != null">
+                TRANSFER_ID = #{transferId}
+            </if>
+            <if test="transferId == null">
             ID = #{id}
             AND USER_ID = #{userId}
+            </if>
         </where>
     </delete>
 

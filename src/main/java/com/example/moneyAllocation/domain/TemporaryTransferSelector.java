@@ -1,23 +1,13 @@
 package com.example.moneyAllocation.domain;
 
-public class TemporaryTransferSelector {
-    private Long userId;
+public class TemporaryTransferSelector extends TransferSelector {
+    private Long transferId;
 
-    private Long id;
-
-    public Long getId() {
-        return id;
+    public Long getTransferId() {
+        return transferId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setTransferId(Long transferId) {
+        this.transferId = transferId;
     }
 }

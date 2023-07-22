@@ -2,6 +2,7 @@ package com.example.moneyAllocation.controller;
 
 import com.example.moneyAllocation.domain.TemporaryTransfer;
 import com.example.moneyAllocation.domain.TemporaryTransferSelector;
+import com.example.moneyAllocation.domain.TransferSelector;
 import com.example.moneyAllocation.security.LoginUserDetails;
 import com.example.moneyAllocation.service.TemporaryTransferService;
 import java.util.List;
@@ -36,7 +37,7 @@ public class TemporaryTransferController {
     @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
     public TemporaryTransfer findOne(@AuthenticationPrincipal LoginUserDetails loginUserDetails,
                                      @RequestParam Long id) {
-        TemporaryTransferSelector selector = new TemporaryTransferSelector();
+        TransferSelector selector = new TransferSelector();
         selector.setId(id);
         selector.setUserId(loginUserDetails.getLoginUser().id());
         return service.findOne(selector);

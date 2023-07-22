@@ -1,7 +1,7 @@
 package com.example.moneyAllocation.repository;
 
 import com.example.moneyAllocation.domain.RegularTransfer;
-import com.example.moneyAllocation.domain.RegularTransferSelector;
+import com.example.moneyAllocation.domain.TransferSelector;
 import com.example.moneyAllocation.exception.ResourceNotFoundException;
 import com.example.moneyAllocation.repository.mybatis.RegularTransferMapper;
 import java.util.List;
@@ -22,7 +22,7 @@ public class RegularTransferRepositoryImpl implements RegularTransferRepository{
     }
 
     @Override
-    public RegularTransfer findOne(RegularTransferSelector selector) {
+    public RegularTransfer findOne(TransferSelector selector) {
         RegularTransfer regularTransfer = this.sqlSession.getMapper(RegularTransferMapper.class).findOne(selector);
         if (regularTransfer == null) {
             throw new ResourceNotFoundException("RegularTransfer not found");
@@ -48,7 +48,7 @@ public class RegularTransferRepositoryImpl implements RegularTransferRepository{
     }
 
     @Override
-    public void delete(RegularTransferSelector selector) {
+    public void delete(TransferSelector selector) {
         int affected = this.sqlSession.getMapper(RegularTransferMapper.class).delete(selector);
         if (affected != 1) {
             throw new ResourceNotFoundException("RegularTransfer not found");

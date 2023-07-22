@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import com.example.moneyAllocation.MoneyAllocationApplication;
 import com.example.moneyAllocation.domain.RegularTransfer;
-import com.example.moneyAllocation.domain.RegularTransferSelector;
+import com.example.moneyAllocation.domain.TransferSelector;
 import com.example.moneyAllocation.exception.ResourceNotFoundException;
 import com.example.moneyAllocation.repository.util.DbTestExecutionListener;
 import com.example.moneyAllocation.repository.util.TestDomainDataCreator;
@@ -54,7 +54,7 @@ public class RegularTransferRepositoryDbUnitTest {
 
         @Test
         public void testFindOne() {
-            RegularTransferSelector selector = new RegularTransferSelector();
+            TransferSelector selector = new TransferSelector();
             selector.setId(1L);
             selector.setUserId(1L);
             RegularTransfer regularTransfer = repository.findOne(selector);
@@ -69,7 +69,7 @@ public class RegularTransferRepositoryDbUnitTest {
 
         @Test
         public void testFindOneNotExist() {
-            RegularTransferSelector selector = new RegularTransferSelector();
+            TransferSelector selector = new TransferSelector();
             selector.setId(1L);
             selector.setUserId(2L);
             assertThrows(ResourceNotFoundException.class, () -> repository.findOne(selector));
@@ -139,7 +139,7 @@ public class RegularTransferRepositoryDbUnitTest {
 
         @Test
         public void testDelete() {
-            RegularTransferSelector selector = new RegularTransferSelector();
+            TransferSelector selector = new TransferSelector();
             selector.setId(3L);
             selector.setUserId(2L);
             repository.delete(selector);
@@ -148,7 +148,7 @@ public class RegularTransferRepositoryDbUnitTest {
 
         @Test
         public void testFailDelete() {
-            RegularTransferSelector selector = new RegularTransferSelector();
+            TransferSelector selector = new TransferSelector();
             selector.setId(3L);
             selector.setUserId(1L);
             assertThrows(ResourceNotFoundException.class, () -> repository.delete(selector));
