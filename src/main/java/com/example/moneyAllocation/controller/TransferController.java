@@ -1,6 +1,7 @@
 package com.example.moneyAllocation.controller;
 
 import com.example.moneyAllocation.domain.Transfer;
+import com.example.moneyAllocation.domain.TransferSelector;
 import com.example.moneyAllocation.security.LoginUserDetails;
 import com.example.moneyAllocation.service.TransferService;
 import java.util.List;
@@ -33,7 +34,10 @@ public class TransferController {
 
     @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
     public Transfer findOne(@AuthenticationPrincipal LoginUserDetails loginUserDetails, @RequestParam Long transferId) {
-        return transferService.findOne(transferId);
+        TransferSelector selector = new TransferSelector();
+        selector.setId(transferId);
+        selector.setUserId(loginUserDetails.getLoginUser().id());
+        return transferService.findOne(selector);
     }
 
 
@@ -51,7 +55,10 @@ public class TransferController {
 
     @DeleteMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
     public void delete(@AuthenticationPrincipal LoginUserDetails loginUserDetails, @RequestParam Long transferId) {
-        transferService.delete(transferId);
+        TransferSelector selector = new TransferSelector();
+        selector.setUserId(loginUserDetails.getLoginUser().id());
+        selector.setId(transferId);
+        transferService.delete(selector);
     }
 
 }

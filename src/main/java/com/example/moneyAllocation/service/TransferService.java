@@ -1,16 +1,17 @@
 package com.example.moneyAllocation.service;
 
 import com.example.moneyAllocation.domain.Transfer;
+import com.example.moneyAllocation.domain.TransferSelector;
 import java.util.List;
 
 public interface TransferService {
     List<Transfer> find(Long userId);
 
-    Transfer findOne(Long transferId);
+    Transfer findOne(TransferSelector selector);
 
     void add(Transfer transfer);
 
     void set(Transfer transfer);
 
-    void delete(Long transferId);
+    void delete(TransferSelector selector);
 }
