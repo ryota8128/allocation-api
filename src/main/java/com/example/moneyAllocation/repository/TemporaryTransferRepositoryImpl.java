@@ -2,6 +2,7 @@ package com.example.moneyAllocation.repository;
 
 import com.example.moneyAllocation.domain.TemporaryTransfer;
 import com.example.moneyAllocation.domain.TemporaryTransferSelector;
+import com.example.moneyAllocation.domain.TransferSelector;
 import com.example.moneyAllocation.exception.ResourceNotFoundException;
 import com.example.moneyAllocation.repository.mybatis.TemporaryTransferMapper;
 import java.util.List;
@@ -23,7 +24,7 @@ public class TemporaryTransferRepositoryImpl implements TemporaryTransferReposit
     }
 
     @Override
-    public TemporaryTransfer findOne(TemporaryTransferSelector selector) {
+    public TemporaryTransfer findOne(TransferSelector selector) {
         TemporaryTransfer temporaryTransfer = sqlSession.getMapper(TemporaryTransferMapper.class).findOne(selector);
         if ( temporaryTransfer == null) {
             throw new ResourceNotFoundException("TemporaryTransfer not found");

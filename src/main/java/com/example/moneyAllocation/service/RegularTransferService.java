@@ -1,16 +1,16 @@
 package com.example.moneyAllocation.service;
 
 import com.example.moneyAllocation.domain.RegularTransfer;
-import com.example.moneyAllocation.domain.RegularTransferSelector;
+import com.example.moneyAllocation.domain.TransferSelector;
 import java.util.List;
 
 public interface RegularTransferService {
     List<RegularTransfer> find(Long userId);
-    RegularTransfer findOne(RegularTransferSelector selector);
+    RegularTransfer findOne(TransferSelector selector);
 
     void add(RegularTransfer regularTransfer);
 
     void set(RegularTransfer regularTransfer);
 
-    void delete(RegularTransferSelector selector);
+    void delete(TransferSelector selector);
 }

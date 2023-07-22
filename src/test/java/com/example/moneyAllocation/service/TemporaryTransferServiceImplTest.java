@@ -3,6 +3,7 @@ package com.example.moneyAllocation.service;
 import static org.junit.jupiter.api.Assertions.*;
 import com.example.moneyAllocation.domain.TemporaryTransfer;
 import com.example.moneyAllocation.domain.TemporaryTransferSelector;
+import com.example.moneyAllocation.domain.TransferSelector;
 import com.example.moneyAllocation.repository.TemporaryTransferRepository;
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +48,7 @@ class TemporaryTransferServiceImplTest {
     @Test
     void findOne() {
         TemporaryTransfer temporaryTransfer = new TemporaryTransfer();
-        TemporaryTransferSelector selector = new TemporaryTransferSelector();
+        TransferSelector selector = new TransferSelector();
         Mockito.doReturn(temporaryTransfer).when(repository).findOne(selector);
         TemporaryTransfer result = service.findOne(selector);
         assertEquals(temporaryTransfer, result);

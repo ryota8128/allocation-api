@@ -1,7 +1,7 @@
 package com.example.moneyAllocation.repository.mybatis;
 
 import com.example.moneyAllocation.domain.RegularTransfer;
-import com.example.moneyAllocation.domain.RegularTransferSelector;
+import com.example.moneyAllocation.domain.TransferSelector;
 import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -9,13 +9,13 @@ import org.apache.ibatis.annotations.Mapper;
 public interface RegularTransferMapper {
     List<RegularTransfer> find(Long userId);
 
-    RegularTransfer findOne(RegularTransferSelector selector);
+    RegularTransfer findOne(TransferSelector selector);
 
     int add(RegularTransfer regularTransfer);
 
     int set(RegularTransfer regularTransfer);
 
-    int delete(RegularTransferSelector selector);
+    int delete(TransferSelector selector);
 
     void setNullAccount(Long accountId);
 }

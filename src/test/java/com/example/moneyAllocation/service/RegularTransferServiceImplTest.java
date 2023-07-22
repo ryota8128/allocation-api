@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import com.example.moneyAllocation.domain.Account;
 import com.example.moneyAllocation.domain.AccountSelector;
 import com.example.moneyAllocation.domain.RegularTransfer;
-import com.example.moneyAllocation.domain.RegularTransferSelector;
+import com.example.moneyAllocation.domain.TransferSelector;
 import com.example.moneyAllocation.exception.ResourceNotFoundException;
 import com.example.moneyAllocation.exception.ResourceValidationException;
 import com.example.moneyAllocation.repository.AccountRepository;
@@ -57,7 +57,7 @@ class RegularTransferServiceImplTest {
 
     @Test
     void findOne() {
-        RegularTransferSelector selector = new RegularTransferSelector();
+        TransferSelector selector = new TransferSelector();
         selector.setId(1L);
         selector.setUserId(1L);
         RegularTransfer regularTransfer = new RegularTransfer();
@@ -279,7 +279,7 @@ class RegularTransferServiceImplTest {
 
     @Test
     void delete() {
-        RegularTransferSelector selector = new RegularTransferSelector();
+        TransferSelector selector = new TransferSelector();
         Mockito.doNothing().when(regularTransferRepository).delete(selector);
         service.delete(selector);
         Mockito.verify(regularTransferRepository, Mockito.times(1)).delete(selector);

@@ -20,7 +20,7 @@ public class DbTestExecutionListener extends AbstractTestExecutionListener {
     @Override
     public void beforeTestMethod(TestContext testContext) throws Exception {
         DataSource dataSource = testContext.getApplicationContext().getBean(DataSource.class);
-        Arrays.asList("TEMPORARY_TRANSFER", "REGULAR_TRANSFER", "ACCOUNT", "USER").forEach(filename -> {
+        Arrays.asList("TEMPORARY_TRANSFER", "REGULAR_TRANSFER", "TRANSFER", "ACCOUNT", "USER").forEach(filename -> {
             File file = new File(DATA_DIR + filename + "_back.xls");
             backupList.add(file);
             DbUnitUtil.backup(dataSource, file, filename);
@@ -32,7 +32,7 @@ public class DbTestExecutionListener extends AbstractTestExecutionListener {
     public void afterTestMethod(TestContext testContext) throws Exception {
         DataSource dataSource = testContext.getApplicationContext().getBean(DataSource.class);
         backupList.forEach(file -> DbUnitUtil.deleteAll(dataSource, file));
-        Arrays.asList("USER", "ACCOUNT", "REGULAR_TRANSFER", "TEMPORARY_TRANSFER").forEach(filename ->
+        Arrays.asList("USER", "ACCOUNT", "TRANSFER", "REGULAR_TRANSFER", "TEMPORARY_TRANSFER").forEach(filename ->
                 DbUnitUtil.restoreBackup(dataSource, new File(DATA_DIR + filename + "_back.xls")));
     }
 }

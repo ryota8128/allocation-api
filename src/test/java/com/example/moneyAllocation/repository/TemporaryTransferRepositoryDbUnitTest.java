@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import com.example.moneyAllocation.MoneyAllocationApplication;
 import com.example.moneyAllocation.domain.TemporaryTransfer;
 import com.example.moneyAllocation.domain.TemporaryTransferSelector;
+import com.example.moneyAllocation.domain.TransferSelector;
 import com.example.moneyAllocation.exception.ResourceNotFoundException;
 import com.example.moneyAllocation.repository.util.DbTestExecutionListener;
 import com.example.moneyAllocation.repository.util.TestDomainDataCreator;
@@ -49,7 +50,7 @@ public class TemporaryTransferRepositoryDbUnitTest {
 
         @Test
         public void testFindOne() {
-            TemporaryTransferSelector selector = new TemporaryTransferSelector();
+            TransferSelector selector = new TransferSelector();
             selector.setId(1L);
             selector.setUserId(1L);
             TemporaryTransfer temporaryTransfer = repository.findOne(selector);
@@ -63,7 +64,7 @@ public class TemporaryTransferRepositoryDbUnitTest {
 
         @Test
         public void testFindOneAnotherUserTemporary() {
-            TemporaryTransferSelector selector = new TemporaryTransferSelector();
+            TransferSelector selector = new TransferSelector();
             selector.setId(1L);
             selector.setUserId(2L);
             assertThrows(ResourceNotFoundException.class, () -> repository.findOne(selector));
@@ -86,7 +87,7 @@ public class TemporaryTransferRepositoryDbUnitTest {
         @Test
         public void testInsert() {
             TemporaryTransfer temporaryTransfer = TestDomainDataCreator.temporaryCreate(
-                    4L, 4L, 5L, 3500, "desc4", 2L);
+                    4L, 4L, 5L, 3500, "desc4", 2L, 3L);
             repository.add(temporaryTransfer);
             DbUnitUtil.assertMutateResult(
                     source, "TEMPORARY_TRANSFER",
@@ -111,7 +112,7 @@ public class TemporaryTransferRepositoryDbUnitTest {
         @Test
         public void testUpdate() {
             TemporaryTransfer temporaryTransfer = TestDomainDataCreator.temporaryCreate(
-                    3L, 4L, 5L, 3000, "desc3", 2L);
+                    3L, 4L, 5L, 3000, "desc3", 2L, 3L);
             repository.set(temporaryTransfer);
             DbUnitUtil.assertMutateResult(
                     source, "TEMPORARY_TRANSFER",

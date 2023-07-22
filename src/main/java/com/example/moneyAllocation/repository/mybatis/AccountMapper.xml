@@ -29,7 +29,7 @@
         ORDER BY ID
     </select>
 
-    <select id="findOne" resultMap="Account">
+    <select id="findOne" resultMap="Account" parameterType="com.example.moneyAllocation.domain.AccountSelector">
         SELECT
         ID,
         NAME,
@@ -79,7 +79,7 @@
         AND OWNER_ID = #{ownerId}
     </update>
 
-    <delete id="delete" parameterType="Long">
+    <delete id="delete" parameterType="com.example.moneyAllocation.domain.AccountSelector">
         DELETE FROM ACCOUNT
         WHERE
         ID = #{id}
