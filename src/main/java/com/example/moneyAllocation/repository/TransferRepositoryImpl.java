@@ -40,7 +40,7 @@ public class TransferRepositoryImpl implements TransferRepository {
 
     @Override
     public void set(Transfer transfer) {
-        int affected = sqlSession.getMapper(TransferMapper.class).add(transfer);
+        int affected = sqlSession.getMapper(TransferMapper.class).set(transfer);
         if (affected != 1) {
             throw new ResourceNotFoundException("Transfer not found");
         }
