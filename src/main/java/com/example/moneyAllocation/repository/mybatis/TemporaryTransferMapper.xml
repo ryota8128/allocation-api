@@ -72,8 +72,8 @@
         FROM_ACCOUNT = #{fromAccount},
         TO_ACCOUNT = #{toAccount},
         DESCRIPTION = #{description},
-        AMOUNT = #{amount}
-        TRANSFER_ID = #{transferId},
+        AMOUNT = #{amount},
+        TRANSFER_ID = #{transferId}
         WHERE
         ID = #{id}
         AND USER_ID = #{userId}
