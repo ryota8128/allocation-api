@@ -86,7 +86,7 @@ public class TemporaryTransferRepositoryDbUnitTest {
         @Test
         public void testInsert() {
             TemporaryTransfer temporaryTransfer = TestDomainDataCreator.temporaryCreate(
-                    4L, 4L, 5L, 3500, "desc4", 2L);
+                    4L, 4L, 5L, 3500, "desc4", 2L, 3L);
             repository.add(temporaryTransfer);
             DbUnitUtil.assertMutateResult(
                     source, "TEMPORARY_TRANSFER",
@@ -111,7 +111,7 @@ public class TemporaryTransferRepositoryDbUnitTest {
         @Test
         public void testUpdate() {
             TemporaryTransfer temporaryTransfer = TestDomainDataCreator.temporaryCreate(
-                    3L, 4L, 5L, 3000, "desc3", 2L);
+                    3L, 4L, 5L, 3000, "desc3", 2L, 3L);
             repository.set(temporaryTransfer);
             DbUnitUtil.assertMutateResult(
                     source, "TEMPORARY_TRANSFER",
