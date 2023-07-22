@@ -7,6 +7,7 @@ public class TemporaryTransfer {
     private String description;
     private Integer amount;
     private Long userId;
+    private Long transferId;
 
     public Long getId() {
         return id;
@@ -54,5 +55,13 @@ public class TemporaryTransfer {
 
     public void setUserId(Long userId) {
         this.userId = userId;
+    }
+
+    public Long getTransferId() {
+        return transferId;
+    }
+
+    public void setTransferId(Long transferId) {
+        this.transferId = transferId;
     }
 }
