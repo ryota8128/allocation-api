@@ -32,7 +32,7 @@
         ORDER BY ID;
     </select>
 
-    <select id="findOne" resultMap="RegularTransfer">
+    <select id="findOne" resultMap="RegularTransfer" parameterType="com.example.moneyAllocation.domain.TransferSelector">
         SELECT
         ID,
         FROM_ACCOUNT,
@@ -93,7 +93,7 @@
         AND USER_ID = #{userId}
     </update>
 
-    <delete id="delete" parameterType="Long">
+    <delete id="delete" parameterType="com.example.moneyAllocation.domain.TransferSelector">
         DELETE FROM REGULAR_TRANSFER
         <where>
             ID = #{id}

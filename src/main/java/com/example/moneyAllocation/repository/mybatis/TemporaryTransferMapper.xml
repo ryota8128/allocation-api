@@ -27,7 +27,7 @@
         </where>
     </select>
 
-    <select id="findOne" resultMap="TemporaryTransfer">
+    <select id="findOne" resultMap="TemporaryTransfer" parameterType="com.example.moneyAllocation.domain.TransferSelector">
         SELECT
         ID,
         FROM_ACCOUNT,
@@ -74,7 +74,7 @@
         AND USER_ID = #{userId}
     </update>
 
-    <delete id="delete" parameterType="Long">
+    <delete id="delete" parameterType="com.example.moneyAllocation.domain.TransferSelector">
         DELETE FROM TEMPORARY_TRANSFER
         <where>
             ID = #{id}
