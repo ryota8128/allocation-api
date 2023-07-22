@@ -1,6 +1,7 @@
 package com.example.moneyAllocation.repository;
 
 import static org.junit.jupiter.api.Assertions.*;
+import com.example.moneyAllocation.domain.TemporaryTransferSelector;
 import com.example.moneyAllocation.domain.Transfer;
 import com.example.moneyAllocation.domain.TransferSelector;
 import com.example.moneyAllocation.exception.ResourceNotFoundException;
@@ -11,6 +12,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentMatcher;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -22,6 +24,8 @@ class TransferRepositoryImplTest {
 
     @Mock
     private TransferMapper mapper;
+
+    @Mock TemporaryTransferRepository temporaryTransferRepository;
 
     @InjectMocks
     private TransferRepositoryImpl repository;
@@ -103,16 +107,33 @@ class TransferRepositoryImplTest {
     @Test
     void delete() {
         TransferSelector selector = new TransferSelector();
+        selector.setId(5L);
         Mockito.doReturn(1).when(mapper).delete(selector);
+
+        ArgumentMatcher<TemporaryTransferSelector> matcher = argument -> {
+            assertEquals(5L, argument.getTransferId());
+            return true;
+        };
+        Mockito.doNothing().when(temporaryTransferRepository).delete(Mockito.argThat(matcher));
         repository.delete(selector);
         Mockito.verify(mapper, Mockito.times(1)).delete(selector);
+        Mockito.verify(temporaryTransferRepository, Mockito.times(1)).delete(Mockito.argThat(matcher));
     }
 
     @Test
     void FailedDelete() {
         TransferSelector selector = new TransferSelector();
+        selector.setId(5L);
+
+        ArgumentMatcher<TemporaryTransferSelector> matcher = argument -> {
+            assertEquals(5L, argument.getTransferId());
+            return true;
+        };
+        Mockito.doNothing().when(temporaryTransferRepository).delete(Mockito.argThat(matcher));
+
         Mockito.doReturn(0).when(mapper).delete(selector);
         assertThrows(ResourceNotFoundException.class, () -> repository.delete(selector));
         Mockito.verify(mapper, Mockito.times(1)).delete(selector);
+        Mockito.verify(temporaryTransferRepository, Mockito.times(1)).delete(Mockito.argThat(matcher));
     }
 }

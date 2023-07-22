@@ -2,6 +2,7 @@ package com.example.moneyAllocation.controller;
 
 import static org.junit.jupiter.api.Assertions.*;
 import com.example.moneyAllocation.domain.TemporaryTransfer;
+import com.example.moneyAllocation.domain.TemporaryTransferSelector;
 import com.example.moneyAllocation.domain.TransferSelector;
 import com.example.moneyAllocation.security.LoginUser;
 import com.example.moneyAllocation.security.LoginUserDetails;
@@ -104,7 +105,7 @@ class TemporaryTransferControllerTest {
 
     @Test
     void delete() {
-        ArgumentMatcher<TransferSelector> matcher = arg -> {
+        ArgumentMatcher<TemporaryTransferSelector> matcher = arg -> {
             assertEquals(1L, arg.getUserId());
             assertEquals(2L, arg.getId());
             return true;

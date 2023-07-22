@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import com.example.moneyAllocation.MoneyAllocationApplication;
 import com.example.moneyAllocation.domain.TemporaryTransfer;
+import com.example.moneyAllocation.domain.TemporaryTransferSelector;
 import com.example.moneyAllocation.domain.TransferSelector;
 import com.example.moneyAllocation.exception.ResourceNotFoundException;
 import com.example.moneyAllocation.repository.util.DbTestExecutionListener;
@@ -140,7 +141,7 @@ public class TemporaryTransferRepositoryDbUnitTest {
 
         @Test
         public void testDelete() {
-            TransferSelector selector = new TransferSelector();
+            TemporaryTransferSelector selector = new TemporaryTransferSelector();
             selector.setUserId(2L);
             selector.setId(3L);
             repository.delete(selector);

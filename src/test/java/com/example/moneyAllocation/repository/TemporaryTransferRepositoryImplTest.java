@@ -2,6 +2,7 @@ package com.example.moneyAllocation.repository;
 
 import static org.junit.jupiter.api.Assertions.*;
 import com.example.moneyAllocation.domain.TemporaryTransfer;
+import com.example.moneyAllocation.domain.TemporaryTransferSelector;
 import com.example.moneyAllocation.domain.TransferSelector;
 import com.example.moneyAllocation.exception.ResourceNotFoundException;
 import com.example.moneyAllocation.repository.mybatis.TemporaryTransferMapper;
@@ -107,7 +108,7 @@ class TemporaryTransferRepositoryImplTest {
 
     @Test
     void delete() {
-        TransferSelector selector = new TransferSelector();
+        TemporaryTransferSelector selector = new TemporaryTransferSelector();
 
         Mockito.doReturn(1).when(mapper).delete(selector);
         repository.delete(selector);
@@ -116,7 +117,7 @@ class TemporaryTransferRepositoryImplTest {
 
     @Test
     void deleteFail() {
-        TransferSelector selector = new TransferSelector();
+        TemporaryTransferSelector selector = new TemporaryTransferSelector();
 
         Mockito.doReturn(0).when(mapper).delete(selector);
         assertThrows(ResourceNotFoundException.class, () -> repository.delete(selector));

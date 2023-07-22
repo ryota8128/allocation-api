@@ -2,6 +2,7 @@ package com.example.moneyAllocation.service;
 
 import static org.junit.jupiter.api.Assertions.*;
 import com.example.moneyAllocation.domain.TemporaryTransfer;
+import com.example.moneyAllocation.domain.TemporaryTransferSelector;
 import com.example.moneyAllocation.domain.TransferSelector;
 import com.example.moneyAllocation.repository.TemporaryTransferRepository;
 import java.util.ArrayList;
@@ -72,7 +73,7 @@ class TemporaryTransferServiceImplTest {
 
     @Test
     void delete() {
-        TransferSelector selector = new TransferSelector();
+        TemporaryTransferSelector selector = new TemporaryTransferSelector();
 
         Mockito.doNothing().when(repository).delete(selector);
         service.delete(selector);
