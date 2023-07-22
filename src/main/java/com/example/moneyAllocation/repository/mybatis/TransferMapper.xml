@@ -5,8 +5,8 @@
 
 <mapper namespace="com.example.moneyAllocation.repository.mybatis.TransferMapper">
     <resultMap id="Transfer" type="com.example.moneyAllocation.domain.Transfer">
-        <id property="id" column="ID" />
-        <result property="title" column="TITLE" />
+        <id property="id" column="ID"/>
+        <result property="title" column="TITLE"/>
         <result property="userId" column="USER_ID"/>
     </resultMap>
 
@@ -22,7 +22,7 @@
         ORDER BY ID
     </select>
 
-    <select id="findOne" resultMap="Transfer">
+    <select id="findOne" resultMap="Transfer" parameterType="com.example.moneyAllocation.domain.TransferSelector">
         SELECT
         ID,
         TITLE,
@@ -34,5 +34,39 @@
             USER_ID = #{userId}
         </where>
     </select>
+
+    <insert id="add" parameterType="com.example.moneyAllocation.domain.Transfer" useGeneratedKeys="true"
+            keyProperty="id">
+        INSERT INTO TRANSFER
+        (
+        TITLE,
+        USER_ID
+        )
+        VALUES
+        (
+        #{title},
+        #{userId}
+        )
+    </insert>
+
+    <update id="set" parameterType="com.example.moneyAllocation.domain.Transfer">
+        UPDATE TRANSFER
+        SET
+        TITLE = #{title}
+        <where>
+            ID = #{id}
+            AND
+            USER_ID = #{userId}
+        </where>
+    </update>
+
+    <delete id="delete" parameterType="com.example.moneyAllocation.domain.TransferSelector">
+        DELETE FROM TRANSFER
+        <where>
+            ID = #{id}
+            AND USER_ID = #{userId}
+        </where>
+    </delete>
+
 
 </mapper>
