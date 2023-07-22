@@ -1,6 +1,7 @@
 package com.example.moneyAllocation.controller;
 
 import com.example.moneyAllocation.domain.TemporaryTransfer;
+import com.example.moneyAllocation.domain.TemporaryTransferSelector;
 import com.example.moneyAllocation.domain.TransferSelector;
 import com.example.moneyAllocation.security.LoginUserDetails;
 import com.example.moneyAllocation.service.TemporaryTransferService;
@@ -58,7 +59,7 @@ public class TemporaryTransferController {
 
     @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public void delete(@AuthenticationPrincipal LoginUserDetails loginUserDetails, @PathVariable Long id) {
-        TransferSelector selector = new TransferSelector();
+        TemporaryTransferSelector selector = new TemporaryTransferSelector();
         selector.setUserId(loginUserDetails.getLoginUser().id());
         selector.setId(id);
         service.delete(selector);

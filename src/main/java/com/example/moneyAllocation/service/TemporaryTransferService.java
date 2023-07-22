@@ -1,6 +1,7 @@
 package com.example.moneyAllocation.service;
 
 import com.example.moneyAllocation.domain.TemporaryTransfer;
+import com.example.moneyAllocation.domain.TemporaryTransferSelector;
 import com.example.moneyAllocation.domain.TransferSelector;
 import java.util.List;
 
@@ -13,5 +14,5 @@ public interface TemporaryTransferService {
 
     void set(TemporaryTransfer temporaryTransfer);
 
-    void delete(TransferSelector selector);
+    void delete(TemporaryTransferSelector selector);
 }

@@ -1,6 +1,7 @@
 package com.example.moneyAllocation.service;
 
 import com.example.moneyAllocation.domain.TemporaryTransfer;
+import com.example.moneyAllocation.domain.TemporaryTransferSelector;
 import com.example.moneyAllocation.domain.TransferSelector;
 import com.example.moneyAllocation.repository.TemporaryTransferRepository;
 import java.util.List;
@@ -35,7 +36,7 @@ public class TemporaryTransferServiceImpl implements TemporaryTransferService {
     }
 
     @Override
-    public void delete(TransferSelector selector) {
+    public void delete(TemporaryTransferSelector selector) {
         repository.delete(selector);
     }
 }

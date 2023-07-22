@@ -79,11 +79,16 @@
         AND USER_ID = #{userId}
     </update>
 
-    <delete id="delete" parameterType="com.example.moneyAllocation.domain.TransferSelector">
+    <delete id="delete" parameterType="com.example.moneyAllocation.domain.TemporaryTransferSelector">
         DELETE FROM TEMPORARY_TRANSFER
         <where>
+            <if test="transferId != null">
+                TRANSFER_ID = #{transferId}
+            </if>
+            <if test="transferId == null">
             ID = #{id}
             AND USER_ID = #{userId}
+            </if>
         </where>
     </delete>
 
