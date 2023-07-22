@@ -18,6 +18,14 @@ CREATE TABLE IF NOT EXISTS ACCOUNT (
     CONSTRAINT unique_constraint_name_ownerId UNIQUE (NAME, OWNER_ID)
 );
 
+CREATE TABLE IF NOT EXISTS TRANSFER (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    title VARCHAR(20) NOT NULL,
+    user_id BIGINT NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES user(id)
+);
+
+
 CREATE TABLE regular_transfer (
   id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   from_account BIGINT,
@@ -40,7 +48,9 @@ CREATE TABLE temporary_transfer (
   description TEXT NOT NULL,
   amount INT UNSIGNED NOT NULL,
   user_id BIGINT,
+  transfer_id BIGINT,
   FOREIGN KEY (from_account) REFERENCES account(id),
   FOREIGN KEY (to_account) REFERENCES account(id),
-  FOREIGN KEY (user_id) REFERENCES user(id)
+  FOREIGN KEY (user_id) REFERENCES user(id),
+  FOREIGN KEY (transfer_id) REFERENCES transfer(id)
 );
