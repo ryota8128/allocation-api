@@ -2,7 +2,7 @@ package com.example.moneyAllocation.repository;
 
 import static org.junit.jupiter.api.Assertions.*;
 import com.example.moneyAllocation.domain.TemporaryTransfer;
-import com.example.moneyAllocation.domain.TemporaryTransferSelector;
+import com.example.moneyAllocation.domain.TransferSelector;
 import com.example.moneyAllocation.exception.ResourceNotFoundException;
 import com.example.moneyAllocation.repository.mybatis.TemporaryTransferMapper;
 import java.util.ArrayList;
@@ -56,7 +56,7 @@ class TemporaryTransferRepositoryImplTest {
     @Test
     void findOne() {
         TemporaryTransfer temporaryTransfer = new TemporaryTransfer();
-        TemporaryTransferSelector selector = new TemporaryTransferSelector();
+        TransferSelector selector = new TransferSelector();
 
         Mockito.doReturn(temporaryTransfer).when(mapper).findOne(selector);
         TemporaryTransfer result = repository.findOne(selector);
@@ -66,7 +66,7 @@ class TemporaryTransferRepositoryImplTest {
 
     @Test
     void findOneFail() {
-        TemporaryTransferSelector selector = new TemporaryTransferSelector();
+        TransferSelector selector = new TransferSelector();
 
         Mockito.doReturn(null).when(mapper).findOne(selector);
         assertThrows(ResourceNotFoundException.class, () -> repository.findOne(selector));
@@ -107,7 +107,7 @@ class TemporaryTransferRepositoryImplTest {
 
     @Test
     void delete() {
-        TemporaryTransferSelector selector = new TemporaryTransferSelector();
+        TransferSelector selector = new TransferSelector();
 
         Mockito.doReturn(1).when(mapper).delete(selector);
         repository.delete(selector);
@@ -116,7 +116,7 @@ class TemporaryTransferRepositoryImplTest {
 
     @Test
     void deleteFail() {
-        TemporaryTransferSelector selector = new TemporaryTransferSelector();
+        TransferSelector selector = new TransferSelector();
 
         Mockito.doReturn(0).when(mapper).delete(selector);
         assertThrows(ResourceNotFoundException.class, () -> repository.delete(selector));

@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import com.example.moneyAllocation.MoneyAllocationApplication;
 import com.example.moneyAllocation.domain.TemporaryTransfer;
-import com.example.moneyAllocation.domain.TemporaryTransferSelector;
+import com.example.moneyAllocation.domain.TransferSelector;
 import com.example.moneyAllocation.exception.ResourceNotFoundException;
 import com.example.moneyAllocation.repository.util.DbTestExecutionListener;
 import com.example.moneyAllocation.repository.util.TestDomainDataCreator;
@@ -49,7 +49,7 @@ public class TemporaryTransferRepositoryDbUnitTest {
 
         @Test
         public void testFindOne() {
-            TemporaryTransferSelector selector = new TemporaryTransferSelector();
+            TransferSelector selector = new TransferSelector();
             selector.setId(1L);
             selector.setUserId(1L);
             TemporaryTransfer temporaryTransfer = repository.findOne(selector);
@@ -63,7 +63,7 @@ public class TemporaryTransferRepositoryDbUnitTest {
 
         @Test
         public void testFindOneAnotherUserTemporary() {
-            TemporaryTransferSelector selector = new TemporaryTransferSelector();
+            TransferSelector selector = new TransferSelector();
             selector.setId(1L);
             selector.setUserId(2L);
             assertThrows(ResourceNotFoundException.class, () -> repository.findOne(selector));
@@ -140,7 +140,7 @@ public class TemporaryTransferRepositoryDbUnitTest {
 
         @Test
         public void testDelete() {
-            TemporaryTransferSelector selector = new TemporaryTransferSelector();
+            TransferSelector selector = new TransferSelector();
             selector.setUserId(2L);
             selector.setId(3L);
             repository.delete(selector);

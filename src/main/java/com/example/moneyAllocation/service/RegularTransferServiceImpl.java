@@ -2,7 +2,7 @@ package com.example.moneyAllocation.service;
 
 import com.example.moneyAllocation.domain.AccountSelector;
 import com.example.moneyAllocation.domain.RegularTransfer;
-import com.example.moneyAllocation.domain.RegularTransferSelector;
+import com.example.moneyAllocation.domain.TransferSelector;
 import com.example.moneyAllocation.exception.ResourceNotFoundException;
 import com.example.moneyAllocation.exception.ResourceValidationException;
 import com.example.moneyAllocation.repository.AccountRepository;
@@ -28,7 +28,7 @@ public class RegularTransferServiceImpl implements RegularTransferService {
     }
 
     @Override
-    public RegularTransfer findOne(RegularTransferSelector selector) {
+    public RegularTransfer findOne(TransferSelector selector) {
         return regularTransferRepository.findOne(selector);
     }
 
@@ -101,7 +101,7 @@ public class RegularTransferServiceImpl implements RegularTransferService {
     }
 
     @Override
-    public void delete(RegularTransferSelector selector) {
+    public void delete(TransferSelector selector) {
         regularTransferRepository.delete(selector);
     }
 }

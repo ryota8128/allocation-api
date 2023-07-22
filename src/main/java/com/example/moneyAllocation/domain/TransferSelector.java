@@ -1,6 +1,6 @@
 package com.example.moneyAllocation.domain;
 
-public class TemporaryTransferSelector {
+public class TransferSelector {
     private Long userId;
 
     private Long id;

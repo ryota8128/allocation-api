@@ -2,7 +2,7 @@ package com.example.moneyAllocation.controller;
 
 import static org.junit.jupiter.api.Assertions.*;
 import com.example.moneyAllocation.domain.TemporaryTransfer;
-import com.example.moneyAllocation.domain.TemporaryTransferSelector;
+import com.example.moneyAllocation.domain.TransferSelector;
 import com.example.moneyAllocation.repository.util.TestDomainDataCreator;
 import com.example.moneyAllocation.security.LoginUser;
 import com.example.moneyAllocation.security.LoginUserDetails;
@@ -18,8 +18,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 class TemporaryTransferControllerTest {
 
@@ -62,7 +60,7 @@ class TemporaryTransferControllerTest {
     void findOne() {
         TemporaryTransfer temporaryTransfer = new TemporaryTransfer();
 
-        ArgumentMatcher<TemporaryTransferSelector> matcher = arg -> {
+        ArgumentMatcher<TransferSelector> matcher = arg -> {
             assertEquals(1L, arg.getUserId());
             assertEquals(2L, arg.getId());
             return true;
@@ -107,7 +105,7 @@ class TemporaryTransferControllerTest {
 
     @Test
     void delete() {
-        ArgumentMatcher<TemporaryTransferSelector> matcher = arg -> {
+        ArgumentMatcher<TransferSelector> matcher = arg -> {
             assertEquals(1L, arg.getUserId());
             assertEquals(2L, arg.getId());
             return true;

@@ -2,7 +2,7 @@ package com.example.moneyAllocation.controller;
 
 import static org.junit.jupiter.api.Assertions.*;
 import com.example.moneyAllocation.domain.RegularTransfer;
-import com.example.moneyAllocation.domain.RegularTransferSelector;
+import com.example.moneyAllocation.domain.TransferSelector;
 import com.example.moneyAllocation.security.LoginUser;
 import com.example.moneyAllocation.security.LoginUserDetails;
 import com.example.moneyAllocation.security.UserRole;
@@ -56,7 +56,7 @@ class RegularTransferControllerTest {
     void findOne() {
         RegularTransfer regularTransfer = new RegularTransfer();
 
-        ArgumentMatcher<RegularTransferSelector> matcher = argument -> {
+        ArgumentMatcher<TransferSelector> matcher = argument -> {
             assertEquals(1L, argument.getId());
             assertEquals(1L, argument.getUserId());
             return true;
@@ -99,7 +99,7 @@ class RegularTransferControllerTest {
 
     @Test
     void delete() {
-        ArgumentMatcher<RegularTransferSelector> matcher = arg -> {
+        ArgumentMatcher<TransferSelector> matcher = arg -> {
             assertEquals(3L, arg.getId());
             assertEquals(1L, arg.getUserId());
             return true;

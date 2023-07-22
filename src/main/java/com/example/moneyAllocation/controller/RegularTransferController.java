@@ -2,7 +2,7 @@ package com.example.moneyAllocation.controller;
 
 
 import com.example.moneyAllocation.domain.RegularTransfer;
-import com.example.moneyAllocation.domain.RegularTransferSelector;
+import com.example.moneyAllocation.domain.TransferSelector;
 import com.example.moneyAllocation.security.LoginUserDetails;
 import com.example.moneyAllocation.service.RegularTransferService;
 import java.util.List;
@@ -35,7 +35,7 @@ public class RegularTransferController {
 
     @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
     public RegularTransfer findOne(@AuthenticationPrincipal LoginUserDetails loginUserDetails, @RequestParam Long id) {
-        RegularTransferSelector selector = new RegularTransferSelector();
+        TransferSelector selector = new TransferSelector();
         selector.setId(id);
         selector.setUserId(loginUserDetails.getLoginUser().id());
         return service.findOne(selector);
@@ -57,7 +57,7 @@ public class RegularTransferController {
 
     @DeleteMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
     public void delete(@AuthenticationPrincipal LoginUserDetails loginUserDetails, @RequestParam("id") Long deleteId) {
-        RegularTransferSelector selector = new RegularTransferSelector();
+        TransferSelector selector = new TransferSelector();
         selector.setUserId(loginUserDetails.getLoginUser().id());
         selector.setId(deleteId);
         service.delete(selector);

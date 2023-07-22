@@ -2,7 +2,7 @@ package com.example.moneyAllocation.repository;
 
 import static org.junit.jupiter.api.Assertions.*;
 import com.example.moneyAllocation.domain.RegularTransfer;
-import com.example.moneyAllocation.domain.RegularTransferSelector;
+import com.example.moneyAllocation.domain.TransferSelector;
 import com.example.moneyAllocation.exception.ResourceNotFoundException;
 import com.example.moneyAllocation.repository.mybatis.RegularTransferMapper;
 import java.util.ArrayList;
@@ -50,7 +50,7 @@ class RegularTransferRepositoryImplTest {
     @Test
     void findOne() {
         RegularTransfer regularTransfer = new RegularTransfer();
-        RegularTransferSelector selector = new RegularTransferSelector();
+        TransferSelector selector = new TransferSelector();
 
         Mockito.doReturn(regularTransfer).when(mapper).findOne(selector);
         RegularTransfer result = repository.findOne(selector);
@@ -60,7 +60,7 @@ class RegularTransferRepositoryImplTest {
 
     @Test
     void findOneFail() {
-        RegularTransferSelector selector = new RegularTransferSelector();
+        TransferSelector selector = new TransferSelector();
 
         Mockito.doReturn(null).when(mapper).findOne(selector);
         assertThrows(ResourceNotFoundException.class, () -> repository.findOne(selector));
@@ -101,7 +101,7 @@ class RegularTransferRepositoryImplTest {
 
     @Test
     void delete() {
-        RegularTransferSelector selector = new RegularTransferSelector();
+        TransferSelector selector = new TransferSelector();
         Mockito.doReturn(1).when(mapper).delete(selector);
         repository.delete(selector);
         Mockito.verify(mapper, Mockito.times(1)).delete(selector);
@@ -109,7 +109,7 @@ class RegularTransferRepositoryImplTest {
 
     @Test
     void deleteFail() {
-        RegularTransferSelector selector = new RegularTransferSelector();
+        TransferSelector selector = new TransferSelector();
         Mockito.doReturn(0).when(mapper).delete(selector);
         assertThrows(RuntimeException.class, () -> repository.delete(selector));
     }

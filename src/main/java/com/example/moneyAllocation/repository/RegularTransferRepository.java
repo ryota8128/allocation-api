@@ -1,19 +1,19 @@
 package com.example.moneyAllocation.repository;
 
 import com.example.moneyAllocation.domain.RegularTransfer;
-import com.example.moneyAllocation.domain.RegularTransferSelector;
+import com.example.moneyAllocation.domain.TransferSelector;
 import java.util.List;
 
 public interface RegularTransferRepository {
     List<RegularTransfer> find(Long userId);
 
-    RegularTransfer findOne(RegularTransferSelector selector);
+    RegularTransfer findOne(TransferSelector selector);
 
     void add(RegularTransfer regularTransfer);
 
     void set(RegularTransfer regularTransfer);
 
-    void delete(RegularTransferSelector selector);
+    void delete(TransferSelector selector);
 
     void setNullAccount(Long accountId);
 }

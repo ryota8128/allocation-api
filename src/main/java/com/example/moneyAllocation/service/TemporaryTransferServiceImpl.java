@@ -1,7 +1,7 @@
 package com.example.moneyAllocation.service;
 
 import com.example.moneyAllocation.domain.TemporaryTransfer;
-import com.example.moneyAllocation.domain.TemporaryTransferSelector;
+import com.example.moneyAllocation.domain.TransferSelector;
 import com.example.moneyAllocation.repository.TemporaryTransferRepository;
 import java.util.List;
 import org.springframework.stereotype.Service;
@@ -20,7 +20,7 @@ public class TemporaryTransferServiceImpl implements TemporaryTransferService {
     }
 
     @Override
-    public TemporaryTransfer findOne(TemporaryTransferSelector selector) {
+    public TemporaryTransfer findOne(TransferSelector selector) {
         return repository.findOne(selector);
     }
 
@@ -35,7 +35,7 @@ public class TemporaryTransferServiceImpl implements TemporaryTransferService {
     }
 
     @Override
-    public void delete(TemporaryTransferSelector selector) {
+    public void delete(TransferSelector selector) {
         repository.delete(selector);
     }
 }
