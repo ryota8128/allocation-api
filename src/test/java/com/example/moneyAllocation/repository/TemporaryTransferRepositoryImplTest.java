@@ -116,8 +116,20 @@ class TemporaryTransferRepositoryImplTest {
     }
 
     @Test
+    void deleteByTransferId() {
+        TemporaryTransferSelector selector = new TemporaryTransferSelector();
+        selector.setTransferId(1L);
+
+        Mockito.doReturn(0).when(mapper).delete(selector);
+        repository.delete(selector);
+        Mockito.verify(mapper, Mockito.times(1)).delete(selector);
+    }
+
+    @Test
     void deleteFail() {
         TemporaryTransferSelector selector = new TemporaryTransferSelector();
+        selector.setId(1L);
+        selector.setUserId(2L);
 
         Mockito.doReturn(0).when(mapper).delete(selector);
         assertThrows(ResourceNotFoundException.class, () -> repository.delete(selector));
