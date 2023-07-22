@@ -33,9 +33,9 @@ public class TransferController {
     }
 
     @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Transfer findOne(@AuthenticationPrincipal LoginUserDetails loginUserDetails, @RequestParam Long transferId) {
+    public Transfer findOne(@AuthenticationPrincipal LoginUserDetails loginUserDetails, @RequestParam Long id) {
         TransferSelector selector = new TransferSelector();
-        selector.setId(transferId);
+        selector.setId(id);
         selector.setUserId(loginUserDetails.getLoginUser().id());
         return transferService.findOne(selector);
     }
@@ -54,10 +54,10 @@ public class TransferController {
     }
 
     @DeleteMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
-    public void delete(@AuthenticationPrincipal LoginUserDetails loginUserDetails, @RequestParam Long transferId) {
+    public void delete(@AuthenticationPrincipal LoginUserDetails loginUserDetails, @RequestParam Long id) {
         TransferSelector selector = new TransferSelector();
         selector.setUserId(loginUserDetails.getLoginUser().id());
-        selector.setId(transferId);
+        selector.setId(id);
         transferService.delete(selector);
     }
 
