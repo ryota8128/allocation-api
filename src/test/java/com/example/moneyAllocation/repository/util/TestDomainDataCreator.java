@@ -22,7 +22,7 @@ public class TestDomainDataCreator {
 
     public static TemporaryTransfer temporaryCreate(
             Long id, Long fromAccount, Long toAccount, Integer amount,
-            String description, Long userId) {
+            String description, Long userId, Long transferId) {
         TemporaryTransfer temporaryTransfer = new TemporaryTransfer();
         temporaryTransfer.setId(id);
         temporaryTransfer.setFromAccount(fromAccount);
@@ -30,6 +30,7 @@ public class TestDomainDataCreator {
         temporaryTransfer.setAmount(amount);
         temporaryTransfer.setDescription(description);
         temporaryTransfer.setUserId(userId);
+        temporaryTransfer.setTransferId(transferId);
 
         return temporaryTransfer;
     }

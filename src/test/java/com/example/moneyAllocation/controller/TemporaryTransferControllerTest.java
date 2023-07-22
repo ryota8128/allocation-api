@@ -3,7 +3,6 @@ package com.example.moneyAllocation.controller;
 import static org.junit.jupiter.api.Assertions.*;
 import com.example.moneyAllocation.domain.TemporaryTransfer;
 import com.example.moneyAllocation.domain.TransferSelector;
-import com.example.moneyAllocation.repository.util.TestDomainDataCreator;
 import com.example.moneyAllocation.security.LoginUser;
 import com.example.moneyAllocation.security.LoginUserDetails;
 import com.example.moneyAllocation.security.UserRole;
@@ -74,7 +73,7 @@ class TemporaryTransferControllerTest {
 
     @Test
     void add() {
-        TemporaryTransfer temporaryTransfer = TestDomainDataCreator.temporaryCreate(1L, 2L, 3L, 23000, "desc", null);
+        TemporaryTransfer temporaryTransfer = new TemporaryTransfer();
 
         ArgumentMatcher<TemporaryTransfer> matcher = argument -> {
             assertEquals(1L, argument.getUserId());
@@ -89,7 +88,7 @@ class TemporaryTransferControllerTest {
 
     @Test
     void set() {
-        TemporaryTransfer temporaryTransfer = TestDomainDataCreator.temporaryCreate(1L, 2L, 3L, 23000, "desc", null);
+        TemporaryTransfer temporaryTransfer = new TemporaryTransfer();
 
         ArgumentMatcher<TemporaryTransfer> matcher = argument -> {
             assertEquals(1L, argument.getUserId());
