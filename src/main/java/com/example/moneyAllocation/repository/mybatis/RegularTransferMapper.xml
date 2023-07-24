@@ -6,6 +6,8 @@
 <mapper namespace="com.example.moneyAllocation.repository.mybatis.RegularTransferMapper">
     <resultMap id="RegularTransfer" type="com.example.moneyAllocation.domain.RegularTransfer">
         <id property="id" column="ID"/>
+        <result property="fromAccount" column="FROM_ACCOUNT"/>
+        <result property="toAccount" column="TO_ACCOUNT"/>
         <result property="fromAccountName" column="FROM_ACCOUNT_NAME"/>
         <result property="toAccountName" column="TO_ACCOUNT_NAME"/>
         <result property="description" column="DESCRIPTION"/>
@@ -18,6 +20,8 @@
     <select id="find" resultMap="RegularTransfer">
         SELECT
         R.ID,
+        R.FROM_ACCOUNT,
+        R.TO_ACCOUNT,
         A_FROM.name AS FROM_ACCOUNT_NAME,
         A_TO.name AS TO_ACCOUNT_NAME,
         R.DESCRIPTION,
@@ -38,6 +42,8 @@
             parameterType="com.example.moneyAllocation.domain.TransferSelector">
         SELECT
         R.ID,
+        R.FROM_ACCOUNT,
+        R.TO_ACCOUNT,
         A_FROM.name AS FROM_ACCOUNT_NAME,
         A_TO.name AS TO_ACCOUNT_NAME,
         R.DESCRIPTION,
