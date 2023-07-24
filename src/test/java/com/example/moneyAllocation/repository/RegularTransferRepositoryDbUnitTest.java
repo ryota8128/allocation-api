@@ -40,6 +40,8 @@ public class RegularTransferRepositoryDbUnitTest {
             assertEquals(1L, regularTransferList.get(0).getId());
             assertEquals(1L, regularTransferList.get(0).getFromAccount());
             assertEquals(2L, regularTransferList.get(0).getToAccount());
+            assertEquals("三井", regularTransferList.get(0).getFromAccountName());
+            assertEquals("楽天", regularTransferList.get(0).getToAccountName());
             assertEquals("desc1", regularTransferList.get(0).getDescription());
             assertEquals(false, regularTransferList.get(0).getPercentage());
             assertEquals(30000, regularTransferList.get(0).getAmount());
@@ -61,6 +63,8 @@ public class RegularTransferRepositoryDbUnitTest {
             assertEquals(1L, regularTransfer.getId());
             assertEquals(1L, regularTransfer.getFromAccount());
             assertEquals(2L, regularTransfer.getToAccount());
+            assertEquals("三井", regularTransfer.getFromAccountName());
+            assertEquals("楽天", regularTransfer.getToAccountName());
             assertEquals("desc1", regularTransfer.getDescription());
             assertEquals(false, regularTransfer.getPercentage());
             assertEquals(30000, regularTransfer.getAmount());
