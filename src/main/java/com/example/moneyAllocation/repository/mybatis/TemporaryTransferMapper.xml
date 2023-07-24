@@ -6,6 +6,8 @@
 <mapper namespace="com.example.moneyAllocation.repository.mybatis.TemporaryTransferMapper">
     <resultMap id="TemporaryTransfer" type="com.example.moneyAllocation.domain.TemporaryTransfer">
         <id property="id" column="ID"/>
+        <result property="fromAccount" column="FROM_ACCOUNT"/>
+        <result property="toAccount" column="TO_ACCOUNT"/>
         <result property="fromAccountName" column="FROM_ACCOUNT_NAME"/>
         <result property="toAccountName" column="TO_ACCOUNT_NAME"/>
         <result property="description" column="DESCRIPTION"/>
@@ -16,6 +18,8 @@
     <select id="find" resultMap="TemporaryTransfer">
         SELECT
         T.ID,
+        T.FROM_ACCOUNT,
+        T.TO_ACCOUNT,
         A_FROM.name AS FROM_ACCOUNT_NAME,
         A_TO.name AS TO_ACCOUNT_NAME,
         T.DESCRIPTION,
@@ -28,11 +32,14 @@
         <where>
             T.USER_ID = #{userId}
         </where>
+        ORDER BY ID
     </select>
 
     <select id="findOne" resultMap="TemporaryTransfer" parameterType="com.example.moneyAllocation.domain.TransferSelector">
         SELECT
         T.ID,
+        T.FROM_ACCOUNT,
+        T.TO_ACCOUNT,
         AF.name AS FROM_ACCOUNT_NAME,
         AT.name AS TO_ACCOUNT_NAME,
         T.DESCRIPTION,

@@ -40,6 +40,8 @@ public class TemporaryTransferRepositoryDbUnitTest {
             List<TemporaryTransfer> temporaryTransferList = repository.find(userId);
             assertEquals(2, temporaryTransferList.size());
             assertEquals(1L, temporaryTransferList.get(0).getId());
+            assertEquals(1L, temporaryTransferList.get(0).getFromAccount());
+            assertEquals(2L, temporaryTransferList.get(0).getToAccount());
             assertEquals("三井", temporaryTransferList.get(0).getFromAccountName());
             assertEquals("楽天", temporaryTransferList.get(0).getToAccountName());
             assertEquals("desc1", temporaryTransferList.get(0).getDescription());
@@ -55,6 +57,8 @@ public class TemporaryTransferRepositoryDbUnitTest {
             selector.setUserId(1L);
             TemporaryTransfer temporaryTransfer = repository.findOne(selector);
             assertEquals(1L, temporaryTransfer.getId());
+            assertEquals(1L, temporaryTransfer.getFromAccount());
+            assertEquals(2L, temporaryTransfer.getToAccount());
             assertEquals("三井", temporaryTransfer.getFromAccountName());
             assertEquals("楽天", temporaryTransfer.getToAccountName());
             assertEquals("desc1", temporaryTransfer.getDescription());

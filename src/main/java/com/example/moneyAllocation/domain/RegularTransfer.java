@@ -4,6 +4,8 @@ public class RegularTransfer {
     private Long id;
     private Long fromAccount;
     private Long toAccount;
+    private String fromAccountName;
+    private String toAccountName;
     private String description;
     private Boolean percentage;
     private Integer amount;
@@ -29,6 +31,22 @@ public class RegularTransfer {
 
     public Long getToAccount() {
         return toAccount;
+    }
+
+    public String getFromAccountName() {
+        return fromAccountName;
+    }
+
+    public void setFromAccountName(String fromAccountName) {
+        this.fromAccountName = fromAccountName;
+    }
+
+    public String getToAccountName() {
+        return toAccountName;
+    }
+
+    public void setToAccountName(String toAccountName) {
+        this.toAccountName = toAccountName;
     }
 
     public void setToAccount(Long toAccount) {
