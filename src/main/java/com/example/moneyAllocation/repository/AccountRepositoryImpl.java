@@ -11,9 +11,14 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class AccountRepositoryImpl implements AccountRepository {
     private final SqlSession sqlSession;
+    private final RegularTransferRepository regularTransferRepository;
+    private final TemporaryTransferRepository temporaryTransferRepository;
 
-    public AccountRepositoryImpl(SqlSession sqlSession) {
+    public AccountRepositoryImpl(SqlSession sqlSession, RegularTransferRepository regularTransferRepository,
+                                 TemporaryTransferRepository temporaryTransferRepository) {
         this.sqlSession = sqlSession;
+        this.regularTransferRepository = regularTransferRepository;
+        this.temporaryTransferRepository = temporaryTransferRepository;
     }
 
     @Override
@@ -47,8 +52,11 @@ public class AccountRepositoryImpl implements AccountRepository {
     }
 
     @Override
-    public void delete(AccountSelector selector) {
-        int affected = this.sqlSession.getMapper(AccountMapper.class).delete(selector);
+    public void delete(AccountSelector accountSelector) {
+        regularTransferRepository.setNullAccount(accountSelector.getId());
+        temporaryTransferRepository.setNullAccount(accountSelector.getId());
+
+        int affected = this.sqlSession.getMapper(AccountMapper.class).delete(accountSelector);
         if (affected != 1) {
             throw new ResourceNotFoundException("Account not found");
         }
