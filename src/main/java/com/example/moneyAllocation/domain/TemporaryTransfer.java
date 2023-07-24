@@ -2,8 +2,8 @@ package com.example.moneyAllocation.domain;
 
 public class TemporaryTransfer {
     private Long id;
-    private Long fromAccount;
-    private Long toAccount;
+    private String fromAccountName;
+    private String toAccountName;
     private String description;
     private Integer amount;
     private Long userId;
@@ -17,20 +17,20 @@ public class TemporaryTransfer {
         this.id = id;
     }
 
-    public Long getFromAccount() {
-        return fromAccount;
+    public String getFromAccountName() {
+        return fromAccountName;
     }
 
-    public void setFromAccount(Long fromAccount) {
-        this.fromAccount = fromAccount;
+    public void setFromAccountName(String fromAccountName) {
+        this.fromAccountName = fromAccountName;
     }
 
-    public Long getToAccount() {
-        return toAccount;
+    public String getToAccountName() {
+        return toAccountName;
     }
 
-    public void setToAccount(Long toAccount) {
-        this.toAccount = toAccount;
+    public void setToAccountName(String toAccountName) {
+        this.toAccountName = toAccountName;
     }
 
     public String getDescription() {
