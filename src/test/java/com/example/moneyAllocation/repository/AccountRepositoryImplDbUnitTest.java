@@ -177,12 +177,14 @@ public class AccountRepositoryImplDbUnitTest {
 
         // TODO: account削除前にregular, temporaryを削除する処理を追加してから実装
         @Test
-        public void testDeleteSuccess() {
+        public void testDeleteWithSetNullAccount() {
             AccountSelector selector = new AccountSelector();
-            selector.setId(6L);
-            selector.setOwnerId(2L);
+            selector.setId(2L);
+            selector.setOwnerId(1L);
             repository.delete(selector);
             DbUnitUtil.assertMutateResult(source, "ACCOUNT", expectedData, Arrays.asList());
+            DbUnitUtil.assertMutateResult(source, "REGULAR_TRANSFER", expectedData, Arrays.asList());
+            DbUnitUtil.assertMutateResult(source, "TEMPORARY_TRANSFER", expectedData, Arrays.asList());
         }
 
         @Test
