@@ -8,6 +8,8 @@
         <id property="id" column="ID"/>
         <result property="fromAccount" column="FROM_ACCOUNT"/>
         <result property="toAccount" column="TO_ACCOUNT"/>
+        <result property="fromAccountName" column="FROM_ACCOUNT_NAME"/>
+        <result property="toAccountName" column="TO_ACCOUNT_NAME"/>
         <result property="description" column="DESCRIPTION"/>
         <result property="percentage" column="PERCENTAGE"/>
         <result property="amount" column="AMOUNT"/>
@@ -17,36 +19,45 @@
 
     <select id="find" resultMap="RegularTransfer">
         SELECT
-        ID,
-        FROM_ACCOUNT,
-        TO_ACCOUNT,
-        DESCRIPTION,
-        PERCENTAGE,
-        AMOUNT,
-        RATIO,
-        USER_ID
-        FROM REGULAR_TRANSFER
+        R.ID,
+        R.FROM_ACCOUNT,
+        R.TO_ACCOUNT,
+        A_FROM.name AS FROM_ACCOUNT_NAME,
+        A_TO.name AS TO_ACCOUNT_NAME,
+        R.DESCRIPTION,
+        R.PERCENTAGE,
+        R.AMOUNT,
+        R.RATIO,
+        R.USER_ID
+        FROM REGULAR_TRANSFER AS R
+        LEFT OUTER JOIN ACCOUNT AS A_FROM ON A_FROM.ID = R.FROM_ACCOUNT
+        LEFT OUTER JOIN ACCOUNT AS A_TO ON A_TO.ID = R.TO_ACCOUNT
         <where>
-            USER_ID = #{userId}
+            R.USER_ID = #{userId}
         </where>
-        ORDER BY ID;
+        ORDER BY ID
     </select>
 
-    <select id="findOne" resultMap="RegularTransfer" parameterType="com.example.moneyAllocation.domain.TransferSelector">
+    <select id="findOne" resultMap="RegularTransfer"
+            parameterType="com.example.moneyAllocation.domain.TransferSelector">
         SELECT
-        ID,
-        FROM_ACCOUNT,
-        TO_ACCOUNT,
-        DESCRIPTION,
-        PERCENTAGE,
-        AMOUNT,
-        RATIO,
-        USER_ID
-        FROM REGULAR_TRANSFER
+        R.ID,
+        R.FROM_ACCOUNT,
+        R.TO_ACCOUNT,
+        A_FROM.name AS FROM_ACCOUNT_NAME,
+        A_TO.name AS TO_ACCOUNT_NAME,
+        R.DESCRIPTION,
+        R.PERCENTAGE,
+        R.AMOUNT,
+        R.RATIO,
+        R.USER_ID
+        FROM REGULAR_TRANSFER AS R
+        LEFT OUTER JOIN ACCOUNT AS A_FROM ON A_FROM.ID = R.FROM_ACCOUNT
+        LEFT OUTER JOIN ACCOUNT AS A_TO ON A_TO.ID = R.TO_ACCOUNT
         <where>
-            ID = #{id}
+            R.ID = #{id}
             <if test="userId != null">
-                AND USER_ID = #{userId}
+                AND R.USER_ID = #{userId}
             </if>
         </where>
     </select>
