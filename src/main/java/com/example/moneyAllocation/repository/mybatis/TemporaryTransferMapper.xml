@@ -6,8 +6,8 @@
 <mapper namespace="com.example.moneyAllocation.repository.mybatis.TemporaryTransferMapper">
     <resultMap id="TemporaryTransfer" type="com.example.moneyAllocation.domain.TemporaryTransfer">
         <id property="id" column="ID"/>
-        <result property="fromAccount" column="FROM_ACCOUNT"/>
-        <result property="toAccount" column="TO_ACCOUNT"/>
+        <result property="fromAccountName" column="FROM_ACCOUNT_NAME"/>
+        <result property="toAccountName" column="TO_ACCOUNT_NAME"/>
         <result property="description" column="DESCRIPTION"/>
         <result property="amount" column="AMOUNT"/>
         <result property="userId" column="USER_ID"/>
@@ -15,32 +15,37 @@
 
     <select id="find" resultMap="TemporaryTransfer">
         SELECT
-        ID,
-        FROM_ACCOUNT,
-        TO_ACCOUNT,
-        DESCRIPTION,
-        AMOUNT,
-        USER_ID,
-        TRANSFER_ID
-        FROM TEMPORARY_TRANSFER
+        T.ID,
+        A_FROM.name AS FROM_ACCOUNT_NAME,
+        A_TO.name AS TO_ACCOUNT_NAME,
+        T.DESCRIPTION,
+        T.AMOUNT,
+        T.USER_ID,
+        T.TRANSFER_ID
+        FROM TEMPORARY_TRANSFER AS T
+        LEFT OUTER JOIN ACCOUNT AS A_FROM ON A_FROM.ID = T.FROM_ACCOUNT
+        LEFT OUTER JOIN ACCOUNT AS A_TO ON A_TO.ID = T.TO_ACCOUNT
         <where>
-            USER_ID = #{userId}
+            T.USER_ID = #{userId}
         </where>
     </select>
 
     <select id="findOne" resultMap="TemporaryTransfer" parameterType="com.example.moneyAllocation.domain.TransferSelector">
         SELECT
-        ID,
-        FROM_ACCOUNT,
-        TO_ACCOUNT,
-        DESCRIPTION,
-        AMOUNT,
-        USER_ID,
-        TRANSFER_ID
-        FROM TEMPORARY_TRANSFER
+        T.ID,
+        AF.name AS FROM_ACCOUNT_NAME,
+        AT.name AS TO_ACCOUNT_NAME,
+        T.DESCRIPTION,
+        T.AMOUNT,
+        T.USER_ID,
+        T.TRANSFER_ID
+        FROM TEMPORARY_TRANSFER AS T
+        LEFT OUTER JOIN ACCOUNT AS AF ON AF.ID = T.FROM_ACCOUNT
+        LEFT OUTER JOIN ACCOUNT AS AT ON AT.ID = T.TO_ACCOUNT
         <where>
-            ID = #{id}
-            AND USER_ID = #{userId}
+            T.ID = #{id}
+            AND
+            T.USER_ID = #{userId}
         </where>
     </select>
 
