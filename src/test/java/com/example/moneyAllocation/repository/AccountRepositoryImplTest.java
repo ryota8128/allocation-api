@@ -13,6 +13,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
@@ -24,14 +25,19 @@ class AccountRepositoryImplTest {
     @Mock
     AccountMapper mapper;
 
+    @Mock
+    RegularTransferRepository regularTransferRepository;
 
-    private AccountRepository repository;
+    @Mock
+    TemporaryTransferRepository temporaryTransferRepository;
+
+    @InjectMocks
+    private AccountRepositoryImpl repository;
 
     @BeforeEach
     public void before() {
         MockitoAnnotations.openMocks(this);
         Mockito.doReturn(mapper).when(sqlSession).getMapper(AccountMapper.class);
-        repository = new AccountRepositoryImpl(sqlSession);
     }
 
     @AfterEach
@@ -113,10 +119,17 @@ class AccountRepositoryImplTest {
     @Test
     void delete() {
         AccountSelector selector = new AccountSelector();
+        selector.setId(1L);
         Mockito.doReturn(1).when(mapper).delete(selector);
+        Mockito.doNothing().when(regularTransferRepository).setNullAccount(Mockito.eq(1L));
+        Mockito.doNothing().when(temporaryTransferRepository).setNullAccount(Mockito.eq(1L));
+
         this.repository.delete(selector);
         Mockito.verify(mapper, Mockito.times(1)).delete(selector);
+        Mockito.verify(regularTransferRepository, Mockito.times(1)).setNullAccount(Mockito.eq(1L));
+        Mockito.verify(temporaryTransferRepository, Mockito.times(1)).setNullAccount(Mockito.eq(1L));
     }
+
     @Test
     void deleteFail() {
         AccountSelector selector = new AccountSelector();

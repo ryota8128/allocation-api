@@ -4,8 +4,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import com.example.moneyAllocation.domain.Account;
 import com.example.moneyAllocation.domain.AccountSelector;
 import com.example.moneyAllocation.repository.AccountRepository;
-import com.example.moneyAllocation.repository.RegularTransferRepository;
-import com.example.moneyAllocation.repository.TemporaryTransferRepository;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.AfterEach;
@@ -19,12 +17,6 @@ import org.mockito.MockitoAnnotations;
 class AccountServiceImplTest {
     @Mock
     private AccountRepository accountRepository;
-
-    @Mock
-    private RegularTransferRepository regularTransferRepository;
-
-    @Mock
-    private TemporaryTransferRepository temporaryTransferRepository;
 
     @InjectMocks
     public AccountServiceImpl target;
@@ -86,13 +78,8 @@ class AccountServiceImplTest {
         AccountSelector selector = new AccountSelector();
         selector.setId(1L);
         Mockito.doNothing().when(accountRepository).delete(selector);
-        Mockito.doNothing().when(regularTransferRepository).setNullAccount(selector.getId());
-        Mockito.doNothing().when(temporaryTransferRepository).setNullAccount(selector.getId());
 
         target.delete(selector);
         Mockito.verify(accountRepository, Mockito.times(1)).delete(selector);
-        Mockito.verify(regularTransferRepository, Mockito.times(1)).setNullAccount(selector.getId());
-        Mockito.verify(temporaryTransferRepository, Mockito.times(1)).setNullAccount(selector.getId());
-
     }
 }
