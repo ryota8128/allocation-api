@@ -34,20 +34,18 @@ public class RegularTransferServiceImpl implements RegularTransferService {
 
     @Override
     public void add(RegularTransfer regularTransfer) {
-        // percentのboolによってamountかratioが必須
-        if (regularTransfer.getPercentage()) {
-            if (regularTransfer.getRatio() == null) {
-                throw new ResourceValidationException("ratioがnullになっています");
-            }
 
-            float ratio = regularTransfer.getRatio();
-            if (ratio < 0 || ratio > 1) {
-                throw new ResourceValidationException("ratioは0以上1以下で入力してください");
-            }
-        } else {
-            if (regularTransfer.getAmount() == null) {
-                throw new ResourceValidationException("amountがnullになっています");
-            }
+        if (regularTransfer.getRatio() == null) {
+            regularTransfer.setRatio(0F);
+        }
+
+        float ratio = regularTransfer.getRatio();
+        if (ratio < 0 || ratio > 1) {
+            throw new ResourceValidationException("ratioは0以上1以下で入力してください");
+        }
+
+        if (regularTransfer.getAmount() == null) {
+            regularTransfer.setAmount(0);
         }
 
         // fromAccountとtoAccountのownerIdはログインユーザのIDと一致してる必要あり
@@ -68,21 +66,19 @@ public class RegularTransferServiceImpl implements RegularTransferService {
 
     @Override
     public void set(RegularTransfer regularTransfer) {
-        // percentのboolによってamountかratioが必須
-        if (regularTransfer.getPercentage()) {
-            if (regularTransfer.getRatio() == null) {
-                throw new ResourceValidationException("ratioがnullになっています");
-            }
-
-            float ratio = regularTransfer.getRatio();
-            if (ratio < 0 || ratio > 1) {
-                throw new ResourceValidationException("ratioは0以上1以下で入力してください");
-            }
-        } else {
-            if (regularTransfer.getAmount() == null) {
-                throw new ResourceValidationException("amountがnullになっています");
-            }
+        if (regularTransfer.getRatio() == null) {
+            regularTransfer.setRatio(0F);
         }
+
+        float ratio = regularTransfer.getRatio();
+        if (ratio < 0 || ratio > 1) {
+            throw new ResourceValidationException("ratioは0以上1以下で入力してください");
+        }
+
+        if (regularTransfer.getAmount() == null) {
+            regularTransfer.setAmount(0);
+        }
+
 
         // fromAccountとtoAccountのownerIdはログインユーザのIDと一致してる必要あり
         for (Long accountId : Arrays.asList(regularTransfer.getFromAccount(), regularTransfer.getToAccount())) {
