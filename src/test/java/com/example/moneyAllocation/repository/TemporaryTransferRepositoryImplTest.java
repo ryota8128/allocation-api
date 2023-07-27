@@ -46,12 +46,11 @@ class TemporaryTransferRepositoryImplTest {
     void find() {
         List<TemporaryTransfer> temporaryTransferList = new ArrayList<>();
         temporaryTransferList.add(new TemporaryTransfer());
-        Long userId = 1L;
-
-        Mockito.doReturn(temporaryTransferList).when(mapper).find(userId);
-        List<TemporaryTransfer> result = repository.find(userId);
+        TemporaryTransferSelector selector = new TemporaryTransferSelector();
+        Mockito.doReturn(temporaryTransferList).when(mapper).find(selector);
+        List<TemporaryTransfer> result = repository.find(selector);
         assertEquals(temporaryTransferList, result);
-        Mockito.verify(mapper, Mockito.times(1)).find(userId);
+        Mockito.verify(mapper, Mockito.times(1)).find(selector);
     }
 
     @Test

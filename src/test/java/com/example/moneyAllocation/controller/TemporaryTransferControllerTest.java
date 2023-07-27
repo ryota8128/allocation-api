@@ -48,12 +48,17 @@ class TemporaryTransferControllerTest {
         List<TemporaryTransfer> temporaryTransferList = new ArrayList<>();
         temporaryTransferList.add(new TemporaryTransfer());
 
-        Mockito.doReturn(temporaryTransferList).when(service).find(Mockito.argThat(userId -> userId.equals(1L)));
+        ArgumentMatcher<TemporaryTransferSelector> matcher = args -> {
+            assertEquals(1L, args.getUserId());
+            assertEquals(1L, args.getTransferId());
+            return true;
+        };
+        Mockito.doReturn(temporaryTransferList).when(service).find(Mockito.argThat(matcher));
 
-        List<TemporaryTransfer> result = controller.find(loginUserDetails);
+        List<TemporaryTransfer> result = controller.find(loginUserDetails, 1L);
 
         assertEquals(temporaryTransferList, result);
-        Mockito.verify(service, Mockito.times(1)).find(Mockito.argThat(userId -> userId.equals(1L)));
+        Mockito.verify(service, Mockito.times(1)).find(Mockito.argThat(matcher));
     }
 
     @Test
