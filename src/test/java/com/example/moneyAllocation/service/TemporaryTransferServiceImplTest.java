@@ -1,9 +1,14 @@
 package com.example.moneyAllocation.service;
 
 import static org.junit.jupiter.api.Assertions.*;
+import com.example.moneyAllocation.domain.Account;
+import com.example.moneyAllocation.domain.AccountSelector;
 import com.example.moneyAllocation.domain.TemporaryTransfer;
 import com.example.moneyAllocation.domain.TemporaryTransferSelector;
 import com.example.moneyAllocation.domain.TransferSelector;
+import com.example.moneyAllocation.exception.ResourceNotFoundException;
+import com.example.moneyAllocation.exception.ResourceValidationException;
+import com.example.moneyAllocation.repository.AccountRepository;
 import com.example.moneyAllocation.repository.TemporaryTransferRepository;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +23,9 @@ import org.mockito.MockitoAnnotations;
 class TemporaryTransferServiceImplTest {
     @Mock
     private TemporaryTransferRepository repository;
+
+    @Mock
+    private AccountRepository accountRepository;
 
     @InjectMocks
     private TemporaryTransferServiceImpl service;
@@ -60,7 +68,31 @@ class TemporaryTransferServiceImplTest {
         TemporaryTransfer temporaryTransfer = new TemporaryTransfer();
         Mockito.doNothing().when(repository).add(temporaryTransfer);
         service.add(temporaryTransfer);
+        Mockito.verify(accountRepository, Mockito.times(0)).findOne(Mockito.any(AccountSelector.class));
         Mockito.verify(repository, Mockito.times(1)).add(temporaryTransfer);
+    }
+
+    @Test
+    void addWithValidFromAndToAccount() {
+        TemporaryTransfer temporaryTransfer = new TemporaryTransfer();
+        temporaryTransfer.setFromAccount(1L);
+        temporaryTransfer.setToAccount(2L);
+        Mockito.doNothing().when(repository).add(temporaryTransfer);
+        Mockito.doReturn(new Account()).when(accountRepository).findOne(Mockito.argThat(arg -> arg.getId() == 1L | arg.getId() == 2L));
+        service.add(temporaryTransfer);
+        Mockito.verify(accountRepository, Mockito.times(2)).findOne(Mockito.any(AccountSelector.class));
+        Mockito.verify(repository, Mockito.times(1)).add(temporaryTransfer);
+    }
+
+    @Test
+    void addWithInvalidFromAccounts() {
+        TemporaryTransfer temporaryTransfer = new TemporaryTransfer();
+        temporaryTransfer.setFromAccount(1L);
+        Mockito.doNothing().when(repository).add(temporaryTransfer);
+        Mockito.doThrow(ResourceNotFoundException.class).when(accountRepository).findOne(Mockito.argThat(arg -> arg.getId() == 1L));
+        assertThrows(ResourceValidationException.class, () -> service.add(temporaryTransfer));
+        Mockito.verify(accountRepository, Mockito.times(1)).findOne(Mockito.any(AccountSelector.class));
+        Mockito.verify(repository, Mockito.times(0)).add(temporaryTransfer);
     }
 
     @Test
@@ -68,7 +100,31 @@ class TemporaryTransferServiceImplTest {
         TemporaryTransfer temporaryTransfer = new TemporaryTransfer();
         Mockito.doNothing().when(repository).set(temporaryTransfer);
         service.set(temporaryTransfer);
+        Mockito.verify(accountRepository, Mockito.times(0)).findOne(Mockito.any(AccountSelector.class));
         Mockito.verify(repository, Mockito.times(1)).set(temporaryTransfer);
+    }
+
+    @Test
+    void setWithValidFromAndToAccount() {
+        TemporaryTransfer temporaryTransfer = new TemporaryTransfer();
+        temporaryTransfer.setFromAccount(1L);
+        temporaryTransfer.setToAccount(2L);
+        Mockito.doNothing().when(repository).set(temporaryTransfer);
+        Mockito.doReturn(new Account()).when(accountRepository).findOne(Mockito.argThat(arg -> arg.getId() == 1L | arg.getId() == 2L));
+        service.set(temporaryTransfer);
+        Mockito.verify(accountRepository, Mockito.times(2)).findOne(Mockito.any(AccountSelector.class));
+        Mockito.verify(repository, Mockito.times(1)).set(temporaryTransfer);
+    }
+
+    @Test
+    void setWithInvalidFromAccounts() {
+        TemporaryTransfer temporaryTransfer = new TemporaryTransfer();
+        temporaryTransfer.setFromAccount(1L);
+        Mockito.doNothing().when(repository).set(temporaryTransfer);
+        Mockito.doThrow(ResourceNotFoundException.class).when(accountRepository).findOne(Mockito.argThat(arg -> arg.getId() == 1L));
+        assertThrows(ResourceValidationException.class, () -> service.set(temporaryTransfer));
+        Mockito.verify(accountRepository, Mockito.times(1)).findOne(Mockito.any(AccountSelector.class));
+        Mockito.verify(repository, Mockito.times(0)).set(temporaryTransfer);
     }
 
     @Test
