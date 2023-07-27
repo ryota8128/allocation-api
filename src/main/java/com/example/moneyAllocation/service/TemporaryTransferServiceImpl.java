@@ -16,8 +16,8 @@ public class TemporaryTransferServiceImpl implements TemporaryTransferService {
     }
 
     @Override
-    public List<TemporaryTransfer> find(Long userId) {
-        return repository.find(userId);
+    public List<TemporaryTransfer> find(TemporaryTransferSelector selector) {
+        return repository.find(selector);
     }
 
     @Override

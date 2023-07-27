@@ -31,6 +31,9 @@
         LEFT OUTER JOIN ACCOUNT AS A_TO ON A_TO.ID = T.TO_ACCOUNT
         <where>
             T.USER_ID = #{userId}
+            <if test="transferId != null">
+                AND T.TRANSFER_ID = #{transferId}
+            </if>
         </where>
         ORDER BY ID
     </select>
