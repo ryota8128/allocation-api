@@ -19,8 +19,8 @@ public class TemporaryTransferRepositoryImpl implements TemporaryTransferReposit
     }
 
     @Override
-    public List<TemporaryTransfer> find(Long userId) {
-        return sqlSession.getMapper(TemporaryTransferMapper.class).find(userId);
+    public List<TemporaryTransfer> find(TemporaryTransferSelector selector) {
+        return sqlSession.getMapper(TemporaryTransferMapper.class).find(selector);
     }
 
     @Override
