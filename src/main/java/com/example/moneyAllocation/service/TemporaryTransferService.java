@@ -6,7 +6,7 @@ import com.example.moneyAllocation.domain.TransferSelector;
 import java.util.List;
 
 public interface TemporaryTransferService {
-    List<TemporaryTransfer> find(Long userId);
+    List<TemporaryTransfer> find(TemporaryTransferSelector selector);
 
     TemporaryTransfer findOne(TransferSelector selector);
 
