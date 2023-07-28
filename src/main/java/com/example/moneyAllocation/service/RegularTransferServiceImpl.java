@@ -82,6 +82,8 @@ public class RegularTransferServiceImpl implements RegularTransferService {
 
         // fromAccountとtoAccountのownerIdはログインユーザのIDと一致してる必要あり
         for (Long accountId : Arrays.asList(regularTransfer.getFromAccount(), regularTransfer.getToAccount())) {
+            if (accountId == null) {continue;}
+
             AccountSelector selector = new AccountSelector();
             selector.setId(accountId);
             selector.setOwnerId(regularTransfer.getUserId());
