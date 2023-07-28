@@ -273,6 +273,74 @@ class RegularTransferServiceImplTest {
     }
 
     @Test
+    void setWhenFromAccountIsNullSuccess() {
+        RegularTransfer regularTransfer = new RegularTransfer();
+        regularTransfer.setPercentage(false);
+        regularTransfer.setAmount(null);
+        regularTransfer.setRatio(null);
+        regularTransfer.setFromAccount(null);
+        regularTransfer.setToAccount(2L);
+        regularTransfer.setUserId(1L);
+        regularTransfer.setId(5L);
+
+        ArgumentMatcher<AccountSelector> accountMatcher = arg -> {
+            assertEquals(1L, arg.getOwnerId());
+            assertEquals(2L, arg.getId());
+            return true;
+        };
+
+        Mockito.doReturn(new Account()).when(accountRepository).findOne(Mockito.argThat(accountMatcher));
+        Mockito.doNothing().when(regularTransferRepository).set(regularTransfer);
+        service.set(regularTransfer);
+
+        Mockito.verify(accountRepository, Mockito.times(1)).findOne(Mockito.argThat(accountMatcher));
+        Mockito.verify(regularTransferRepository, Mockito.times(1)).set(regularTransfer);
+    }
+
+    @Test
+    void setWhenToAccountIsNullSuccess() {
+        RegularTransfer regularTransfer = new RegularTransfer();
+        regularTransfer.setPercentage(false);
+        regularTransfer.setAmount(null);
+        regularTransfer.setRatio(null);
+        regularTransfer.setFromAccount(2L);
+        regularTransfer.setToAccount(null);
+        regularTransfer.setUserId(1L);
+        regularTransfer.setId(5L);
+
+        ArgumentMatcher<AccountSelector> accountMatcher = arg -> {
+            assertEquals(1L, arg.getOwnerId());
+            assertEquals(2L, arg.getId());
+            return true;
+        };
+
+        Mockito.doReturn(new Account()).when(accountRepository).findOne(Mockito.argThat(accountMatcher));
+        Mockito.doNothing().when(regularTransferRepository).set(regularTransfer);
+        service.set(regularTransfer);
+
+        Mockito.verify(accountRepository, Mockito.times(1)).findOne(Mockito.argThat(accountMatcher));
+        Mockito.verify(regularTransferRepository, Mockito.times(1)).set(regularTransfer);
+    }
+
+    @Test
+    void setWhenToAccountAndFromAccountAreNullSuccess() {
+        RegularTransfer regularTransfer = new RegularTransfer();
+        regularTransfer.setPercentage(false);
+        regularTransfer.setFromAccount(null);
+        regularTransfer.setToAccount(null);
+        regularTransfer.setUserId(1L);
+        regularTransfer.setId(5L);
+
+        Mockito.doReturn(new Account()).when(accountRepository).findOne(Mockito.any());
+        Mockito.doNothing().when(regularTransferRepository).set(regularTransfer);
+        service.set(regularTransfer);
+
+        Mockito.verify(accountRepository, Mockito.times(0)).findOne(Mockito.any());
+        Mockito.verify(regularTransferRepository, Mockito.times(1)).set(regularTransfer);
+    }
+
+
+    @Test
     void setWhenRatioUnder0() {
         RegularTransfer regularTransfer = new RegularTransfer();
         regularTransfer.setPercentage(true);
