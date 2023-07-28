@@ -56,7 +56,12 @@
         VALUES
         (
         #{name},
+        <if test="numFreeTransfer != null">
         #{numFreeTransfer},
+        </if>
+        <if test="numFreeTransfer == null">
+            default,
+        </if>
         <if test="transferFee != null">
             #{transferFee},
         </if>
