@@ -2,6 +2,7 @@ package com.example.moneyAllocation.controller;
 
 import com.example.moneyAllocation.domain.Account;
 import com.example.moneyAllocation.domain.AccountSelector;
+import com.example.moneyAllocation.exception.BudRequestException;
 import com.example.moneyAllocation.security.LoginUserDetails;
 import com.example.moneyAllocation.service.AccountService;
 import java.util.List;
@@ -34,10 +35,17 @@ public class AccountController {
     }
 
     @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Account findOne(@AuthenticationPrincipal LoginUserDetails loginUserDetails, @RequestParam Long id) {
+    public Account findOne(@AuthenticationPrincipal LoginUserDetails loginUserDetails,
+                           @RequestParam(required = false) Long id, @RequestParam(required = false) String name) {
+
+        if (id == null && name == null) {
+            throw new BudRequestException("id, nameがともにnullで渡されました．");
+        }
+
         AccountSelector selector = new AccountSelector();
         selector.setOwnerId(loginUserDetails.getLoginUser().id());
         selector.setId(id);
+        selector.setName(name);
         return service.findOne(selector);
     }
 
@@ -61,5 +69,4 @@ public class AccountController {
         this.service.delete(selector);
     }
 }
-
 

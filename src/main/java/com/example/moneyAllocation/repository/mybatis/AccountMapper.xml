@@ -39,7 +39,12 @@
         FROM
         ACCOUNT
         <where>
-            ID = #{id}
+            <if test="id !=null">
+                AND ID = #{id}
+            </if>
+            <if test="name !=null">
+                AND NAME = #{name}
+            </if>
             AND OWNER_ID = #{ownerId}
         </where>
     </select>
@@ -57,7 +62,7 @@
         (
         #{name},
         <if test="numFreeTransfer != null">
-        #{numFreeTransfer},
+            #{numFreeTransfer},
         </if>
         <if test="numFreeTransfer == null">
             default,
