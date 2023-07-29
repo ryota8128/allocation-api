@@ -1,5 +1,6 @@
 package com.example.moneyAllocation.controller;
 
+import com.example.moneyAllocation.exception.BudRequestException;
 import com.example.moneyAllocation.exception.HealthDieException;
 import com.example.moneyAllocation.exception.ResourceNotFoundException;
 import com.example.moneyAllocation.exception.ResourceValidationException;
@@ -50,5 +51,11 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<Object> handleUserRegisterException(
             UserRegisterException exception, WebRequest request) {
         return super.handleExceptionInternal(exception, exception.getMessage(), HttpHeaders.EMPTY, HttpStatus.FORBIDDEN, request);
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<Object> handleBudRequestException(
+            BudRequestException exception, WebRequest request) {
+        return super.handleExceptionInternal(exception, exception.getMessage(), HttpHeaders.EMPTY, HttpStatus.BAD_REQUEST, request);
     }
 }
