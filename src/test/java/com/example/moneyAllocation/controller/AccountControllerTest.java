@@ -3,6 +3,7 @@ package com.example.moneyAllocation.controller;
 import static org.junit.jupiter.api.Assertions.*;
 import com.example.moneyAllocation.domain.Account;
 import com.example.moneyAllocation.domain.AccountSelector;
+import com.example.moneyAllocation.exception.BudRequestException;
 import com.example.moneyAllocation.security.LoginUser;
 import com.example.moneyAllocation.security.LoginUserDetails;
 import com.example.moneyAllocation.security.UserRole;
@@ -56,23 +57,47 @@ class AccountControllerTest {
     }
 
     @Test
-    void findOne() {
+    void findOneWithId() {
         Account findResult = new Account();
         findResult.setName("ryota");
 
         ArgumentMatcher<AccountSelector> matcher = argument -> {
             assertEquals(1L, argument.getOwnerId());
             assertEquals(2L, argument.getId());
+            assertNull(argument.getName());
             return true;
         };
         Mockito.doReturn(findResult).when(service).findOne(Mockito.argThat(matcher));
 
-        Account result = controller.findOne(loginUserDetails, 2L);
+        Account result = controller.findOne(loginUserDetails, 2L, null);
 
         assertEquals(findResult, result);
         Mockito.verify(service, Mockito.times(1)).findOne(Mockito.argThat(matcher));
     }
 
+    @Test
+    void findOneWithName() {
+        Account findResult = new Account();
+        findResult.setName("ryota");
+
+        ArgumentMatcher<AccountSelector> matcher = argument -> {
+            assertEquals(1L, argument.getOwnerId());
+            assertNull(argument.getId());
+            assertEquals("PayPay", argument.getName());
+            return true;
+        };
+        Mockito.doReturn(findResult).when(service).findOne(Mockito.argThat(matcher));
+
+        Account result = controller.findOne(loginUserDetails, null, "PayPay");
+
+        assertEquals(findResult, result);
+        Mockito.verify(service, Mockito.times(1)).findOne(Mockito.argThat(matcher));
+    }
+
+    @Test
+    void failFindOneIdAndNameAreNull() {
+        assertThrows(BudRequestException.class, () -> controller.findOne(loginUserDetails, null, null));
+    }
 
     @Test
     void add() {
