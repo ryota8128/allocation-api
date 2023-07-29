@@ -58,7 +58,7 @@ public class AccountRepositoryImplDbUnitTest {
         }
 
         @Test
-        public void testFindOne() {
+        public void testFindOneWithId() {
             AccountSelector selector = new AccountSelector();
             selector.setOwnerId(1L);
             selector.setId(1L);
@@ -69,6 +69,43 @@ public class AccountRepositoryImplDbUnitTest {
             assertEquals(150, account.getTransferFee());
             assertEquals(1L, account.getOwnerId());
         }
+
+        @Test
+        public void testFindOneWithName() {
+            AccountSelector selector = new AccountSelector();
+            selector.setOwnerId(1L);
+            selector.setName("三井");
+            Account account = repository.findOne(selector);
+            assertEquals(1L, account.getId());
+            assertEquals("三井", account.getName());
+            assertEquals(9999, account.getNumFreeTransfer());
+            assertEquals(150, account.getTransferFee());
+            assertEquals(1L, account.getOwnerId());
+        }
+
+        @Test
+        public void testFindOneWithNameAndId() {
+            AccountSelector selector = new AccountSelector();
+            selector.setOwnerId(1L);
+            selector.setName("三井");
+            selector.setId(1L);
+            Account account = repository.findOne(selector);
+            assertEquals(1L, account.getId());
+            assertEquals("三井", account.getName());
+            assertEquals(9999, account.getNumFreeTransfer());
+            assertEquals(150, account.getTransferFee());
+            assertEquals(1L, account.getOwnerId());
+        }
+
+        @Test
+        public void testFindOneWithInvalidNameAndId() {
+            AccountSelector selector = new AccountSelector();
+            selector.setOwnerId(1L);
+            selector.setName("三井");
+            selector.setId(2L);
+            assertThrows(ResourceNotFoundException.class, () -> repository.findOne(selector));
+        }
+
 
         @Test
         public void testFindOneWhenNotExists() {
