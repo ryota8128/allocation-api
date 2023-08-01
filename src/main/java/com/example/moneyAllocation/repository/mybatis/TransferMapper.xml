@@ -29,9 +29,13 @@
         USER_ID
         FROM TRANSFER
         <where>
-            ID = #{id}
-            AND
-            USER_ID = #{userId}
+            <if test="id != null">
+                AND ID = #{id}
+            </if>
+            <if test="title != null">
+                AND TITLE =#{title}
+            </if>
+            AND USER_ID = #{userId}
         </where>
     </select>
 
