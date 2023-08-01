@@ -2,6 +2,7 @@ package com.example.moneyAllocation.controller;
 
 import com.example.moneyAllocation.domain.Transfer;
 import com.example.moneyAllocation.domain.TransferSelector;
+import com.example.moneyAllocation.exception.BudRequestException;
 import com.example.moneyAllocation.security.LoginUserDetails;
 import com.example.moneyAllocation.service.TransferService;
 import java.util.List;
@@ -33,10 +34,15 @@ public class TransferController {
     }
 
     @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Transfer findOne(@AuthenticationPrincipal LoginUserDetails loginUserDetails, @RequestParam Long id) {
+    public Transfer findOne(@AuthenticationPrincipal LoginUserDetails loginUserDetails,
+                            @RequestParam(required = false) Long id, @RequestParam(required = false) String title) {
+        if (id == null && title == null) {
+            throw new BudRequestException("id, titleのパラメータが存在しません");
+        }
         TransferSelector selector = new TransferSelector();
         selector.setId(id);
         selector.setUserId(loginUserDetails.getLoginUser().id());
+        selector.setTitle(title);
         return transferService.findOne(selector);
     }
 
