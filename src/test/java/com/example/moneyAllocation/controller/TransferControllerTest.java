@@ -54,15 +54,31 @@ class TransferControllerTest {
     }
 
     @Test
-    void findOne() {
+    void findOneWithId() {
         Transfer findResult = new Transfer();
         ArgumentMatcher<TransferSelector> matcher = argument -> {
             assertEquals(1L, argument.getUserId());
             assertEquals(2L, argument.getId());
+            assertNull(argument.getTitle());
             return true;
         };
         Mockito.doReturn(findResult).when(transferService).findOne(Mockito.argThat(matcher));
-        Transfer result = transferController.findOne(loginUserDetails, 2L);
+        Transfer result = transferController.findOne(loginUserDetails, 2L, null);
+        assertEquals(findResult, result);
+        Mockito.verify(transferService, Mockito.times(1)).findOne(Mockito.argThat(matcher));
+    }
+
+    @Test
+    void findOneWithTitle() {
+        Transfer findResult = new Transfer();
+        ArgumentMatcher<TransferSelector> matcher = argument -> {
+            assertNull(argument.getId());
+            assertEquals("title", argument.getTitle());
+            assertEquals(1L, argument.getUserId());
+            return true;
+        };
+        Mockito.doReturn(findResult).when(transferService).findOne(Mockito.argThat(matcher));
+        Transfer result = transferController.findOne(loginUserDetails, null, "title");
         assertEquals(findResult, result);
         Mockito.verify(transferService, Mockito.times(1)).findOne(Mockito.argThat(matcher));
     }
