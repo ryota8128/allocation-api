@@ -102,4 +102,13 @@
         ID = #{id}
         AND OWNER_ID = #{ownerId}
     </delete>
+
+    <update id="setNullToViaThatReferenceDeleteAccount" parameterType="java.lang.Long">
+        UPDATE ACCOUNT
+        SET
+        VIA = null
+        WHERE
+        OWNER_ID = #{ownerId}
+        AND VIA = #{via}
+    </update>
 </mapper>

@@ -14,4 +14,6 @@ public interface AccountRepository {
     void set(Account account);
 
     void delete(AccountSelector selector);
+
+    void setNullToViaThatReferenceDeleteAccount(Long ownerId, Long delAccountId);
 }
