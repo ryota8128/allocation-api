@@ -1,6 +1,16 @@
 package com.example.moneyAllocation.domain;
 
+
 public class AccountSelector {
+    public AccountSelector(Long ownerId, Long id, String name) {
+        this.ownerId = ownerId;
+        this.id = id;
+        this.name = name;
+    }
+
+    public AccountSelector() {
+    }
+
     private Long ownerId;
 
     private Long id;
