@@ -52,13 +52,21 @@ public class AccountRepositoryImpl implements AccountRepository {
     }
 
     @Override
-    public void delete(AccountSelector accountSelector) {
-        regularTransferRepository.setNullAccount(accountSelector.getId());
-        temporaryTransferRepository.setNullAccount(accountSelector.getId());
+    public void delete(AccountSelector selector) {
+        regularTransferRepository.setNullAccount(selector.getId());
+        temporaryTransferRepository.setNullAccount(selector.getId());
 
-        int affected = this.sqlSession.getMapper(AccountMapper.class).delete(accountSelector);
+        // 削除するaccountが別のaccountにviaによって参照されてた場合，nullに置き換える
+        setNullToViaThatReferenceDeleteAccount(selector.getOwnerId(), selector.getId());
+
+        int affected = this.sqlSession.getMapper(AccountMapper.class).delete(selector);
         if (affected != 1) {
             throw new ResourceNotFoundException("Account not found");
         }
+    }
+
+    @Override
+    public void setNullToViaThatReferenceDeleteAccount(Long ownerId, Long delAccountId) {
+        this.sqlSession.getMapper(AccountMapper.class).setNullToViaThatReferenceDeleteAccount(ownerId, delAccountId);
     }
 }
