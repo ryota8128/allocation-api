@@ -8,15 +8,19 @@ CREATE TABLE USER(
     EMAIL VARCHAR(255) NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS ACCOUNT (
-    ID BIGINT NOT NULL AUTO_INCREMENT UNIQUE PRIMARY KEY,
-    NAME TEXT NOT NULL,
-    NUM_FREE_TRANSFER INT NOT NULL,
-    TRANSFER_FEE INT NOT NULL,
-    OWNER_ID BIGINT NOT NULL,
-    FOREIGN KEY (OWNER_ID) REFERENCES USER (ID),
-    CONSTRAINT unique_constraint_name_ownerId UNIQUE (NAME, OWNER_ID)
-);
+CREATE TABLE ACCOUNT (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `num_free_transfer` int NOT NULL DEFAULT '0',
+  `transfer_fee` int NOT NULL DEFAULT '100',
+  `owner_id` bigint NOT NULL,
+  `via` bigint DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `unique_name_ownerId` (`name`,`owner_id`),
+  KEY `owner_id` (`owner_id`),
+  CONSTRAINT `account_ibfk_1` FOREIGN KEY (`owner_id`) REFERENCES `user` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=74 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
 
 CREATE TABLE IF NOT EXISTS TRANSFER (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
