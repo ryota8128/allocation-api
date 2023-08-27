@@ -51,4 +51,23 @@
         </where>
     </select>
 
+    <insert id="insert" parameterType="com.example.moneyAllocation.domain.dto.TemplateTransferDto"
+            useGeneratedKeys="true"
+            keyProperty="id">
+        INSERT INTO TEMPLATE_TRANSFER
+        (
+        from_account,
+        to_account,
+        description,
+        user_id
+        )
+        VALUES
+        (
+        #{fromAccount},
+        #{toAccount},
+        #{description},
+        #{userId}
+        )
+    </insert>
+
 </mapper>

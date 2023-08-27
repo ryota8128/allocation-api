@@ -3,6 +3,7 @@ package com.example.moneyAllocation.repository.impl;
 import com.example.moneyAllocation.domain.TemplateTransfer;
 import com.example.moneyAllocation.domain.TemplateTransferList;
 import com.example.moneyAllocation.domain.dto.TemplateTransferDto;
+import com.example.moneyAllocation.exception.BudRequestException;
 import com.example.moneyAllocation.exception.ResourceNotFoundException;
 import com.example.moneyAllocation.repository.TemplateTransferRepository;
 import com.example.moneyAllocation.repository.mybatis.TemplateTransferMapper;
@@ -32,5 +33,14 @@ public class TemplateTransferRepositoryImpl implements TemplateTransferRepositor
       throw new ResourceNotFoundException("見つかりません");
     }
     return TemplateTransfer.fromDto(findDto);
+  }
+
+  @Override
+  public void insert(TemplateTransfer templateTransfer) {
+    TemplateTransferDto dto = TemplateTransferDto.valueOf(templateTransfer);
+    int affected = sqlSession.getMapper(TemplateTransferMapper.class).insert(dto);
+    if (affected != 1) {
+      throw new BudRequestException("400");
+    }
   }
 }
