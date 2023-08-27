@@ -1,43 +1,24 @@
 package com.example.moneyAllocation.domain;
 
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Builder(access = AccessLevel.PRIVATE)
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class AccountSelector {
-    public AccountSelector(Long ownerId, Long id, String name) {
-        this.ownerId = ownerId;
-        this.id = id;
-        this.name = name;
-    }
 
-    public AccountSelector() {
-    }
+  private Long ownerId;
 
-    private Long ownerId;
+  private Long id;
 
-    private Long id;
+  private String name;
 
-    private String name;
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getOwnerId() {
-        return ownerId;
-    }
-
-    public void setOwnerId(Long ownerId) {
-        this.ownerId = ownerId;
-    }
+  public static AccountSelector of(Long accountId, Long ownerId) {
+    return builder().id(accountId).ownerId(ownerId).build();
+  }
 }

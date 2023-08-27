@@ -12,7 +12,7 @@ public class TemplateTransferList {
   @Getter private final List<TemplateTransfer> list;
 
   public static TemplateTransferList fromDtoList(List<TemplateTransferDto> dtoList) {
-    return of(dtoList.stream().map(TemplateTransfer::fromDto).collect(Collectors.toList()));
+    return of(dtoList.stream().map(TemplateTransfer::from).collect(Collectors.toList()));
   }
 
   public static TemplateTransferList of(List<TemplateTransfer> templateTransfers) {

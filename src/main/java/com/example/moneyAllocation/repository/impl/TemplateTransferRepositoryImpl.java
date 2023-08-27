@@ -32,7 +32,7 @@ public class TemplateTransferRepositoryImpl implements TemplateTransferRepositor
     if (findDto == null) {
       throw new ResourceNotFoundException("見つかりません");
     }
-    return TemplateTransfer.fromDto(findDto);
+    return TemplateTransfer.from(findDto);
   }
 
   @Override

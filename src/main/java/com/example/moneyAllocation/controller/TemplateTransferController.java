@@ -1,5 +1,6 @@
 package com.example.moneyAllocation.controller;
 
+import com.example.moneyAllocation.domain.TemplateTransfer;
 import com.example.moneyAllocation.domain.TemplateTransferList;
 import com.example.moneyAllocation.domain.dto.TemplateTransferDto;
 import com.example.moneyAllocation.security.LoginUserDetails;
@@ -11,6 +12,8 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -35,5 +38,14 @@ public class TemplateTransferController {
       @AuthenticationPrincipal LoginUserDetails loginUserDetails, @PathVariable Long id) {
 
     return TemplateTransferDto.valueOf(service.findOne(id, loginUserDetails.getLoginUser().id()));
+  }
+
+  @PostMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
+  public void add(
+      @AuthenticationPrincipal LoginUserDetails loginUserDetails,
+      @RequestBody TemplateTransferDto dto) {
+
+    dto.setUserId(loginUserDetails.getLoginUser().id());
+    service.insert(TemplateTransfer.from(dto));
   }
 }

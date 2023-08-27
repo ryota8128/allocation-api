@@ -7,4 +7,6 @@ public interface TemplateTransferService {
     TemplateTransferList find(Long userId);
 
     TemplateTransfer findOne(Long id, Long userId);
+
+    void insert(TemplateTransfer templateTransfer);
 }
