@@ -9,6 +9,7 @@ import com.example.moneyAllocation.exception.ResourceNotFoundException;
 import com.example.moneyAllocation.exception.ResourceValidationException;
 import com.example.moneyAllocation.repository.AccountRepository;
 import com.example.moneyAllocation.repository.RegularTransferRepository;
+import com.example.moneyAllocation.service.impl.RegularTransferServiceImpl;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.AfterEach;

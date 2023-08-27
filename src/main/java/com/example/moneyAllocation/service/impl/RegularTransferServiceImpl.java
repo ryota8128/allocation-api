@@ -1,4 +1,4 @@
-package com.example.moneyAllocation.service;
+package com.example.moneyAllocation.service.impl;
 
 import com.example.moneyAllocation.domain.AccountSelector;
 import com.example.moneyAllocation.domain.RegularTransfer;
@@ -7,6 +7,7 @@ import com.example.moneyAllocation.exception.ResourceNotFoundException;
 import com.example.moneyAllocation.exception.ResourceValidationException;
 import com.example.moneyAllocation.repository.AccountRepository;
 import com.example.moneyAllocation.repository.RegularTransferRepository;
+import com.example.moneyAllocation.service.RegularTransferService;
 import java.util.Arrays;
 import java.util.List;
 import org.springframework.stereotype.Service;
