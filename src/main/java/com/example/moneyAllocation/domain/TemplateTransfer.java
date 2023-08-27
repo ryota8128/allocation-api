@@ -3,8 +3,10 @@ package com.example.moneyAllocation.domain;
 import com.example.moneyAllocation.domain.dto.TemplateTransferDto;
 import lombok.AccessLevel;
 import lombok.Builder;
+import lombok.Getter;
 
 @Builder(access = AccessLevel.PRIVATE)
+@Getter
 public class TemplateTransfer {
   private final Long id;
   private final Long fromAccount;

@@ -1,6 +1,7 @@
 package com.example.moneyAllocation.controller;
 
-import com.example.moneyAllocation.domain.TemplateTransfer;
+import com.example.moneyAllocation.domain.TemplateTransferList;
+import com.example.moneyAllocation.domain.dto.TemplateTransferDto;
 import com.example.moneyAllocation.security.LoginUserDetails;
 import com.example.moneyAllocation.service.TemplateTransferService;
 import java.util.List;
@@ -21,13 +22,18 @@ public class TemplateTransferController {
   private final TemplateTransferService service;
 
   @GetMapping(value = "/list", produces = MediaType.APPLICATION_JSON_VALUE)
-  public List<TemplateTransfer> find(@AuthenticationPrincipal LoginUserDetails loginUserDetails) {
-    return this.service.find(loginUserDetails.getLoginUser().id()).getList();
+  public List<TemplateTransferDto> find(
+      @AuthenticationPrincipal LoginUserDetails loginUserDetails) {
+
+    TemplateTransferList templateTransferList =
+        this.service.find(loginUserDetails.getLoginUser().id());
+    return TemplateTransferDto.valueFrom(templateTransferList);
   }
 
   @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-  public TemplateTransfer findOne(
+  public TemplateTransferDto findOne(
       @AuthenticationPrincipal LoginUserDetails loginUserDetails, @PathVariable Long id) {
-    return service.findOne(id, loginUserDetails.getLoginUser().id());
+
+    return TemplateTransferDto.valueOf(service.findOne(id, loginUserDetails.getLoginUser().id()));
   }
 }
