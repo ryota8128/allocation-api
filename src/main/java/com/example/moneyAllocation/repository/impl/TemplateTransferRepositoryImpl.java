@@ -3,6 +3,7 @@ package com.example.moneyAllocation.repository.impl;
 import com.example.moneyAllocation.domain.TemplateTransfer;
 import com.example.moneyAllocation.domain.TemplateTransferList;
 import com.example.moneyAllocation.domain.dto.TemplateTransferDto;
+import com.example.moneyAllocation.exception.ResourceNotFoundException;
 import com.example.moneyAllocation.repository.TemplateTransferRepository;
 import com.example.moneyAllocation.repository.mybatis.TemplateTransferMapper;
 import java.util.List;
@@ -25,7 +26,11 @@ public class TemplateTransferRepositoryImpl implements TemplateTransferRepositor
 
   @Override
   public TemplateTransfer findOne(Long id, Long userId) {
-    return TemplateTransfer.fromDto(
-        sqlSession.getMapper(TemplateTransferMapper.class).findOne(id, userId));
+    TemplateTransferDto findDto =
+        sqlSession.getMapper(TemplateTransferMapper.class).findOne(id, userId);
+    if (findDto == null) {
+      throw new ResourceNotFoundException("見つかりません");
+    }
+    return TemplateTransfer.fromDto(findDto);
   }
 }
