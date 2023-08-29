@@ -1,5 +1,6 @@
 package com.example.moneyAllocation.domain;
 
+import com.example.moneyAllocation.exception.ResourceValidationException;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -28,4 +29,11 @@ public class RegularTransfer implements HaveToAndFromAccount {
         .map(a -> AccountSelector.of(a, userId))
         .collect(Collectors.toList());
   }
+
+  public void checkRatioValid() {
+    if (ratio < 0 || ratio > 1) {
+      throw new ResourceValidationException("ratioは0以上1以下で入力してください");
+    }
+  }
+
 }
