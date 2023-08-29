@@ -11,7 +11,7 @@ import lombok.Getter;
 
 @Builder(access = AccessLevel.PRIVATE)
 @Getter
-public class TemplateTransfer {
+public class TemplateTransfer implements HaveToAndFromAccount {
   private final Long id;
   private final Long fromAccount;
   private final Long toAccount;
