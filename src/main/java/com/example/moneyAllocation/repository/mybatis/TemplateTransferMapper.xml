@@ -70,4 +70,23 @@
         )
     </insert>
 
+    <update id="set" parameterType="com.example.moneyAllocation.domain.dto.TemplateTransferDto">
+        UPDATE TEMPLATE_TRANSFER
+        SET
+        FROM_ACCOUNT = #{fromAccount},
+        TO_ACCOUNT = #{toAccount},
+        DESCRIPTION = #{description}
+        WHERE
+        ID = #{id}
+        AND USER_ID = #{userId}
+    </update>
+
+    <delete id="delete" parameterType="com.example.moneyAllocation.domain.dto.TemplateTransferDto">
+        DELETE FROM TEMPLATE_TRANSFER
+        <where>
+            ID = #{id}
+            AND USER_ID = #{userId}
+        </where>
+    </delete>
+
 </mapper>

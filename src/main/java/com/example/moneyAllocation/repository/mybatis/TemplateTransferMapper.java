@@ -12,4 +12,8 @@ public interface TemplateTransferMapper {
   TemplateTransferDto findOne(@Param("id") Long id, @Param("userId") Long userId);
 
   int insert(TemplateTransferDto dto);
+
+  int set(TemplateTransferDto dto);
+
+  int delete(@Param("id") Long id, @Param("userID") Long userId);
 }
