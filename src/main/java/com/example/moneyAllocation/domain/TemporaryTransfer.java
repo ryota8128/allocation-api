@@ -1,6 +1,7 @@
 package com.example.moneyAllocation.domain;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import lombok.Getter;
@@ -22,6 +23,7 @@ public class TemporaryTransfer implements HaveToAndFromAccount {
   @Override
   public List<AccountSelector> getSelectorList() {
     return Stream.of(fromAccount, toAccount)
+        .filter(Objects::nonNull)
         .map(a -> AccountSelector.of(a, userId))
         .collect(Collectors.toList());
   }
