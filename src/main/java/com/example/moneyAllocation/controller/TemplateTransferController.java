@@ -10,7 +10,9 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -47,5 +49,19 @@ public class TemplateTransferController {
 
     dto.setUserId(loginUserDetails.getLoginUser().id());
     service.insert(TemplateTransfer.from(dto));
+  }
+
+  @PatchMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
+  public void update(
+      @AuthenticationPrincipal LoginUserDetails loginUserDetails,
+      @RequestBody TemplateTransferDto dto) {
+    dto.setUserId(loginUserDetails.getLoginUser().id());
+    service.update(TemplateTransfer.from(dto));
+  }
+
+  @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+  public void delete(
+      @AuthenticationPrincipal LoginUserDetails loginUserDetails, @PathVariable Long id) {
+    service.delete(id, loginUserDetails.getLoginUser().id());
   }
 }
