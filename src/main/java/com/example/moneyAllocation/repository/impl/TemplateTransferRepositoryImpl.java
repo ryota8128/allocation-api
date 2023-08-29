@@ -44,7 +44,7 @@ public class TemplateTransferRepositoryImpl implements TemplateTransferRepositor
     int affected = sqlSession.getMapper(TemplateTransferMapper.class).insert(dto);
     if (affected != 1) {
       log.error("template追加失敗");
-      throw new BudRequestException("400");
+      throw new BudRequestException("データの追加に失敗しました．");
     }
   }
 
@@ -54,7 +54,7 @@ public class TemplateTransferRepositoryImpl implements TemplateTransferRepositor
     int affected = sqlSession.getMapper(TemplateTransferMapper.class).set(dto);
     if (affected != 1) {
       log.error("template更新失敗");
-      throw new BudRequestException("400");
+      throw new BudRequestException("データの更新に失敗しました");
     }
   }
 
