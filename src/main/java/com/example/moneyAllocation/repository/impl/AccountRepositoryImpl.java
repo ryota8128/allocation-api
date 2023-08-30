@@ -1,8 +1,11 @@
-package com.example.moneyAllocation.repository;
+package com.example.moneyAllocation.repository.impl;
 
 import com.example.moneyAllocation.domain.Account;
 import com.example.moneyAllocation.domain.AccountSelector;
 import com.example.moneyAllocation.exception.ResourceNotFoundException;
+import com.example.moneyAllocation.repository.AccountRepository;
+import com.example.moneyAllocation.repository.RegularTransferRepository;
+import com.example.moneyAllocation.repository.TemporaryTransferRepository;
 import com.example.moneyAllocation.repository.mybatis.AccountMapper;
 import java.util.List;
 import org.apache.ibatis.session.SqlSession;

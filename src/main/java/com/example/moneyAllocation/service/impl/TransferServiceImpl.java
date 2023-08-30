@@ -1,9 +1,10 @@
-package com.example.moneyAllocation.service;
+package com.example.moneyAllocation.service.impl;
 
 
 import com.example.moneyAllocation.domain.Transfer;
 import com.example.moneyAllocation.domain.TransferSelector;
 import com.example.moneyAllocation.repository.TransferRepository;
+import com.example.moneyAllocation.service.TransferService;
 import java.util.List;
 import org.springframework.stereotype.Service;
 

@@ -1,95 +1,48 @@
 package com.example.moneyAllocation.domain;
 
-public class RegularTransfer {
-    private Long id;
-    private Long fromAccount;
-    private Long toAccount;
-    private String fromAccountName;
-    private String toAccountName;
-    private String description;
-    private Boolean percentage;
-    private Integer amount;
-    private Float ratio;
-    private Long userId;
+import com.example.moneyAllocation.exception.ResourceValidationException;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import lombok.Getter;
+import lombok.Setter;
 
-    public Long getId() {
+@Getter
+@Setter
+public class RegularTransfer implements HaveToAndFromAccount {
+  private Long id;
+  private Long fromAccount;
+  private Long toAccount;
+  private String fromAccountName;
+  private String toAccountName;
+  private String description;
+  private Boolean percentage;
+  private Integer amount;
+  private Float ratio;
+  private Long userId;
 
-        return id;
+  @Override
+  public List<AccountSelector> getSelectorList() {
+    return Stream.of(fromAccount, toAccount)
+        .filter(Objects::nonNull)
+        .map(a -> AccountSelector.of(a, userId))
+        .collect(Collectors.toList());
+  }
+
+  public void checkRatioValid() {
+    if (ratio < 0 || ratio > 1) {
+      throw new ResourceValidationException("ratioは0以上1以下で入力してください");
+    }
+  }
+
+  public void setZero() {
+    if (ratio == null) {
+      ratio = 0F;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    if (amount == null) {
+      amount = 0;
     }
-
-    public Long getFromAccount() {
-        return fromAccount;
-    }
-
-    public void setFromAccount(Long fromAccount) {
-        this.fromAccount = fromAccount;
-    }
-
-    public Long getToAccount() {
-        return toAccount;
-    }
-
-    public String getFromAccountName() {
-        return fromAccountName;
-    }
-
-    public void setFromAccountName(String fromAccountName) {
-        this.fromAccountName = fromAccountName;
-    }
-
-    public String getToAccountName() {
-        return toAccountName;
-    }
-
-    public void setToAccountName(String toAccountName) {
-        this.toAccountName = toAccountName;
-    }
-
-    public void setToAccount(Long toAccount) {
-        this.toAccount = toAccount;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public Boolean getPercentage() {
-        return percentage;
-    }
-
-    public void setPercentage(Boolean percentage) {
-        this.percentage = percentage;
-    }
-
-    public Integer getAmount() {
-        return amount;
-    }
-
-    public void setAmount(Integer amount) {
-        this.amount = amount;
-    }
-
-    public Float getRatio() {
-        return ratio;
-    }
-
-    public void setRatio(Float ratio) {
-        this.ratio = ratio;
-    }
-
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
+  }
 }

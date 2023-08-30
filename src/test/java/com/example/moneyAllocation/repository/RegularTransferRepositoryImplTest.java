@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import com.example.moneyAllocation.domain.RegularTransfer;
 import com.example.moneyAllocation.domain.TransferSelector;
 import com.example.moneyAllocation.exception.ResourceNotFoundException;
+import com.example.moneyAllocation.repository.impl.RegularTransferRepositoryImpl;
 import com.example.moneyAllocation.repository.mybatis.RegularTransferMapper;
 import java.util.ArrayList;
 import java.util.List;

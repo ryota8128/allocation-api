@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import com.example.moneyAllocation.domain.Transfer;
 import com.example.moneyAllocation.domain.TransferSelector;
 import com.example.moneyAllocation.repository.TransferRepository;
+import com.example.moneyAllocation.service.impl.TransferServiceImpl;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.AfterEach;
