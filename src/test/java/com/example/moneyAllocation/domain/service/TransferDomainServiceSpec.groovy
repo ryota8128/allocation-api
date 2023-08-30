@@ -1,16 +1,12 @@
 package com.example.moneyAllocation.domain.service
 
 import com.example.moneyAllocation.domain.Account
-import com.example.moneyAllocation.domain.AccountSelector
 import com.example.moneyAllocation.domain.TemplateTransfer
 import com.example.moneyAllocation.domain.dto.TemplateTransferDto
 import com.example.moneyAllocation.exception.ResourceNotFoundException
 import com.example.moneyAllocation.exception.ResourceValidationException
 import com.example.moneyAllocation.repository.AccountRepository
-import org.spockframework.compiler.model.SetupBlock
-import org.springframework.security.core.context.SecurityContextHolder
 import spock.lang.Specification
-import spock.lang.Unroll
 
 class TransferDomainServiceSpec extends Specification {
 
