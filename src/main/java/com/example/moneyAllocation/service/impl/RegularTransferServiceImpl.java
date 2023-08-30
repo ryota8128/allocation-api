@@ -27,37 +27,17 @@ public class RegularTransferServiceImpl implements RegularTransferService {
 
   @Override
   public void add(RegularTransfer regularTransfer) {
-    // TODO: リファクタ
-    if (regularTransfer.getRatio() == null) {
-      regularTransfer.setRatio(0F);
-    }
-
-    // TODO: リファクタ
-    if (regularTransfer.getAmount() == null) {
-      regularTransfer.setAmount(0);
-    }
-
+    regularTransfer.setZero();
     regularTransfer.checkRatioValid();
-
     transferDomainService.checkValidAccounts(regularTransfer);
     regularTransferRepository.add(regularTransfer);
   }
 
   @Override
   public void set(RegularTransfer regularTransfer) {
-    // TODO: リファクタ
-    if (regularTransfer.getRatio() == null) {
-      regularTransfer.setRatio(0F);
-    }
-
-    // TODO: リファクタ
-    if (regularTransfer.getAmount() == null) {
-      regularTransfer.setAmount(0);
-    }
-
+    regularTransfer.setZero();
     regularTransfer.checkRatioValid();
     transferDomainService.checkValidAccounts(regularTransfer);
-
     regularTransferRepository.set(regularTransfer);
   }
 

@@ -36,4 +36,13 @@ public class RegularTransfer implements HaveToAndFromAccount {
     }
   }
 
+  public void setZero() {
+    if (ratio == null) {
+      ratio = 0F;
+    }
+
+    if (amount == null) {
+      amount = 0;
+    }
+  }
 }
