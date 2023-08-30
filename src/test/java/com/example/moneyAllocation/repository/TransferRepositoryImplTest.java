@@ -5,6 +5,7 @@ import com.example.moneyAllocation.domain.TemporaryTransferSelector;
 import com.example.moneyAllocation.domain.Transfer;
 import com.example.moneyAllocation.domain.TransferSelector;
 import com.example.moneyAllocation.exception.ResourceNotFoundException;
+import com.example.moneyAllocation.repository.impl.TransferRepositoryImpl;
 import com.example.moneyAllocation.repository.mybatis.TransferMapper;
 import java.util.ArrayList;
 import java.util.List;

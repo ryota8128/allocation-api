@@ -1,15 +1,16 @@
-package com.example.moneyAllocation.repository;
+package com.example.moneyAllocation.repository.impl;
 
 import com.example.moneyAllocation.domain.RegularTransfer;
 import com.example.moneyAllocation.domain.TransferSelector;
 import com.example.moneyAllocation.exception.ResourceNotFoundException;
+import com.example.moneyAllocation.repository.RegularTransferRepository;
 import com.example.moneyAllocation.repository.mybatis.RegularTransferMapper;
 import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class RegularTransferRepositoryImpl implements RegularTransferRepository{
+public class RegularTransferRepositoryImpl implements RegularTransferRepository {
     private final SqlSession sqlSession;
 
     public RegularTransferRepositoryImpl(SqlSession sqlSession) {

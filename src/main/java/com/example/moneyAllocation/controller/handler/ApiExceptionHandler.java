@@ -1,4 +1,4 @@
-package com.example.moneyAllocation.controller;
+package com.example.moneyAllocation.controller.handler;
 
 import com.example.moneyAllocation.exception.BudRequestException;
 import com.example.moneyAllocation.exception.HealthDieException;

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.moneyAllocation.repository.mybatis.TemplateTransferMapper">
+    <resultMap id="TemplateTransferDto" type="com.example.moneyAllocation.domain.dto.TemplateTransferDto">
+        <id property="id" column="ID"/>
+        <result property="fromAccount" column="FROM_ACCOUNT"/>
+        <result property="toAccount" column="TO_ACCOUNT"/>
+        <result property="fromAccountName" column="FROM_ACCOUNT_NAME"/>
+        <result property="toAccountName" column="TO_ACCOUNT_NAME"/>
+        <result property="description" column="DESCRIPTION"/>
+        <result property="userId" column="USER_ID"/>
+    </resultMap>
+
+    <select id="find" resultMap="TemplateTransferDto">
+        SELECT
+        T.ID,
+        T.FROM_ACCOUNT,
+        T.TO_ACCOUNT,
+        A_FROM.name AS FROM_ACCOUNT_NAME,
+        A_TO.name AS TO_ACCOUNT_NAME,
+        T.DESCRIPTION,
+        T.USER_ID
+        FROM TEMPLATE_TRANSFER AS T
+        LEFT OUTER JOIN ACCOUNT AS A_FROM ON A_FROM.ID = T.FROM_ACCOUNT
+        LEFT OUTER JOIN ACCOUNT AS A_TO ON A_TO.ID = T.TO_ACCOUNT
+        <where>
+            T.USER_ID = #{userId}
+        </where>
+        ORDER BY ID
+    </select>
+
+    <select id="findOne" resultMap="TemplateTransferDto">
+        SELECT
+        T.ID,
+        T.FROM_ACCOUNT,
+        T.TO_ACCOUNT,
+        A_FROM.name AS FROM_ACCOUNT_NAME,
+        A_TO.name AS TO_ACCOUNT_NAME,
+        T.DESCRIPTION,
+        T.USER_ID
+        FROM TEMPLATE_TRANSFER AS T
+        LEFT OUTER JOIN ACCOUNT AS A_FROM ON A_FROM.ID = T.FROM_ACCOUNT
+        LEFT OUTER JOIN ACCOUNT AS A_TO ON A_TO.ID = T.TO_ACCOUNT
+        <where>
+            T.ID = #{id}
+            AND
+            T.USER_ID = #{userId}
+        </where>
+    </select>
+
+    <insert id="insert" parameterType="com.example.moneyAllocation.domain.dto.TemplateTransferDto"
+            useGeneratedKeys="true"
+            keyProperty="id">
+        INSERT INTO TEMPLATE_TRANSFER
+        (
+        from_account,
+        to_account,
+        description,
+        user_id
+        )
+        VALUES
+        (
+        #{fromAccount},
+        #{toAccount},
+        #{description},
+        #{userId}
+        )
+    </insert>
+
+    <update id="set" parameterType="com.example.moneyAllocation.domain.dto.TemplateTransferDto">
+        UPDATE TEMPLATE_TRANSFER
+        SET
+        FROM_ACCOUNT = #{fromAccount},
+        TO_ACCOUNT = #{toAccount},
+        DESCRIPTION = #{description}
+        WHERE
+        ID = #{id}
+        AND USER_ID = #{userId}
+    </update>
+
+    <delete id="delete" parameterType="com.example.moneyAllocation.domain.dto.TemplateTransferDto">
+        DELETE FROM TEMPLATE_TRANSFER
+        <where>
+            ID = #{id}
+            AND USER_ID = #{userId}
+        </where>
+    </delete>
+
+</mapper>

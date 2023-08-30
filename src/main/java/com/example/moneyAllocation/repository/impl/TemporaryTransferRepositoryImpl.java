@@ -1,16 +1,17 @@
-package com.example.moneyAllocation.repository;
+package com.example.moneyAllocation.repository.impl;
 
 import com.example.moneyAllocation.domain.TemporaryTransfer;
 import com.example.moneyAllocation.domain.TemporaryTransferSelector;
 import com.example.moneyAllocation.domain.TransferSelector;
 import com.example.moneyAllocation.exception.ResourceNotFoundException;
+import com.example.moneyAllocation.repository.TemporaryTransferRepository;
 import com.example.moneyAllocation.repository.mybatis.TemporaryTransferMapper;
 import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class TemporaryTransferRepositoryImpl implements TemporaryTransferRepository{
+public class TemporaryTransferRepositoryImpl implements TemporaryTransferRepository {
 
     private final SqlSession sqlSession;
 

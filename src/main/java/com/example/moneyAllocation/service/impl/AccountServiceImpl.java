@@ -1,9 +1,10 @@
-package com.example.moneyAllocation.service;
+package com.example.moneyAllocation.service.impl;
 
 import com.example.moneyAllocation.domain.Account;
 import com.example.moneyAllocation.domain.AccountSelector;
 import com.example.moneyAllocation.exception.BudRequestException;
 import com.example.moneyAllocation.repository.AccountRepository;
+import com.example.moneyAllocation.service.AccountService;
 import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,7 +29,7 @@ public class AccountServiceImpl implements AccountService {
 
   @Override
   public void add(Account account) {
-    if (!isValidViaId(account)) {
+    if (isInvalidViaId(account)) {
       throw new BudRequestException("不正な振込経由地が指定されました");
     }
     accountRepository.add(account);
@@ -36,7 +37,7 @@ public class AccountServiceImpl implements AccountService {
 
   @Override
   public void set(Account account) {
-    if (!isValidViaId(account)) {
+    if (isInvalidViaId(account)) {
       throw new BudRequestException("不正な振込経由地が指定されました");
     }
     accountRepository.set(account);
@@ -48,20 +49,18 @@ public class AccountServiceImpl implements AccountService {
     accountRepository.delete(accountSelector);
   }
 
-  public boolean isValidViaId(Account account) {
+  public boolean isInvalidViaId(Account account) {
     if (account.getVia() == null) {
       // viaの指定がなければ問題なし
-      return true;
+      return false;
     }
 
     if (account.getOwnerId() == null) {
-      return false;
+      return true;
     }
 
     // ownerId, viaのaccountが存在するかチェック
     AccountSelector selector = new AccountSelector(account.getOwnerId(), account.getVia(), null);
-    Account findAccount = accountRepository.findOne(selector);
-    boolean existFlag =  findAccount != null;
-    return existFlag;
+    return accountRepository.findOne(selector) == null;
   }
 }
