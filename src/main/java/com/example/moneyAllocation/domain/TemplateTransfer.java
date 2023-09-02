@@ -1,8 +1,9 @@
 package com.example.moneyAllocation.domain;
 
 import com.example.moneyAllocation.domain.dto.TemplateTransferDto;
-import com.example.moneyAllocation.exception.BudRequestException;
 import java.util.List;
+import java.util.Objects;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import lombok.AccessLevel;
@@ -20,13 +21,19 @@ public class TemplateTransfer implements HaveToAndFromAccount {
   private final String description;
   private final Long userId;
 
+  private static final Pattern NON_WHITESPACE = Pattern.compile("[^\\s\\u3000]");
+
+  @Override
   public List<AccountSelector> getSelectorList() {
-    if (fromAccount == null || toAccount == null) {
-      throw new BudRequestException("fromまたはtoがnullです．");
-    }
     return Stream.of(fromAccount, toAccount)
+        .filter(Objects::nonNull)
         .map(a -> AccountSelector.of(a, userId))
         .collect(Collectors.toList());
+  }
+
+  public boolean isValidDescription() {
+    if (description == null) return false;
+    return NON_WHITESPACE.matcher(description).find();
   }
 
   public static TemplateTransfer from(TemplateTransferDto templateTransferDto) {
