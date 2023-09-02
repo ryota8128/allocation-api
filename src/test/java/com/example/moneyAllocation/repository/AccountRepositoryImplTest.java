@@ -25,10 +25,6 @@ class AccountRepositoryImplTest {
 
   @Mock AccountMapper mapper;
 
-  @Mock RegularTransferRepository regularTransferRepository;
-
-  @Mock TemporaryTransferRepository temporaryTransferRepository;
-
   @InjectMocks @Spy private AccountRepositoryImpl repository;
 
   @BeforeEach
@@ -117,18 +113,9 @@ class AccountRepositoryImplTest {
     selector.setId(1L);
     selector.setOwnerId(2L);
     Mockito.doReturn(1).when(mapper).delete(selector);
-    Mockito.doNothing()
-        .when(repository)
-        .setNullToViaThatReferenceDeleteAccount(selector.getOwnerId(), selector.getId());
-    Mockito.doNothing().when(regularTransferRepository).setNullAccount(Mockito.eq(1L));
-    Mockito.doNothing().when(temporaryTransferRepository).setNullAccount(Mockito.eq(1L));
 
     this.repository.delete(selector);
     Mockito.verify(mapper, Mockito.times(1)).delete(selector);
-    Mockito.verify(regularTransferRepository, Mockito.times(1)).setNullAccount(Mockito.eq(1L));
-    Mockito.verify(temporaryTransferRepository, Mockito.times(1)).setNullAccount(Mockito.eq(1L));
-    Mockito.verify(repository, Mockito.times(1))
-        .setNullToViaThatReferenceDeleteAccount(selector.getOwnerId(), selector.getId());
   }
 
   @Test

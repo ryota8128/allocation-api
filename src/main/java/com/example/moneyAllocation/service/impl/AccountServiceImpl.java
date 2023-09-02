@@ -4,18 +4,22 @@ import com.example.moneyAllocation.domain.Account;
 import com.example.moneyAllocation.domain.AccountSelector;
 import com.example.moneyAllocation.exception.BudRequestException;
 import com.example.moneyAllocation.repository.AccountRepository;
+import com.example.moneyAllocation.repository.RegularTransferRepository;
+import com.example.moneyAllocation.repository.TemplateTransferRepository;
+import com.example.moneyAllocation.repository.TemporaryTransferRepository;
 import com.example.moneyAllocation.service.AccountService;
 import java.util.List;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@RequiredArgsConstructor
 public class AccountServiceImpl implements AccountService {
   private final AccountRepository accountRepository;
-
-  public AccountServiceImpl(AccountRepository accountRepository) {
-    this.accountRepository = accountRepository;
-  }
+  private final RegularTransferRepository regularTransferRepository;
+  private final TemporaryTransferRepository temporaryTransferRepository;
+  private final TemplateTransferRepository templateTransferRepository;
 
   @Override
   public List<Account> findList(Long ownerId) {
@@ -46,10 +50,17 @@ public class AccountServiceImpl implements AccountService {
   @Transactional
   @Override
   public void delete(AccountSelector accountSelector) {
+    // account削除時参照されているものを全てnullに置き換える
+    regularTransferRepository.setNullAccount(accountSelector.getId());
+    temporaryTransferRepository.setNullAccount(accountSelector.getId());
+    templateTransferRepository.setNullAccount(accountSelector.getId());
+    //削除されるaccountが指定されているviaをnullに置き換える
+    accountRepository.setNullToViaThatReferenceDeleteAccount(accountSelector.getOwnerId(), accountSelector.getId());
+
     accountRepository.delete(accountSelector);
   }
 
-  public boolean isInvalidViaId(Account account) {
+  private boolean isInvalidViaId(Account account) {
     if (account.getVia() == null) {
       // viaの指定がなければ問題なし
       return false;

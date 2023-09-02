@@ -16,4 +16,6 @@ public interface TemplateTransferMapper {
   int set(TemplateTransferDto dto);
 
   int delete(@Param("id") Long id, @Param("userId") Long userId);
+
+  void setNullAccount(Long accountId);
 }
