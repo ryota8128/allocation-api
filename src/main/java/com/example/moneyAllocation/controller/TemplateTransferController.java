@@ -43,12 +43,12 @@ public class TemplateTransferController {
   }
 
   @PostMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
-  public void add(
+  public TemplateTransferDto add(
       @AuthenticationPrincipal LoginUserDetails loginUserDetails,
       @RequestBody TemplateTransferDto dto) {
 
     dto.setUserId(loginUserDetails.getLoginUser().id());
-    service.insert(TemplateTransfer.from(dto));
+    return TemplateTransferDto.valueOf(service.insert(TemplateTransfer.from(dto)));
   }
 
   @PatchMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
