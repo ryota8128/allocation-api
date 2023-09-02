@@ -114,7 +114,7 @@
 
 
     <update id="setNullAccount" parameterType="Long">
-        UPDATE regular_transfer
+        UPDATE REGULAR_TRANSFER
         SET from_account = CASE
         WHEN from_account = #{accountId} THEN NULL
         ELSE from_account
