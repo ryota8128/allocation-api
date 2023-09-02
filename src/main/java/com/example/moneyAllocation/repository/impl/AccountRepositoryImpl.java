@@ -4,25 +4,16 @@ import com.example.moneyAllocation.domain.Account;
 import com.example.moneyAllocation.domain.AccountSelector;
 import com.example.moneyAllocation.exception.ResourceNotFoundException;
 import com.example.moneyAllocation.repository.AccountRepository;
-import com.example.moneyAllocation.repository.RegularTransferRepository;
-import com.example.moneyAllocation.repository.TemporaryTransferRepository;
 import com.example.moneyAllocation.repository.mybatis.AccountMapper;
 import java.util.List;
+import lombok.RequiredArgsConstructor;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 @Repository
+@RequiredArgsConstructor
 public class AccountRepositoryImpl implements AccountRepository {
     private final SqlSession sqlSession;
-    private final RegularTransferRepository regularTransferRepository;
-    private final TemporaryTransferRepository temporaryTransferRepository;
-
-    public AccountRepositoryImpl(SqlSession sqlSession, RegularTransferRepository regularTransferRepository,
-                                 TemporaryTransferRepository temporaryTransferRepository) {
-        this.sqlSession = sqlSession;
-        this.regularTransferRepository = regularTransferRepository;
-        this.temporaryTransferRepository = temporaryTransferRepository;
-    }
 
     @Override
     public List<Account> find(Long ownerId) {
@@ -56,12 +47,6 @@ public class AccountRepositoryImpl implements AccountRepository {
 
     @Override
     public void delete(AccountSelector selector) {
-        regularTransferRepository.setNullAccount(selector.getId());
-        temporaryTransferRepository.setNullAccount(selector.getId());
-
-        // 削除するaccountが別のaccountにviaによって参照されてた場合，nullに置き換える
-        setNullToViaThatReferenceDeleteAccount(selector.getOwnerId(), selector.getId());
-
         int affected = this.sqlSession.getMapper(AccountMapper.class).delete(selector);
         if (affected != 1) {
             throw new ResourceNotFoundException("Account not found");

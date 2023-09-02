@@ -67,4 +67,9 @@ public class TemplateTransferRepositoryImpl implements TemplateTransferRepositor
       throw new ResourceNotFoundException("404");
     }
   }
+
+  @Override
+  public void setNullAccount(Long accountId) {
+    this.sqlSession.getMapper(TemplateTransferMapper.class).setNullAccount(accountId);
+  }
 }

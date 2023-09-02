@@ -13,4 +13,6 @@ public interface TemplateTransferRepository {
   void update(TemplateTransfer templateTransfer);
 
   void delete(Long id, Long userId);
+
+  void setNullAccount(Long accountId);
 }
