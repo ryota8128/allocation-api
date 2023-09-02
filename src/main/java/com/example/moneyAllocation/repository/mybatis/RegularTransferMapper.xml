@@ -115,14 +115,14 @@
 
     <update id="setNullAccount" parameterType="Long">
         UPDATE REGULAR_TRANSFER
-        SET from_account = CASE
-        WHEN from_account = #{accountId} THEN NULL
-        ELSE from_account
+        SET FROM_ACCOUNT = CASE
+        WHEN FROM_ACCOUNT = #{accountId} THEN NULL
+        ELSE FROM_ACCOUNT
         END,
-        to_account = CASE
-        WHEN to_account = #{accountId} THEN NULL
-        ELSE to_account
+        TO_ACCOUNT = CASE
+        WHEN TO_ACCOUNT = #{accountId} THEN NULL
+        ELSE TO_ACCOUNT
         END
-        WHERE from_account = #{accountId} OR to_account = #{accountId};
+        WHERE FROM_ACCOUNT = #{accountId} OR TO_ACCOUNT = #{accountId};
     </update>
 </mapper>
