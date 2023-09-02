@@ -8,7 +8,7 @@ public interface TemplateTransferRepository {
 
   TemplateTransfer findOne(Long id, Long userId);
 
-  void insert(TemplateTransfer templateTransfer);
+  Long insert(TemplateTransfer templateTransfer);
 
   void update(TemplateTransfer templateTransfer);
 

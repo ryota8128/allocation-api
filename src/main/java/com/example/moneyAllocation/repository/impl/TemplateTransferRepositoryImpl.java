@@ -39,13 +39,14 @@ public class TemplateTransferRepositoryImpl implements TemplateTransferRepositor
   }
 
   @Override
-  public void insert(TemplateTransfer templateTransfer) {
+  public Long insert(TemplateTransfer templateTransfer) {
     TemplateTransferDto dto = TemplateTransferDto.valueOf(templateTransfer);
     int affected = sqlSession.getMapper(TemplateTransferMapper.class).insert(dto);
     if (affected != 1) {
       log.error("template追加失敗");
       throw new BudRequestException("データの追加に失敗しました．");
     }
+    return dto.getId();
   }
 
   @Override

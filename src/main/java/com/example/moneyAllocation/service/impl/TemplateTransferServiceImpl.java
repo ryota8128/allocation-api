@@ -27,12 +27,13 @@ public class TemplateTransferServiceImpl implements TemplateTransferService {
   }
 
   @Override
-  public void insert(TemplateTransfer templateTransfer) {
+  public TemplateTransfer insert(TemplateTransfer templateTransfer) {
     transferDomainService.checkValidAccounts(templateTransfer);
     if (!templateTransfer.isValidDescription()) {
       throw new ResourceValidationException("descriptionを入力してください");
     }
-    templateTransferRepository.insert(templateTransfer);
+    Long insertedId = templateTransferRepository.insert(templateTransfer);
+    return templateTransferRepository.findOne(insertedId, templateTransfer.getUserId());
   }
 
   @Override
