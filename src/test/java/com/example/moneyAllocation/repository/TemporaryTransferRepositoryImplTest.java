@@ -2,7 +2,6 @@ package com.example.moneyAllocation.repository;
 
 import static org.junit.jupiter.api.Assertions.*;
 import com.example.moneyAllocation.domain.TemporaryTransfer;
-import com.example.moneyAllocation.domain.TemporaryTransferSelector;
 import com.example.moneyAllocation.domain.TransferSelector;
 import com.example.moneyAllocation.domain.dto.TemporaryTransferDto;
 import com.example.moneyAllocation.exception.ResourceNotFoundException;
@@ -44,7 +43,7 @@ class TemporaryTransferRepositoryImplTest {
   void find() {
     List<TemporaryTransfer> temporaryTransferList = new ArrayList<>();
     temporaryTransferList.add(TemporaryTransfer.from(TemporaryTransferDto.builder().build()));
-    TemporaryTransferSelector selector = new TemporaryTransferSelector();
+    TransferSelector selector = TransferSelector.withId(null, null);
     Mockito.doReturn(temporaryTransferList).when(mapper).find(selector);
     List<TemporaryTransfer> result = repository.find(selector);
     assertEquals(temporaryTransferList, result);
@@ -55,7 +54,7 @@ class TemporaryTransferRepositoryImplTest {
   void findOne() {
     TemporaryTransfer temporaryTransfer =
         TemporaryTransfer.from(TemporaryTransferDto.builder().build());
-    TransferSelector selector = new TransferSelector();
+    TransferSelector selector = TransferSelector.withId(null, null);
 
     Mockito.doReturn(temporaryTransfer).when(mapper).findOne(selector);
     TemporaryTransfer result = repository.findOne(selector);
@@ -65,7 +64,7 @@ class TemporaryTransferRepositoryImplTest {
 
   @Test
   void findOneFail() {
-    TransferSelector selector = new TransferSelector();
+    TransferSelector selector = TransferSelector.withId(null, null);
 
     Mockito.doReturn(null).when(mapper).findOne(selector);
     assertThrows(ResourceNotFoundException.class, () -> repository.findOne(selector));
@@ -108,7 +107,7 @@ class TemporaryTransferRepositoryImplTest {
 
   @Test
   void delete() {
-    TemporaryTransferSelector selector = new TemporaryTransferSelector();
+    TransferSelector selector = TransferSelector.withId(null, null);
 
     Mockito.doReturn(1).when(mapper).delete(selector);
     repository.delete(selector);
@@ -117,8 +116,7 @@ class TemporaryTransferRepositoryImplTest {
 
   @Test
   void deleteByTransferId() {
-    TemporaryTransferSelector selector = new TemporaryTransferSelector();
-    selector.setTransferId(1L);
+    TransferSelector selector = TransferSelector.withTransferId(1L, null);
 
     Mockito.doReturn(0).when(mapper).delete(selector);
     repository.delete(selector);
@@ -127,9 +125,7 @@ class TemporaryTransferRepositoryImplTest {
 
   @Test
   void deleteFail() {
-    TemporaryTransferSelector selector = new TemporaryTransferSelector();
-    selector.setId(1L);
-    selector.setUserId(2L);
+    TransferSelector selector = TransferSelector.withId(1L, null);
 
     Mockito.doReturn(0).when(mapper).delete(selector);
     assertThrows(ResourceNotFoundException.class, () -> repository.delete(selector));

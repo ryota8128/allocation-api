@@ -53,7 +53,7 @@ class TransferServiceImplTest {
     @Test
     void findOne() {
         Transfer findResult = new Transfer();
-        TransferSelector selector = new TransferSelector();
+        TransferSelector selector = TransferSelector.withId(null, null);
         Mockito.doReturn(findResult).when(transferRepository).findOne(selector);
         Transfer result = service.findOne(selector);
 
@@ -79,7 +79,7 @@ class TransferServiceImplTest {
 
     @Test
     void delete() {
-        TransferSelector selector = new TransferSelector();
+        TransferSelector selector = TransferSelector.withId(null, null);
         Mockito.doNothing().when(transferRepository).delete(selector);
         service.delete(selector);
         Mockito.verify(transferRepository, Mockito.times(1)).delete(selector);

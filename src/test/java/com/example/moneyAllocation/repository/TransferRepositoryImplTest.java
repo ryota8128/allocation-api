@@ -1,7 +1,6 @@
 package com.example.moneyAllocation.repository;
 
 import static org.junit.jupiter.api.Assertions.*;
-import com.example.moneyAllocation.domain.TemporaryTransferSelector;
 import com.example.moneyAllocation.domain.Transfer;
 import com.example.moneyAllocation.domain.TransferSelector;
 import com.example.moneyAllocation.exception.ResourceNotFoundException;
@@ -58,7 +57,7 @@ class TransferRepositoryImplTest {
     @Test
     void findOne() {
         Transfer findResult = new Transfer();
-        TransferSelector selector = new TransferSelector();
+        TransferSelector selector = TransferSelector.withId(null, null);
         Mockito.doReturn(findResult).when(mapper).findOne(selector);
         Transfer result = repository.findOne(selector);
         assertEquals(findResult, result);
@@ -67,7 +66,7 @@ class TransferRepositoryImplTest {
 
     @Test
     void failedFindOne() {
-        TransferSelector selector = new TransferSelector();
+        TransferSelector selector = TransferSelector.withId(null, null);
         Mockito.doReturn(null).when(mapper).findOne(selector);
         assertThrows(ResourceNotFoundException.class, () -> repository.findOne(selector));
         Mockito.verify(mapper, Mockito.times(1)).findOne(selector);
@@ -107,11 +106,10 @@ class TransferRepositoryImplTest {
 
     @Test
     void delete() {
-        TransferSelector selector = new TransferSelector();
-        selector.setId(5L);
+        TransferSelector selector = TransferSelector.withId(5L, null);
         Mockito.doReturn(1).when(mapper).delete(selector);
 
-        ArgumentMatcher<TemporaryTransferSelector> matcher = argument -> {
+        ArgumentMatcher<TransferSelector> matcher = argument -> {
             assertEquals(5L, argument.getTransferId());
             return true;
         };
@@ -123,10 +121,8 @@ class TransferRepositoryImplTest {
 
     @Test
     void FailedDelete() {
-        TransferSelector selector = new TransferSelector();
-        selector.setId(5L);
-
-        ArgumentMatcher<TemporaryTransferSelector> matcher = argument -> {
+        TransferSelector selector = TransferSelector.withId(5L, null);
+        ArgumentMatcher<TransferSelector> matcher = argument -> {
             assertEquals(5L, argument.getTransferId());
             return true;
         };

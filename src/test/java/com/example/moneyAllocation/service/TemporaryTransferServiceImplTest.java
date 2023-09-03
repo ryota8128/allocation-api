@@ -2,7 +2,6 @@ package com.example.moneyAllocation.service;
 
 import static org.junit.jupiter.api.Assertions.*;
 import com.example.moneyAllocation.domain.TemporaryTransfer;
-import com.example.moneyAllocation.domain.TemporaryTransferSelector;
 import com.example.moneyAllocation.domain.TransferSelector;
 import com.example.moneyAllocation.domain.dto.TemporaryTransferDto;
 import com.example.moneyAllocation.domain.service.TransferDomainService;
@@ -43,7 +42,7 @@ class TemporaryTransferServiceImplTest {
 
     @Test
     void find() {
-        TemporaryTransferSelector selector = new TemporaryTransferSelector();
+        TransferSelector selector = TransferSelector.withId(null, null);
         List<TemporaryTransfer> temporaryTransferList = new ArrayList<>();
         temporaryTransferList.add(TemporaryTransfer.from(TemporaryTransferDto.builder().build()));
         Mockito.doReturn(temporaryTransferList).when(repository).find(selector);
@@ -55,7 +54,7 @@ class TemporaryTransferServiceImplTest {
     @Test
     void findOne() {
         TemporaryTransfer temporaryTransfer = TemporaryTransfer.from(TemporaryTransferDto.builder().build());
-        TransferSelector selector = new TransferSelector();
+        TransferSelector selector = TransferSelector.withId(null, null);
         Mockito.doReturn(temporaryTransfer).when(repository).findOne(selector);
         TemporaryTransfer result = service.findOne(selector);
         assertEquals(temporaryTransfer, result);
@@ -104,7 +103,7 @@ class TemporaryTransferServiceImplTest {
 
     @Test
     void delete() {
-        TemporaryTransferSelector selector = new TemporaryTransferSelector();
+        TransferSelector selector = TransferSelector.withId(null, null);
 
         Mockito.doNothing().when(repository).delete(selector);
         service.delete(selector);
