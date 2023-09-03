@@ -109,28 +109,16 @@ class TransferRepositoryImplTest {
         TransferSelector selector = TransferSelector.withId(5L, null);
         Mockito.doReturn(1).when(mapper).delete(selector);
 
-        ArgumentMatcher<TransferSelector> matcher = argument -> {
-            assertEquals(5L, argument.getTransferId());
-            return true;
-        };
-        Mockito.doNothing().when(temporaryTransferRepository).delete(Mockito.argThat(matcher));
         repository.delete(selector);
         Mockito.verify(mapper, Mockito.times(1)).delete(selector);
-        Mockito.verify(temporaryTransferRepository, Mockito.times(1)).delete(Mockito.argThat(matcher));
     }
 
     @Test
     void FailedDelete() {
         TransferSelector selector = TransferSelector.withId(5L, null);
-        ArgumentMatcher<TransferSelector> matcher = argument -> {
-            assertEquals(5L, argument.getTransferId());
-            return true;
-        };
-        Mockito.doNothing().when(temporaryTransferRepository).delete(Mockito.argThat(matcher));
-
         Mockito.doReturn(0).when(mapper).delete(selector);
+
         assertThrows(ResourceNotFoundException.class, () -> repository.delete(selector));
         Mockito.verify(mapper, Mockito.times(1)).delete(selector);
-        Mockito.verify(temporaryTransferRepository, Mockito.times(1)).delete(Mockito.argThat(matcher));
     }
 }

@@ -6,6 +6,7 @@ import com.example.moneyAllocation.MoneyAllocationApplication;
 import com.example.moneyAllocation.domain.Transfer;
 import com.example.moneyAllocation.domain.TransferSelector;
 import com.example.moneyAllocation.exception.ResourceNotFoundException;
+import com.example.moneyAllocation.service.TransferService;
 import com.example.moneyAllocation.util.DbTestExecutionListener;
 import com.example.moneyAllocation.repository.util.DbUnitUtil;
 import java.io.File;
@@ -162,12 +163,14 @@ public class TransferRepositoryImplDbUnitTest {
     @Autowired private TransferRepository repository;
     @Autowired private DataSource dataSource;
 
+    @Autowired private TransferService transferService;
+
     private final File deleteExpectedData = new File(DATA_DIR + "transfer_delete_expected.xlsx");
 
     @Test
     void testDelete() {
       TransferSelector selector = TransferSelector.withId(2L, 1L);
-      repository.delete(selector);
+      transferService.delete(selector);
       DbUnitUtil.assertMutateResult(dataSource, "TRANSFER", deleteExpectedData, Arrays.asList());
       DbUnitUtil.assertMutateResult(
           dataSource, "TEMPORARY_TRANSFER", deleteExpectedData, Arrays.asList());

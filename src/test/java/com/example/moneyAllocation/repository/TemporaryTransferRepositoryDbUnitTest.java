@@ -138,7 +138,7 @@ public class TemporaryTransferRepositoryDbUnitTest {
 
     @Test
     public void testDelete() {
-      TransferSelector selector = TransferSelector.withId(2L, 3L);
+      TransferSelector selector = TransferSelector.withId(3L, 2L);
       repository.delete(selector);
       DbUnitUtil.assertMutateResult(
           source, "TEMPORARY_TRANSFER", deleteExpectedData, Arrays.asList());
