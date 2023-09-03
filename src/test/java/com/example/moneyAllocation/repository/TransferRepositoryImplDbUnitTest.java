@@ -57,9 +57,7 @@ public class TransferRepositoryImplDbUnitTest {
 
     @Test
     void testFindOne() {
-      TransferSelector selector = new TransferSelector();
-      selector.setId(3L);
-      selector.setUserId(2L);
+      TransferSelector selector = TransferSelector.withId(3L, 2L);
       Transfer findResult = repository.findOne(selector);
       assertEquals(3L, findResult.getId());
       assertEquals(2L, findResult.getUserId());
@@ -68,17 +66,13 @@ public class TransferRepositoryImplDbUnitTest {
 
     @Test
     void testFindOneIdNotExist() {
-      TransferSelector selector = new TransferSelector();
-      selector.setId(100L);
-      selector.setUserId(2L);
+      TransferSelector selector = TransferSelector.withId(100L, 2L);
       assertThrows(ResourceNotFoundException.class, () -> repository.findOne(selector));
     }
 
     @Test
     void testFindOneUserIdNotExist() {
-      TransferSelector selector = new TransferSelector();
-      selector.setId(1L);
-      selector.setUserId(100L);
+      TransferSelector selector = TransferSelector.withId(1L, 100L);
       assertThrows(ResourceNotFoundException.class, () -> repository.findOne(selector));
     }
   }
@@ -172,9 +166,7 @@ public class TransferRepositoryImplDbUnitTest {
 
     @Test
     void testDelete() {
-      TransferSelector selector = new TransferSelector();
-      selector.setId(2L);
-      selector.setUserId(1L);
+      TransferSelector selector = TransferSelector.withId(2L, 1L);
       repository.delete(selector);
       DbUnitUtil.assertMutateResult(dataSource, "TRANSFER", deleteExpectedData, Arrays.asList());
       DbUnitUtil.assertMutateResult(

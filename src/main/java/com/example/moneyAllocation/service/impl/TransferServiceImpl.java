@@ -5,6 +5,7 @@ import com.example.moneyAllocation.domain.Transfer;
 import com.example.moneyAllocation.domain.TransferSelector;
 import com.example.moneyAllocation.domain.service.TemporaryDomainService;
 import com.example.moneyAllocation.repository.TemplateTransferRepository;
+import com.example.moneyAllocation.repository.TemporaryTransferRepository;
 import com.example.moneyAllocation.repository.TransferRepository;
 import com.example.moneyAllocation.service.TransferService;
 import java.util.List;
@@ -20,6 +21,7 @@ public class TransferServiceImpl implements TransferService {
   private final TransferRepository transferRepository;
   private final TemplateTransferRepository templateTransferRepository;
   private final TemporaryDomainService temporaryDomainService;
+  private final TemporaryTransferRepository temporaryTransferRepository;
 
   @Override
   public List<Transfer> find(Long userId) {
@@ -33,7 +35,7 @@ public class TransferServiceImpl implements TransferService {
 
   @Override
   @Transactional
-  public void add(Transfer transfer) {
+  public Transfer add(Transfer transfer) {
     Long transferId = transferRepository.add(transfer);
     log.info("追加したTransfer id: {}", transferId);
     TemplateTransferList templateTransferList =
@@ -41,6 +43,7 @@ public class TransferServiceImpl implements TransferService {
     log.info("取得したtemplate: {}件", templateTransferList.getList().size());
     temporaryDomainService.insertTemplateList(templateTransferList, transferId);
     log.info("template listの追加完了");
+    return transferRepository.findOne(TransferSelector.withId(transferId, transfer.getUserId()));
   }
 
   @Override
@@ -49,7 +52,13 @@ public class TransferServiceImpl implements TransferService {
   }
 
   @Override
-  public void delete(TransferSelector selector) {
-    transferRepository.delete(selector);
+  @Transactional
+  public void delete(TransferSelector transferSelector) {
+    // 関連するTemporaryTransferを削除する
+    TransferSelector temporarySelector =
+            TransferSelector.withTransferId(transferSelector.getId(), transferSelector.getUserId());
+    temporaryTransferRepository.delete(temporarySelector);
+
+    transferRepository.delete(transferSelector);
   }
 }

@@ -22,49 +22,48 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/transfer")
 @CrossOrigin(origins = {"http://localhost:3000", "https://money-allocation.vercel.app"})
 public class TransferController {
-    private final TransferService transferService;
+  private final TransferService transferService;
 
-    public TransferController(TransferService transferService) {
-        this.transferService = transferService;
+  public TransferController(TransferService transferService) {
+    this.transferService = transferService;
+  }
+
+  @GetMapping(value = "/list", produces = MediaType.APPLICATION_JSON_VALUE)
+  public List<Transfer> find(@AuthenticationPrincipal LoginUserDetails loginUserDetails) {
+    return this.transferService.find(loginUserDetails.getLoginUser().id());
+  }
+
+  @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
+  public Transfer findOne(
+      @AuthenticationPrincipal LoginUserDetails loginUserDetails,
+      @RequestParam(required = false) Long id,
+      @RequestParam(required = false) String title) {
+    if (id == null && title == null) {
+      throw new BudRequestException("id, titleのパラメータが存在しません");
     }
+    TransferSelector selector =
+        TransferSelector.withIdOrTitle(id, title, loginUserDetails.getLoginUser().id());
+    return transferService.findOne(selector);
+  }
 
-    @GetMapping(value = "/list", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Transfer> find(@AuthenticationPrincipal LoginUserDetails loginUserDetails) {
-        return this.transferService.find(loginUserDetails.getLoginUser().id());
-    }
+  @PostMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
+  public Transfer add(
+      @AuthenticationPrincipal LoginUserDetails loginUserDetails, @RequestBody Transfer transfer) {
+    transfer.setUserId(loginUserDetails.getLoginUser().id());
+    return transferService.add(transfer);
+  }
 
-    @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Transfer findOne(@AuthenticationPrincipal LoginUserDetails loginUserDetails,
-                            @RequestParam(required = false) Long id, @RequestParam(required = false) String title) {
-        if (id == null && title == null) {
-            throw new BudRequestException("id, titleのパラメータが存在しません");
-        }
-        TransferSelector selector = new TransferSelector();
-        selector.setId(id);
-        selector.setUserId(loginUserDetails.getLoginUser().id());
-        selector.setTitle(title);
-        return transferService.findOne(selector);
-    }
+  @PatchMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
+  public void set(
+      @AuthenticationPrincipal LoginUserDetails loginUserDetails, @RequestBody Transfer transfer) {
+    transfer.setUserId(loginUserDetails.getLoginUser().id());
+    transferService.set(transfer);
+  }
 
-
-    @PostMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
-    public void add(@AuthenticationPrincipal LoginUserDetails loginUserDetails, @RequestBody Transfer transfer) {
-        transfer.setUserId(loginUserDetails.getLoginUser().id());
-        transferService.add(transfer);
-    }
-
-    @PatchMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
-    public void set(@AuthenticationPrincipal LoginUserDetails loginUserDetails, @RequestBody Transfer transfer) {
-        transfer.setUserId(loginUserDetails.getLoginUser().id());
-        transferService.set(transfer);
-    }
-
-    @DeleteMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
-    public void delete(@AuthenticationPrincipal LoginUserDetails loginUserDetails, @RequestParam Long id) {
-        TransferSelector selector = new TransferSelector();
-        selector.setUserId(loginUserDetails.getLoginUser().id());
-        selector.setId(id);
-        transferService.delete(selector);
-    }
-
+  @DeleteMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
+  public void delete(
+      @AuthenticationPrincipal LoginUserDetails loginUserDetails, @RequestParam Long id) {
+    TransferSelector selector = TransferSelector.withId(id, loginUserDetails.getLoginUser().id());
+    transferService.delete(selector);
+  }
 }

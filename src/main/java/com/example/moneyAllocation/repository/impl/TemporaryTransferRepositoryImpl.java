@@ -1,7 +1,6 @@
 package com.example.moneyAllocation.repository.impl;
 
 import com.example.moneyAllocation.domain.TemporaryTransfer;
-import com.example.moneyAllocation.domain.TemporaryTransferSelector;
 import com.example.moneyAllocation.domain.TransferSelector;
 import com.example.moneyAllocation.exception.ResourceNotFoundException;
 import com.example.moneyAllocation.repository.TemporaryTransferRepository;
@@ -20,7 +19,7 @@ public class TemporaryTransferRepositoryImpl implements TemporaryTransferReposit
     }
 
     @Override
-    public List<TemporaryTransfer> find(TemporaryTransferSelector selector) {
+    public List<TemporaryTransfer> find(TransferSelector selector) {
         return sqlSession.getMapper(TemporaryTransferMapper.class).find(selector);
     }
 
@@ -50,7 +49,7 @@ public class TemporaryTransferRepositoryImpl implements TemporaryTransferReposit
     }
 
     @Override
-    public void delete(TemporaryTransferSelector selector) {
+    public void delete(TransferSelector selector) {
         int affected = sqlSession.getMapper(TemporaryTransferMapper.class).delete(selector);
         // userIdとid指定で削除するときは1つだけ削除されないと例外をスロー
         if (selector.getTransferId() == null && affected != 1) {

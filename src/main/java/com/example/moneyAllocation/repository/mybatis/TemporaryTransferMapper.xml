@@ -94,7 +94,7 @@
         AND USER_ID = #{userId}
     </update>
 
-    <delete id="delete" parameterType="com.example.moneyAllocation.domain.TemporaryTransferSelector">
+    <delete id="delete" parameterType="com.example.moneyAllocation.domain.TransferSelector">
         DELETE FROM TEMPORARY_TRANSFER
         <where>
             <if test="transferId != null">
