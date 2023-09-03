@@ -1,4 +1,4 @@
-package com.example.moneyAllocation.util;
+package com.example.moneyAllocation.repository.util;
 
 import java.io.File;
 import java.io.FileInputStream;

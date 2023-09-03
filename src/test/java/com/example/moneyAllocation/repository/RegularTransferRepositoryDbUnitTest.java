@@ -7,9 +7,9 @@ import com.example.moneyAllocation.MoneyAllocationApplication;
 import com.example.moneyAllocation.domain.RegularTransfer;
 import com.example.moneyAllocation.domain.TransferSelector;
 import com.example.moneyAllocation.exception.ResourceNotFoundException;
-import com.example.moneyAllocation.repository.util.DbTestExecutionListener;
-import com.example.moneyAllocation.repository.util.TestDomainDataCreator;
-import com.example.moneyAllocation.util.DbUnitUtil;
+import com.example.moneyAllocation.util.DbTestExecutionListener;
+import com.example.moneyAllocation.util.TestDomainDataCreator;
+import com.example.moneyAllocation.repository.util.DbUnitUtil;
 import java.io.File;
 import java.util.List;
 import javax.sql.DataSource;
@@ -21,7 +21,7 @@ import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 
 public class RegularTransferRepositoryDbUnitTest {
-    private final String DATA_DIR = this.getClass().getResource("").getFile() + "data" + File.separator;
+    private final String DATA_DIR = this.getClass().getResource("").getFile() + "../data" + File.separator;
 
     @SpringBootTest(classes = MoneyAllocationApplication.class)
     @TestExecutionListeners({DependencyInjectionTestExecutionListener.class, DbTestExecutionListener.class})

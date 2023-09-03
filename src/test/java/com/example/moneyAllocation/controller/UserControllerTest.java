@@ -2,7 +2,7 @@ package com.example.moneyAllocation.controller;
 
 import static org.junit.jupiter.api.Assertions.*;
 import com.example.moneyAllocation.domain.User;
-import com.example.moneyAllocation.repository.util.JsonMaker;
+import com.example.moneyAllocation.util.JsonMaker;
 import com.example.moneyAllocation.security.JwtUtils;
 import com.example.moneyAllocation.security.LoginUserDetails;
 import com.example.moneyAllocation.service.UserService;
