@@ -4,11 +4,13 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
+@Builder
 public class TemporaryTransfer implements HaveToAndFromAccount {
   private Long id;
   private Long fromAccount;
@@ -26,5 +28,16 @@ public class TemporaryTransfer implements HaveToAndFromAccount {
         .filter(Objects::nonNull)
         .map(a -> AccountSelector.of(a, userId))
         .collect(Collectors.toList());
+  }
+
+  public static TemporaryTransfer of(TemplateTransfer templateTransfer, Long transferId) {
+    return builder()
+        .fromAccount(templateTransfer.getFromAccount())
+        .toAccount(templateTransfer.getToAccount())
+        .description(templateTransfer.getDescription())
+        .amount(0)
+        .userId(templateTransfer.getUserId())
+        .transferId(transferId)
+        .build();
   }
 }
