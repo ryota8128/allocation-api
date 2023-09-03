@@ -1,33 +1,30 @@
 package com.example.moneyAllocation.domain;
 
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+
+@Getter
+@Builder(access = AccessLevel.PRIVATE)
 public class TransferSelector {
-    private Long userId;
+  private final Long userId;
+  private final Long id;
+  private final String title;
+  private final Long transferId;
 
-    private Long id;
+  public static TransferSelector withTitle(String title, Long userId) {
+    return builder().title(title).userId(userId).build();
+  }
 
-    private String title;
+  public static TransferSelector withId(Long id, Long userId) {
+    return TransferSelector.builder().id(id).userId(userId).build();
+  }
 
-    public String getTitle() {
-        return title;
-    }
+  public static TransferSelector withIdOrTitle(Long id, String title, Long userId) {
+    return TransferSelector.builder().id(id).userId(userId).title(title).build();
+  }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
+  public static TransferSelector withTransferId(Long transferId, Long userId) {
+    return builder().transferId(transferId).userId(userId).build();
+  }
 }

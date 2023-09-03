@@ -35,9 +35,7 @@ public class RegularTransferController {
 
     @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
     public RegularTransfer findOne(@AuthenticationPrincipal LoginUserDetails loginUserDetails, @RequestParam Long id) {
-        TransferSelector selector = new TransferSelector();
-        selector.setId(id);
-        selector.setUserId(loginUserDetails.getLoginUser().id());
+        TransferSelector selector = TransferSelector.withId(id, loginUserDetails.getLoginUser().id());
         return service.findOne(selector);
     }
 
@@ -57,9 +55,7 @@ public class RegularTransferController {
 
     @DeleteMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
     public void delete(@AuthenticationPrincipal LoginUserDetails loginUserDetails, @RequestParam("id") Long deleteId) {
-        TransferSelector selector = new TransferSelector();
-        selector.setUserId(loginUserDetails.getLoginUser().id());
-        selector.setId(deleteId);
+        TransferSelector selector = TransferSelector.withId(deleteId, loginUserDetails.getLoginUser().id());
         service.delete(selector);
     }
 

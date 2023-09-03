@@ -94,7 +94,7 @@
         AND USER_ID = #{userId}
     </update>
 
-    <delete id="delete" parameterType="com.example.moneyAllocation.domain.TemporaryTransferSelector">
+    <delete id="delete" parameterType="com.example.moneyAllocation.domain.TransferSelector">
         DELETE FROM TEMPORARY_TRANSFER
         <where>
             <if test="transferId != null">
@@ -108,7 +108,7 @@
     </delete>
 
     <update id="setNullAccount" parameterType="Long">
-        UPDATE temporary_transfer
+        UPDATE TEMPORARY_TRANSFER
         SET from_account = CASE
         WHEN from_account = #{accountId} THEN NULL
         ELSE from_account

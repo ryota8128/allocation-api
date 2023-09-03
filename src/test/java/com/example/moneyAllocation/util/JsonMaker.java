@@ -1,4 +1,4 @@
-package com.example.moneyAllocation.repository.util;
+package com.example.moneyAllocation.util;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;

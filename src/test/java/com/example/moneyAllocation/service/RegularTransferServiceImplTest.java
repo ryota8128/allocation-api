@@ -50,9 +50,7 @@ class RegularTransferServiceImplTest {
 
   @Test
   void findOne() {
-    TransferSelector selector = new TransferSelector();
-    selector.setId(1L);
-    selector.setUserId(1L);
+    TransferSelector selector = TransferSelector.withId(1L, 1L);
     RegularTransfer regularTransfer = new RegularTransfer();
     Mockito.doReturn(regularTransfer).when(regularTransferRepository).findOne(selector);
 
@@ -194,7 +192,7 @@ class RegularTransferServiceImplTest {
 
   @Test
   void delete() {
-    TransferSelector selector = new TransferSelector();
+    TransferSelector selector = TransferSelector.withId(null, null);
     Mockito.doNothing().when(regularTransferRepository).delete(selector);
     service.delete(selector);
     Mockito.verify(regularTransferRepository, Mockito.times(1)).delete(selector);

@@ -9,7 +9,7 @@ public interface TransferRepository {
 
     Transfer findOne(TransferSelector selector);
 
-    void add(Transfer transfer);
+    Long add(Transfer transfer);
 
     void set(Transfer transfer);
 

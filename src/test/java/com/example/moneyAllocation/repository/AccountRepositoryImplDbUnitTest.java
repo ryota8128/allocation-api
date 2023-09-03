@@ -7,8 +7,8 @@ import com.example.moneyAllocation.MoneyAllocationApplication;
 import com.example.moneyAllocation.domain.Account;
 import com.example.moneyAllocation.domain.AccountSelector;
 import com.example.moneyAllocation.exception.ResourceNotFoundException;
-import com.example.moneyAllocation.repository.util.DbTestExecutionListener;
-import com.example.moneyAllocation.util.DbUnitUtil;
+import com.example.moneyAllocation.util.DbTestExecutionListener;
+import com.example.moneyAllocation.repository.util.DbUnitUtil;
 import java.io.File;
 import java.util.Arrays;
 import java.util.List;
@@ -24,7 +24,7 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 
 public class AccountRepositoryImplDbUnitTest {
 
-    private final String DATA_DIR = this.getClass().getResource("").getFile() + "data" + File.separator;
+    private final String DATA_DIR = this.getClass().getResource("").getFile() + "../data" + File.separator;
 
     @SpringBootTest(classes = MoneyAllocationApplication.class)
     @TestExecutionListeners({DependencyInjectionTestExecutionListener.class, DbTestExecutionListener.class})

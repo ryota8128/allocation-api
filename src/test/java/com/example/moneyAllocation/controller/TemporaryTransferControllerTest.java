@@ -2,8 +2,8 @@ package com.example.moneyAllocation.controller;
 
 import static org.junit.jupiter.api.Assertions.*;
 import com.example.moneyAllocation.domain.TemporaryTransfer;
-import com.example.moneyAllocation.domain.TemporaryTransferSelector;
 import com.example.moneyAllocation.domain.TransferSelector;
+import com.example.moneyAllocation.domain.dto.TemporaryTransferDto;
 import com.example.moneyAllocation.security.LoginUser;
 import com.example.moneyAllocation.security.LoginUserDetails;
 import com.example.moneyAllocation.security.UserRole;
@@ -46,9 +46,9 @@ class TemporaryTransferControllerTest {
     @Test
     void find() {
         List<TemporaryTransfer> temporaryTransferList = new ArrayList<>();
-        temporaryTransferList.add(new TemporaryTransfer());
+        temporaryTransferList.add(TemporaryTransfer.from(TemporaryTransferDto.builder().build()));
 
-        ArgumentMatcher<TemporaryTransferSelector> matcher = args -> {
+        ArgumentMatcher<TransferSelector> matcher = args -> {
             assertEquals(1L, args.getUserId());
             assertEquals(1L, args.getTransferId());
             return true;
@@ -63,7 +63,7 @@ class TemporaryTransferControllerTest {
 
     @Test
     void findOne() {
-        TemporaryTransfer temporaryTransfer = new TemporaryTransfer();
+        TemporaryTransfer temporaryTransfer = TemporaryTransfer.from(TemporaryTransferDto.builder().build());
 
         ArgumentMatcher<TransferSelector> matcher = arg -> {
             assertEquals(1L, arg.getUserId());
@@ -79,7 +79,7 @@ class TemporaryTransferControllerTest {
 
     @Test
     void add() {
-        TemporaryTransfer temporaryTransfer = new TemporaryTransfer();
+        TemporaryTransfer temporaryTransfer = TemporaryTransfer.from(TemporaryTransferDto.builder().build());
 
         ArgumentMatcher<TemporaryTransfer> matcher = argument -> {
             assertEquals(1L, argument.getUserId());
@@ -94,7 +94,7 @@ class TemporaryTransferControllerTest {
 
     @Test
     void set() {
-        TemporaryTransfer temporaryTransfer = new TemporaryTransfer();
+        TemporaryTransfer temporaryTransfer = TemporaryTransfer.from(TemporaryTransferDto.builder().build());
 
         ArgumentMatcher<TemporaryTransfer> matcher = argument -> {
             assertEquals(1L, argument.getUserId());
@@ -110,7 +110,7 @@ class TemporaryTransferControllerTest {
 
     @Test
     void delete() {
-        ArgumentMatcher<TemporaryTransferSelector> matcher = arg -> {
+        ArgumentMatcher<TransferSelector> matcher = arg -> {
             assertEquals(1L, arg.getUserId());
             assertEquals(2L, arg.getId());
             return true;

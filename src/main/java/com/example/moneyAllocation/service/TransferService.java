@@ -9,7 +9,7 @@ public interface TransferService {
 
     Transfer findOne(TransferSelector selector);
 
-    void add(Transfer transfer);
+    Transfer add(Transfer transfer);
 
     void set(Transfer transfer);
 

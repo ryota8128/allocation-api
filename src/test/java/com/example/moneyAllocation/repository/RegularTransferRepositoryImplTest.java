@@ -51,7 +51,7 @@ class RegularTransferRepositoryImplTest {
     @Test
     void findOne() {
         RegularTransfer regularTransfer = new RegularTransfer();
-        TransferSelector selector = new TransferSelector();
+        TransferSelector selector = TransferSelector.withId(null, null);
 
         Mockito.doReturn(regularTransfer).when(mapper).findOne(selector);
         RegularTransfer result = repository.findOne(selector);
@@ -61,7 +61,7 @@ class RegularTransferRepositoryImplTest {
 
     @Test
     void findOneFail() {
-        TransferSelector selector = new TransferSelector();
+        TransferSelector selector = TransferSelector.withId(null, null);
 
         Mockito.doReturn(null).when(mapper).findOne(selector);
         assertThrows(ResourceNotFoundException.class, () -> repository.findOne(selector));
@@ -102,7 +102,7 @@ class RegularTransferRepositoryImplTest {
 
     @Test
     void delete() {
-        TransferSelector selector = new TransferSelector();
+        TransferSelector selector = TransferSelector.withId(null, null);
         Mockito.doReturn(1).when(mapper).delete(selector);
         repository.delete(selector);
         Mockito.verify(mapper, Mockito.times(1)).delete(selector);
@@ -110,7 +110,7 @@ class RegularTransferRepositoryImplTest {
 
     @Test
     void deleteFail() {
-        TransferSelector selector = new TransferSelector();
+        TransferSelector selector = TransferSelector.withId(null, null);
         Mockito.doReturn(0).when(mapper).delete(selector);
         assertThrows(RuntimeException.class, () -> repository.delete(selector));
     }

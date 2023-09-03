@@ -1,6 +1,6 @@
-package com.example.moneyAllocation.repository.util;
+package com.example.moneyAllocation.util;
 
-import com.example.moneyAllocation.util.DbUnitUtil;
+import com.example.moneyAllocation.repository.util.DbUnitUtil;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;

@@ -2,8 +2,8 @@ package com.example.moneyAllocation.service;
 
 import static org.junit.jupiter.api.Assertions.*;
 import com.example.moneyAllocation.domain.TemporaryTransfer;
-import com.example.moneyAllocation.domain.TemporaryTransferSelector;
 import com.example.moneyAllocation.domain.TransferSelector;
+import com.example.moneyAllocation.domain.dto.TemporaryTransferDto;
 import com.example.moneyAllocation.domain.service.TransferDomainService;
 import com.example.moneyAllocation.exception.ResourceValidationException;
 import com.example.moneyAllocation.repository.TemporaryTransferRepository;
@@ -42,9 +42,9 @@ class TemporaryTransferServiceImplTest {
 
     @Test
     void find() {
-        TemporaryTransferSelector selector = new TemporaryTransferSelector();
+        TransferSelector selector = TransferSelector.withId(null, null);
         List<TemporaryTransfer> temporaryTransferList = new ArrayList<>();
-        temporaryTransferList.add(new TemporaryTransfer());
+        temporaryTransferList.add(TemporaryTransfer.from(TemporaryTransferDto.builder().build()));
         Mockito.doReturn(temporaryTransferList).when(repository).find(selector);
         List<TemporaryTransfer> result = service.find(selector);
         assertEquals(result, temporaryTransferList);
@@ -53,8 +53,8 @@ class TemporaryTransferServiceImplTest {
 
     @Test
     void findOne() {
-        TemporaryTransfer temporaryTransfer = new TemporaryTransfer();
-        TransferSelector selector = new TransferSelector();
+        TemporaryTransfer temporaryTransfer = TemporaryTransfer.from(TemporaryTransferDto.builder().build());
+        TransferSelector selector = TransferSelector.withId(null, null);
         Mockito.doReturn(temporaryTransfer).when(repository).findOne(selector);
         TemporaryTransfer result = service.findOne(selector);
         assertEquals(temporaryTransfer, result);
@@ -63,7 +63,7 @@ class TemporaryTransferServiceImplTest {
 
     @Test
     void add() {
-        TemporaryTransfer temporaryTransfer = new TemporaryTransfer();
+        TemporaryTransfer temporaryTransfer = TemporaryTransfer.from(TemporaryTransferDto.builder().build());
 
         Mockito.doNothing().when(transferDomainService).checkValidAccounts(temporaryTransfer);
         Mockito.doNothing().when(repository).add(temporaryTransfer);
@@ -76,7 +76,7 @@ class TemporaryTransferServiceImplTest {
 
     @Test
     void addWithInvalidFromAccounts() {
-        TemporaryTransfer temporaryTransfer = new TemporaryTransfer();
+        TemporaryTransfer temporaryTransfer = TemporaryTransfer.from(TemporaryTransferDto.builder().build());
 
         Mockito.doThrow(ResourceValidationException.class).when(transferDomainService).checkValidAccounts(temporaryTransfer);
         assertThrows(ResourceValidationException.class, () -> service.add(temporaryTransfer));
@@ -84,7 +84,7 @@ class TemporaryTransferServiceImplTest {
 
     @Test
     void set() {
-        TemporaryTransfer temporaryTransfer = new TemporaryTransfer();
+        TemporaryTransfer temporaryTransfer = TemporaryTransfer.from(TemporaryTransferDto.builder().build());
         Mockito.doNothing().when(transferDomainService).checkValidAccounts(temporaryTransfer);
         Mockito.doNothing().when(repository).set(temporaryTransfer);
         service.set(temporaryTransfer);
@@ -95,7 +95,7 @@ class TemporaryTransferServiceImplTest {
 
     @Test
     void setWithInvalidFromAccounts() {
-        TemporaryTransfer temporaryTransfer = new TemporaryTransfer();
+        TemporaryTransfer temporaryTransfer = TemporaryTransfer.from(TemporaryTransferDto.builder().build());
 
         Mockito.doThrow(ResourceValidationException.class).when(transferDomainService).checkValidAccounts(temporaryTransfer);
         assertThrows(ResourceValidationException.class, () -> service.set(temporaryTransfer));
@@ -103,7 +103,7 @@ class TemporaryTransferServiceImplTest {
 
     @Test
     void delete() {
-        TemporaryTransferSelector selector = new TemporaryTransferSelector();
+        TransferSelector selector = TransferSelector.withId(null, null);
 
         Mockito.doNothing().when(repository).delete(selector);
         service.delete(selector);
