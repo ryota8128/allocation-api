@@ -1,6 +1,7 @@
 package com.example.moneyAllocation.service;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.spy;
 import com.example.moneyAllocation.domain.RegularTransfer;
 import com.example.moneyAllocation.domain.TransferSelector;
 import com.example.moneyAllocation.domain.service.TransferDomainService;
@@ -70,7 +71,7 @@ class RegularTransferServiceImplTest {
     regularTransfer.setUserId(1L);
 
     Mockito.doNothing().when(transferDomainService).checkValidAccounts(regularTransfer);
-    Mockito.doNothing().when(regularTransferRepository).add(regularTransfer);
+    Mockito.doReturn(1L).when(regularTransferRepository).add(regularTransfer);
     service.add(regularTransfer);
 
     Mockito.verify(transferDomainService, Mockito.times(1)).checkValidAccounts(regularTransfer);
@@ -79,19 +80,24 @@ class RegularTransferServiceImplTest {
 
   @Test
   void addSuccessWithAmount() {
-    RegularTransfer regularTransfer = new RegularTransfer();
+    RegularTransfer regularTransfer = spy(new RegularTransfer());
     regularTransfer.setPercentage(false);
     regularTransfer.setAmount(100);
     regularTransfer.setFromAccount(1L);
     regularTransfer.setToAccount(2L);
     regularTransfer.setUserId(1L);
 
+    Mockito.doNothing().when(regularTransfer).checkRatioValid();
     Mockito.doNothing().when(transferDomainService).checkValidAccounts(regularTransfer);
-    Mockito.doNothing().when(regularTransferRepository).add(regularTransfer);
-    service.add(regularTransfer);
+    Mockito.doReturn(1L).when(regularTransferRepository).add(regularTransfer);
+    Mockito.doReturn(regularTransfer)
+        .when(regularTransferRepository)
+        .findOne(Mockito.any(TransferSelector.class));
+    RegularTransfer result = service.add(regularTransfer);
 
     Mockito.verify(transferDomainService, Mockito.times(1)).checkValidAccounts(regularTransfer);
     Mockito.verify(regularTransferRepository, Mockito.times(1)).add(regularTransfer);
+    assertEquals(regularTransfer, result);
   }
 
   @Test
@@ -186,7 +192,8 @@ class RegularTransferServiceImplTest {
     RegularTransfer regularTransfer = new RegularTransfer();
 
     Mockito.doThrow(ResourceValidationException.class)
-        .when(transferDomainService).checkValidAccounts(regularTransfer);
+        .when(transferDomainService)
+        .checkValidAccounts(regularTransfer);
     assertThrows(ResourceValidationException.class, () -> service.set(regularTransfer));
   }
 

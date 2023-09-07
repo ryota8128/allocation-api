@@ -75,7 +75,7 @@ class RegularTransferControllerTest {
         regularTransfer.setId(1L);
         regularTransfer.setAmount(30000);
 
-        Mockito.doNothing().when(service).add(regularTransfer);
+        Mockito.doReturn(regularTransfer).when(service).add(regularTransfer);
         controller.add(loginUserDetails, regularTransfer);
         Mockito.verify(service, Mockito.times(1)).add(regularTransfer);
     }

@@ -21,102 +21,109 @@ import org.mockito.MockitoAnnotations;
 
 class TemporaryTransferControllerTest {
 
-    @Mock
-    private TemporaryTransferService service;
+  @Mock private TemporaryTransferService service;
 
-    @InjectMocks
-    private TemporaryTransferController controller;
+  @InjectMocks private TemporaryTransferController controller;
 
-    private AutoCloseable mocks;
+  private AutoCloseable mocks;
 
-    private LoginUserDetails loginUserDetails;
+  private LoginUserDetails loginUserDetails;
 
-    @BeforeEach
-    public void before() {
-        mocks = MockitoAnnotations.openMocks(this);
-        LoginUser loginUser = new LoginUser(1L, "test-user", "test@exampl.xx.xx", "test-encoded-password", false);
-        loginUserDetails = new LoginUserDetails(loginUser, UserRole.USER.getGrantedAuthority());
-    }
+  @BeforeEach
+  public void before() {
+    mocks = MockitoAnnotations.openMocks(this);
+    LoginUser loginUser =
+        new LoginUser(1L, "test-user", "test@exampl.xx.xx", "test-encoded-password", false);
+    loginUserDetails = new LoginUserDetails(loginUser, UserRole.USER.getGrantedAuthority());
+  }
 
-    @AfterEach
-    public void after() throws Exception {
-        mocks.close();
-    }
+  @AfterEach
+  public void after() throws Exception {
+    mocks.close();
+  }
 
-    @Test
-    void find() {
-        List<TemporaryTransfer> temporaryTransferList = new ArrayList<>();
-        temporaryTransferList.add(TemporaryTransfer.from(TemporaryTransferDto.builder().build()));
+  @Test
+  void find() {
+    List<TemporaryTransfer> temporaryTransferList = new ArrayList<>();
+    temporaryTransferList.add(TemporaryTransfer.from(TemporaryTransferDto.builder().build()));
 
-        ArgumentMatcher<TransferSelector> matcher = args -> {
-            assertEquals(1L, args.getUserId());
-            assertEquals(1L, args.getTransferId());
-            return true;
+    ArgumentMatcher<TransferSelector> matcher =
+        args -> {
+          assertEquals(1L, args.getUserId());
+          assertEquals(1L, args.getTransferId());
+          return true;
         };
-        Mockito.doReturn(temporaryTransferList).when(service).find(Mockito.argThat(matcher));
+    Mockito.doReturn(temporaryTransferList).when(service).find(Mockito.argThat(matcher));
 
-        List<TemporaryTransfer> result = controller.find(loginUserDetails, 1L);
+    List<TemporaryTransfer> result = controller.find(loginUserDetails, 1L);
 
-        assertEquals(temporaryTransferList, result);
-        Mockito.verify(service, Mockito.times(1)).find(Mockito.argThat(matcher));
-    }
+    assertEquals(temporaryTransferList, result);
+    Mockito.verify(service, Mockito.times(1)).find(Mockito.argThat(matcher));
+  }
 
-    @Test
-    void findOne() {
-        TemporaryTransfer temporaryTransfer = TemporaryTransfer.from(TemporaryTransferDto.builder().build());
+  @Test
+  void findOne() {
+    TemporaryTransfer temporaryTransfer =
+        TemporaryTransfer.from(TemporaryTransferDto.builder().build());
 
-        ArgumentMatcher<TransferSelector> matcher = arg -> {
-            assertEquals(1L, arg.getUserId());
-            assertEquals(2L, arg.getId());
-            return true;
+    ArgumentMatcher<TransferSelector> matcher =
+        arg -> {
+          assertEquals(1L, arg.getUserId());
+          assertEquals(2L, arg.getId());
+          return true;
         };
-        Mockito.doReturn(temporaryTransfer).when(service).findOne(Mockito.argThat(matcher));
-        TemporaryTransfer result = controller.findOne(loginUserDetails, 2L);
+    Mockito.doReturn(temporaryTransfer).when(service).findOne(Mockito.argThat(matcher));
+    TemporaryTransfer result = controller.findOne(loginUserDetails, 2L);
 
-        assertEquals(temporaryTransfer, result);
-        Mockito.verify(service, Mockito.times(1)).findOne(Mockito.argThat(matcher));
-    }
+    assertEquals(temporaryTransfer, result);
+    Mockito.verify(service, Mockito.times(1)).findOne(Mockito.argThat(matcher));
+  }
 
-    @Test
-    void add() {
-        TemporaryTransfer temporaryTransfer = TemporaryTransfer.from(TemporaryTransferDto.builder().build());
+  @Test
+  void add() {
+    TemporaryTransfer temporaryTransfer =
+        TemporaryTransfer.from(TemporaryTransferDto.builder().build());
 
-        ArgumentMatcher<TemporaryTransfer> matcher = argument -> {
-            assertEquals(1L, argument.getUserId());
-            assertEquals(temporaryTransfer, argument);
-            return true;
+    ArgumentMatcher<TemporaryTransfer> matcher =
+        argument -> {
+          assertEquals(1L, argument.getUserId());
+          assertEquals(temporaryTransfer, argument);
+          return true;
         };
-        Mockito.doNothing().when(service).add(Mockito.argThat(matcher));
-        controller.add(loginUserDetails, temporaryTransfer);
+    Mockito.doReturn(temporaryTransfer).when(service).add(Mockito.argThat(matcher));
+    controller.add(loginUserDetails, temporaryTransfer);
 
-        Mockito.verify(service, Mockito.times(1)).add(Mockito.argThat(matcher));
-    }
+    Mockito.verify(service, Mockito.times(1)).add(Mockito.argThat(matcher));
+  }
 
-    @Test
-    void set() {
-        TemporaryTransfer temporaryTransfer = TemporaryTransfer.from(TemporaryTransferDto.builder().build());
+  @Test
+  void set() {
+    TemporaryTransfer temporaryTransfer =
+        TemporaryTransfer.from(TemporaryTransferDto.builder().build());
 
-        ArgumentMatcher<TemporaryTransfer> matcher = argument -> {
-            assertEquals(1L, argument.getUserId());
-            assertEquals(temporaryTransfer, argument);
-            return true;
+    ArgumentMatcher<TemporaryTransfer> matcher =
+        argument -> {
+          assertEquals(1L, argument.getUserId());
+          assertEquals(temporaryTransfer, argument);
+          return true;
         };
 
-        Mockito.doNothing().when(service).set(Mockito.argThat(matcher));
-        controller.set(loginUserDetails, temporaryTransfer);
+    Mockito.doNothing().when(service).set(Mockito.argThat(matcher));
+    controller.set(loginUserDetails, temporaryTransfer);
 
-        Mockito.verify(service, Mockito.times(1)).set(Mockito.argThat(matcher));
-    }
+    Mockito.verify(service, Mockito.times(1)).set(Mockito.argThat(matcher));
+  }
 
-    @Test
-    void delete() {
-        ArgumentMatcher<TransferSelector> matcher = arg -> {
-            assertEquals(1L, arg.getUserId());
-            assertEquals(2L, arg.getId());
-            return true;
+  @Test
+  void delete() {
+    ArgumentMatcher<TransferSelector> matcher =
+        arg -> {
+          assertEquals(1L, arg.getUserId());
+          assertEquals(2L, arg.getId());
+          return true;
         };
-        Mockito.doNothing().when(service).delete(Mockito.argThat(matcher));
-        controller.delete(loginUserDetails, 2L);
-        Mockito.verify(service, Mockito.times(1)).delete(Mockito.argThat(matcher));
-    }
+    Mockito.doNothing().when(service).delete(Mockito.argThat(matcher));
+    controller.delete(loginUserDetails, 2L);
+    Mockito.verify(service, Mockito.times(1)).delete(Mockito.argThat(matcher));
+  }
 }

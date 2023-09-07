@@ -66,7 +66,7 @@ class TemporaryTransferServiceImplTest {
         TemporaryTransfer temporaryTransfer = TemporaryTransfer.from(TemporaryTransferDto.builder().build());
 
         Mockito.doNothing().when(transferDomainService).checkValidAccounts(temporaryTransfer);
-        Mockito.doNothing().when(repository).add(temporaryTransfer);
+        Mockito.doReturn(1L).when(repository).add(temporaryTransfer);
         service.add(temporaryTransfer);
 
         Mockito.verify(transferDomainService, Mockito.times(1)).checkValidAccounts(temporaryTransfer);
