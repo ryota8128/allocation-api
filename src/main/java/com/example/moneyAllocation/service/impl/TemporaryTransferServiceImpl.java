@@ -26,9 +26,10 @@ public class TemporaryTransferServiceImpl implements TemporaryTransferService {
   }
 
   @Override
-  public void add(TemporaryTransfer temporaryTransfer) {
+  public TemporaryTransfer add(TemporaryTransfer temporaryTransfer) {
     transferDomainService.checkValidAccounts(temporaryTransfer);
-    repository.add(temporaryTransfer);
+    Long id = repository.add(temporaryTransfer);
+    return repository.findOne(TransferSelector.withId(id, temporaryTransfer.getUserId()));
   }
 
   @Override

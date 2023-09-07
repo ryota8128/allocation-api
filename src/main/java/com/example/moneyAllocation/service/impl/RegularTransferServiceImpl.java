@@ -26,11 +26,13 @@ public class RegularTransferServiceImpl implements RegularTransferService {
   }
 
   @Override
-  public void add(RegularTransfer regularTransfer) {
+  public RegularTransfer add(RegularTransfer regularTransfer) {
     regularTransfer.setZero();
     regularTransfer.checkRatioValid();
     transferDomainService.checkValidAccounts(regularTransfer);
-    regularTransferRepository.add(regularTransfer);
+    Long id = regularTransferRepository.add(regularTransfer);
+    return regularTransferRepository.findOne(
+        TransferSelector.withId(id, regularTransfer.getUserId()));
   }
 
   @Override

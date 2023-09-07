@@ -19,7 +19,7 @@ class RegularTransferSpec extends Specification {
         regularTransfer.setToAccount(to)
 
         when:
-        List<AccountSelector> selectorList = regularTransfer.getSelectorList()
+        List<AccountSelector> selectorList = regularTransfer.fetchSelectorList()
 
         then:
         selectorList.size() == len

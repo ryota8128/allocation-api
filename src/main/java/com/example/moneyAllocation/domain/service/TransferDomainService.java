@@ -16,7 +16,7 @@ public class TransferDomainService {
   private final AccountRepository accountRepository;
 
   public void checkValidAccounts(HaveToAndFromAccount transfer) {
-    for (AccountSelector selector : transfer.getSelectorList()) {
+    for (AccountSelector selector : transfer.fetchSelectorList()) {
       try {
         accountRepository.findOne(selector);
       } catch (ResourceNotFoundException e) {

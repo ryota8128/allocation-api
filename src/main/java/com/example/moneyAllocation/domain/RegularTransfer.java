@@ -23,7 +23,7 @@ public class RegularTransfer implements HaveToAndFromAccount {
   private Long userId;
 
   @Override
-  public List<AccountSelector> getSelectorList() {
+  public List<AccountSelector> fetchSelectorList() {
     return Stream.of(fromAccount, toAccount)
         .filter(Objects::nonNull)
         .map(a -> AccountSelector.of(a, userId))

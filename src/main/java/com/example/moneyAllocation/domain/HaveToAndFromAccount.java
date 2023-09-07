@@ -7,5 +7,5 @@ public interface HaveToAndFromAccount {
 
   Long getFromAccount();
 
-  List<AccountSelector> getSelectorList();
+  List<AccountSelector> fetchSelectorList();
 }

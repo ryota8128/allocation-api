@@ -24,7 +24,7 @@ public class TemplateTransfer implements HaveToAndFromAccount {
   private static final Pattern NON_WHITESPACE = Pattern.compile("[^\\s\\u3000]");
 
   @Override
-  public List<AccountSelector> getSelectorList() {
+  public List<AccountSelector> fetchSelectorList() {
     return Stream.of(fromAccount, toAccount)
         .filter(Objects::nonNull)
         .map(a -> AccountSelector.of(a, userId))

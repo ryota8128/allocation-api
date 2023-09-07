@@ -9,7 +9,7 @@ public interface RegularTransferRepository {
 
     RegularTransfer findOne(TransferSelector selector);
 
-    void add(RegularTransfer regularTransfer);
+    Long add(RegularTransfer regularTransfer);
 
     void set(RegularTransfer regularTransfer);
 

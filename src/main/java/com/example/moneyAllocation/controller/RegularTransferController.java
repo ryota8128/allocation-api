@@ -40,10 +40,10 @@ public class RegularTransferController {
     }
 
     @PostMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
-    public void add(@AuthenticationPrincipal LoginUserDetails loginUserDetails,
+    public RegularTransfer add(@AuthenticationPrincipal LoginUserDetails loginUserDetails,
                     @RequestBody RegularTransfer regularTransfer) {
         regularTransfer.setUserId(loginUserDetails.getLoginUser().id());
-        this.service.add(regularTransfer);
+        return this.service.add(regularTransfer);
     }
 
     @PatchMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)

@@ -8,7 +8,7 @@ public interface RegularTransferService {
     List<RegularTransfer> find(Long userId);
     RegularTransfer findOne(TransferSelector selector);
 
-    void add(RegularTransfer regularTransfer);
+    RegularTransfer add(RegularTransfer regularTransfer);
 
     void set(RegularTransfer regularTransfer);
 

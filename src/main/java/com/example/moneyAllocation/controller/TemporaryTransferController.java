@@ -45,11 +45,11 @@ public class TemporaryTransferController {
   }
 
   @PostMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
-  public void add(
+  public TemporaryTransfer add(
       @AuthenticationPrincipal LoginUserDetails loginUserDetails,
       @RequestBody TemporaryTransfer temporaryTransfer) {
     temporaryTransfer.setUserId(loginUserDetails.getLoginUser().id());
-    service.add(temporaryTransfer);
+    return service.add(temporaryTransfer);
   }
 
   @PatchMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)

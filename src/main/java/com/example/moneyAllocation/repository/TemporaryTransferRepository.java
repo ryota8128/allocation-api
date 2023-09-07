@@ -9,7 +9,7 @@ public interface TemporaryTransferRepository {
 
     TemporaryTransfer findOne(TransferSelector selector);
 
-    void add(TemporaryTransfer temporaryTransfer);
+    Long add(TemporaryTransfer temporaryTransfer);
 
     void set(TemporaryTransfer temporaryTransfer);
 
